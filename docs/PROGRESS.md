@@ -175,6 +175,8 @@ Kiểm tra whitespace qua `git -c core.whitespace=blank-at-eol,blank-at-eof,spac
 
 **Hai sinh viên cần đọc và xác nhận:**
 
+Bản xem chung là [PR nháp #2 — P1-T1](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/2), nhánh `p1-t1-research-questions`, base `p0-t4-team-workflow`. Bản này chỉ có thay đổi sáu tài liệu so với nền P0, không thay thế việc merge PR #1. Khi nhóm đã xử lý PR #1, cần đối chiếu lại base/diff trước khi đưa P1 vào main. Codex không tự merge hai PR.
+
 - [ ] Đọc REPORT mục 1–2, giải thích được ba RQ cần dữ liệu và bằng chứng nào.
 - [ ] Đọc LEARNING_GUIDE phần 13, mỗi người tự trả lời ba câu hỏi rồi đối chiếu gợi ý.
 - [ ] Giải thích vì sao nghiên cứu Engagement và vì sao vẫn có thể chưa tìm được bằng chứng F1 tốt hơn F0.
