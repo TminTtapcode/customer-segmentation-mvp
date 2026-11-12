@@ -1,0 +1,71 @@
+unittest (exit 0)
+test_absolute_override (test_data_paths.DataPathTests.test_absolute_override) ... ok
+test_blank_override_uses_default (test_data_paths.DataPathTests.test_blank_override_uses_default) ... ok
+test_default_root_independent_of_working_directory (test_data_paths.DataPathTests.test_default_root_independent_of_working_directory) ... ok
+test_observation_path_with_external_root (test_data_paths.DataPathTests.test_observation_path_with_external_root) ... ok
+test_relative_override_independent_of_working_directory (test_data_paths.DataPathTests.test_relative_override_independent_of_working_directory) ... ok
+test_resolving_missing_data_does_not_create_files (test_data_paths.DataPathTests.test_resolving_missing_data_does_not_create_files) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.011s
+
+OK
+
+
+data_paths (exit 0)
+{"data_root": "D:\\Lap trinh\\customer-segmentation-mvp\\data", "observation_path": "D:\\Lap trinh\\customer-segmentation-mvp\\data\\cleaned\\observation_events.parquet", "observation_exists": false, "note": "Path inspection only; existence is not data acceptance."}
+
+
+git_diff_check (exit 0)
+warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+
+
+git_staged_names (exit 0)
+
+
+git_ignore_data (exit 0)
+"data/raw/events.csv\r"
+"data/cleaned/observation_events.parquet\r"
+"data/archive.tar.gz\r"
+"model/kmeans.joblib\r"
+".venv/Scripts/python.exe\r"
+
+
+git_ignore_allowed (exit 0)
+"data/README.md\r"
+
+
+git_staged_final (exit 0)
+
+
+data_paths_other_cwd (exit 0)
+{"data_root": "D:\\Lap trinh\\customer-segmentation-mvp\\data", "observation_path": "D:\\Lap trinh\\customer-segmentation-mvp\\data\\cleaned\\observation_events.parquet", "observation_exists": false, "note": "Path inspection only; existence is not data acceptance."}
+
+
+legacy_git_status (exit 0)
+ M .gitignore
+ M PROJECT_STATUS.md
+ M README.md
+ M reports/DATA_ANALYTICS_REPORT.md
+ M reports/TECHNICAL_LEARNING_NOTES.md
+?? outputs/experiments/simple_report_2026_11_12.json
+?? outputs/experiments/system_audit_2026_11_11/
+?? outputs/reports/
+?? scripts/audit_current_system.py
+
+
+git_diff_check_final (exit 0)
+warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+
+
+git_ignore_data_argv (exit 0)
+data/raw/events.csv
+data/cleaned/observation_events.parquet
+data/archive.tar.gz
+model/kmeans.joblib
+.venv/Scripts/python.exe
+results/customer_user_level.csv
+
+
+git_ignore_allowed_argv (exit 1)
+

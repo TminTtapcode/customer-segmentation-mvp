@@ -1,0 +1,2 @@
+# Chỉ dùng cho P0-T1; các dependency notebook/model/app sẽ xét ở task tương ứng.
+duckdb==2.0.0

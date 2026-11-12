@@ -1,0 +1,55 @@
+{
+  "task": "P0-T1",
+  "recorded_at_utc": "2026-11-12T09:07:29.357528+00:00",
+  "cwd": "D:\\Lap trinh\\customer-segmentation-mvp",
+  "commands": [
+    {
+      "argv": [
+        "D:\\Lap trinh\\customer-analytics-antigravity\\.venv\\Scripts\\python.exe",
+        "-B",
+        "scripts/audit_existing_artifacts.py",
+        "--source",
+        "D:\\Lap trinh\\customer-analytics-antigravity"
+      ],
+      "exit_code": 0,
+      "exit_evidence": "observed terminal process completion",
+      "checked_at_utc": "2026-11-12T09:02:24.713977+00:00",
+      "checks_passed": 5,
+      "checks_total": 5,
+      "stdout": "audit_stdout.txt"
+    },
+    {
+      "argv": [
+        "D:\\Lap trinh\\customer-analytics-antigravity\\.venv\\Scripts\\python.exe",
+        "-B",
+        "scripts/verify_audit.py"
+      ],
+      "exit_code": 0,
+      "exit_evidence": "observed terminal process completion",
+      "checks_passed": 4,
+      "checks_total": 4,
+      "stdout": "verification_stdout.txt"
+    }
+  ],
+  "scripts_sha256": {
+    "audit_existing_artifacts.py": "442b176f5c7b8f1632a331012d4b9acfd522cf27660d34e02ed596485b5e7ff5",
+    "verify_audit.py": "1602d33b1096fb6d9e2e22846dd3f3e32d9ce745a65f02ba7b977c25c5e448cf"
+  },
+  "observed_environment_constraints": [
+    {
+      "operation": "initial Parquet inspection via pyarrow.parquet",
+      "result": "failed",
+      "message": "ImportError: DLL load failed while importing lib: An Application Control policy has blocked this file.",
+      "resolution": "Used DuckDB schema/footer and SQL reads without importing PyArrow. No install or policy changes."
+    },
+    {
+      "operation": "initial source hashing and December CSV header inspection",
+      "result": "December source file unreadable",
+      "python_error": "PermissionError: [Errno 13] Permission denied",
+      "powershell_error": "The process cannot access the file because another process has locked a portion of the file.",
+      "resolution": "Retained size/mtime; recorded null hash/schema and explicit limitation. Did not stop processes or alter source."
+    }
+  ],
+  "scope": "No legacy tests, pipeline rebuild, notebook execution, model load/train, dashboard or Colab runtime executed.",
+  "acceptance": "NEEDS REVIEW; technical checks passed within recorded read-access limits; student sign-off pending; no push."
+}

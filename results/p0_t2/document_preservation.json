@@ -1,0 +1,78 @@
+{
+  "task": "P0-T2",
+  "method": "Compare original nonblank lines with edited documents; review changed lines for authorized status, layout, historical-label and portable-command updates.",
+  "documents": [
+    {
+      "path": "AGENTS.md",
+      "original_nonblank_lines": 29,
+      "retained_original_lines": 28,
+      "changed_original_lines": [
+        "- Hiện chỉ được làm **P0-T1 — Audit Existing Data Artifacts** và khởi tạo tài liệu cần cho task. Không tạo model, fit K-Means, feature pipeline mới hoặc dashboard."
+      ],
+      "review": "Changed lines update task acceptance/status, layout or command paths; existing research findings and open issues retained."
+    },
+    {
+      "path": "README.md",
+      "original_nonblank_lines": 27,
+      "retained_original_lines": 21,
+      "changed_original_lines": [
+        "**Hiện tại: P0-T1 — Audit Existing Data Artifacts / NEEDS REVIEW.** Chỉ kiểm kê và kiểm chứng dữ liệu cũ, chưa chuyển task. Xem [tiến độ](docs/PROGRESS.md), [kế hoạch](docs/PROJECT_PLAN.md), [báo cáo](docs/REPORT.md) và [sổ tay](docs/LEARNING_GUIDE.md).",
+        "## Kết quả đã chạy",
+        "## Chạy lại tại máy hiện tại",
+        "Mở terminal trong `D:\\Lap trinh\\customer-segmentation-mvp`. Dùng interpreter đã có; không cần cài thêm hoặc chạy pipeline cũ:",
+        "& 'D:\\Lap trinh\\customer-analytics-antigravity\\.venv\\Scripts\\python.exe' -B scripts/audit_existing_artifacts.py --source 'D:\\Lap trinh\\customer-analytics-antigravity'",
+        "& 'D:\\Lap trinh\\customer-analytics-antigravity\\.venv\\Scripts\\python.exe' -B scripts/verify_audit.py"
+      ],
+      "review": "Changed lines update task acceptance/status, layout or command paths; existing research findings and open issues retained."
+    },
+    {
+      "path": "docs/PROJECT_PLAN.md",
+      "original_nonblank_lines": 77,
+      "retained_original_lines": 72,
+      "changed_original_lines": [
+        "**Được thực hiện hiện tại:** P0-T1. Mỗi task phải dừng để sinh viên nghiệm thu.",
+        "| P0-T1 | Audit Existing Data Artifacts | Đọc nguồn cũ | Inventory, schema/size/lineage, reuse matrix, kiểm chứng, giới hạn, hướng Colab; chờ nghiệm thu |",
+        "- `notebooks/`: dự kiến 01 data audit/EDA, 02 features/preprocessing, 03 F0/F1 experiment, 04 profiles/demo export; chỉ tạo khi đến task.",
+        "- `model/`, `app.py`, `tests/`: tạo khi có công việc thực tế tương ứng.",
+        "- `scripts/` hiện chỉ hai script tái kiểm kê/kiểm chứng audit, không phải framework ETL."
+      ],
+      "review": "Changed lines update task acceptance/status, layout or command paths; existing research findings and open issues retained."
+    },
+    {
+      "path": "docs/PROGRESS.md",
+      "original_nonblank_lines": 61,
+      "retained_original_lines": 54,
+      "changed_original_lines": [
+        "**Task hiện hành:** P0-T1 — Audit Existing Data Artifacts.",
+        "**Status:** **NEEDS REVIEW** — kiểm kê/đối soát đã chạy; còn tệp raw khóa và chờ sinh viên nghiệm thu.",
+        "- [ ] Sinh viên nghiệm thu P0-T1.",
+        "Chạy tại repo MVP bằng Python 3.14.7 / DuckDB 2.0.0 có sẵn trong môi trường cũ:",
+        "**P0-T1: NEEDS REVIEW.** Các checks tính toán đã qua, nhưng không ghi PASS thay cho nghiệm thu của sinh viên hoặc bỏ qua CSV bị khóa.",
+        "**Next Suggested Task:** P0-T2 — Initialize Minimal Project Structure, **chỉ sau khi sinh viên nghiệm thu P0-T1**; hiện chưa thực hiện. Việc nhận artifact cũ làm input chính thức vẫn phải qua P2.",
+        "| P0-T2, P0-T3, P0-T4 | NOT STARTED; một số tài liệu tối thiểu được tạo riêng phục vụ P0-T1, không đồng nghĩa hoàn thành các task này |"
+      ],
+      "review": "Changed lines update task acceptance/status, layout or command paths; existing research findings and open issues retained."
+    },
+    {
+      "path": "docs/REPORT.md",
+      "original_nonblank_lines": 89,
+      "retained_original_lines": 85,
+      "changed_original_lines": [
+        "**Cập nhật:** 12/11/2026. **Task hiện hành:** P0-T1, chờ sinh viên nghiệm thu.",
+        "Bằng chứng lần chạy: [`audit.json`](../results/p0_t1/audit.json), [`inventory.csv`](../results/p0_t1/inventory.csv), [`independent_verification.json`](../results/p0_t1/independent_verification.json). Toàn bộ số liệu dưới đây lấy từ lần chạy mới, trừ nội dung có nhãn lịch sử.",
+        "- [ ] Sinh viên nghiệm thu; sau đó mới giao P0-T2.",
+        "**Gate P0-T1: NEEDS REVIEW.** Đã hoàn thành kiểm kê trong phạm vi truy cập được, chưa chấp nhận vô điều kiện các artifacts làm đầu vào nghiên cứu. P0 và các phase sau chưa PASS."
+      ],
+      "review": "Changed lines update task acceptance/status, layout or command paths; existing research findings and open issues retained."
+    },
+    {
+      "path": "docs/LEARNING_GUIDE.md",
+      "original_nonblank_lines": 66,
+      "retained_original_lines": 66,
+      "changed_original_lines": [],
+      "review": "Changed lines update task acceptance/status, layout or command paths; existing research findings and open issues retained."
+    }
+  ],
+  "original_learning_guide_body_preserved": true,
+  "research_results_and_open_issues_reviewed": true
+}

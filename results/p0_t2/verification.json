@@ -1,0 +1,203 @@
+{
+  "task": "P0-T2",
+  "checked_at_utc": "2026-11-12T09:29:57.144598+00:00",
+  "checks": {
+    "required_structure": true,
+    "all_preexisting_files_retained": true,
+    "six_P0T1_evidence_files_unchanged": true,
+    "two_audit_scripts_and_audit_requirements_unchanged": true,
+    "dependencies_exactly_seven_requested": true,
+    "no_hardcoded_data_paths_in_executable_code": true,
+    "local_document_links": true,
+    "large_data_ignore_rules": true,
+    "documentation_and_inventory_not_ignored": true,
+    "no_large_data_in_staging": true,
+    "CLI_independent_of_working_directory": true,
+    "legacy_source_metadata_and_small_file_hashes_unchanged": true,
+    "legacy_git_status_unchanged": true,
+    "no_analysis_notebook_app_or_model": true,
+    "git_diff_check": true
+  },
+  "passed": 15,
+  "total": 15,
+  "technical_checks_pass": true,
+  "acceptance": "P0-T2 technical checks PASS; awaiting two students; P0-T3 not started; P0-T1 data issues remain open",
+  "structure": {
+    "required_files": [
+      "AGENTS.md",
+      "README.md",
+      "requirements.txt",
+      ".gitignore",
+      "data/README.md",
+      "notebooks/README.md",
+      "docs/PROJECT_PLAN.md",
+      "docs/REPORT.md",
+      "docs/LEARNING_GUIDE.md",
+      "docs/PROGRESS.md",
+      "scripts/data_paths.py",
+      "tests/test_data_paths.py"
+    ],
+    "missing": [],
+    "deferred": [
+      "model/ at P5",
+      "app.py at Phase 6"
+    ]
+  },
+  "preservation": {
+    "preexisting_files": 16,
+    "removed": [],
+    "P0T1_evidence_files": 6,
+    "P0T1_evidence_changed": [],
+    "legacy_inventory_files": 153,
+    "legacy_small_files_hashed": 138,
+    "legacy_changed": [],
+    "legacy_scope": "All inventoried source file size/mtime; SHA256 for files <=1MiB; no CSV/header/data scan. Environments/Git/cache/symlinks excluded."
+  },
+  "dependencies": {
+    "direct": [
+      "duckdb",
+      "pandas",
+      "numpy",
+      "matplotlib",
+      "scikit-learn",
+      "streamlit",
+      "joblib"
+    ],
+    "new_environment_installed": false,
+    "full_imports_verified": false,
+    "versions_locked": false,
+    "pyarrow_direct": false
+  },
+  "code": {
+    "files_parsed": 4,
+    "hardcoded_paths": []
+  },
+  "git": {
+    "staged_paths": [],
+    "staged_large_or_data_paths": [],
+    "size_check_threshold_bytes": 10485760,
+    "ignore_probes": [
+      "data/raw/events.csv",
+      "data/cleaned/observation_events.parquet",
+      "data/archive.tar.gz",
+      "model/kmeans.joblib",
+      ".venv/Scripts/python.exe",
+      "results/customer_user_level.csv"
+    ]
+  },
+  "documents": {
+    "local_links_checked": 19,
+    "missing_links": [],
+    "preservation_review": "document_preservation.json; status/layout/portable command edits reviewed; no historical result or issue removed"
+  },
+  "limits": [
+    "No dataset content scan or resolution of P0-T1 data issues",
+    "Legacy large-file preservation checked by size/mtime, not new content hashes",
+    "No dependency installation, environment lock, PyArrow import, Colab/Drive mount, EDA or model/app execution"
+  ],
+  "verification_correction": {
+    "first_attempt": "prior_attempt embedded in this JSON",
+    "reason": "Windows text-mode stdin supplied CRLF to git check-ignore; Git treated carriage returns as filename characters. Rechecked paths as argv; no ignore-rule change needed.",
+    "final_commands": [
+      "git_ignore_data_argv",
+      "git_ignore_allowed_argv"
+    ]
+  },
+  "prior_attempt": {
+    "task": "P0-T2",
+    "checked_at_utc": "2026-11-12T09:29:13.682697+00:00",
+    "checks": {
+      "required_structure": true,
+      "all_preexisting_files_retained": true,
+      "six_P0T1_evidence_files_unchanged": true,
+      "two_audit_scripts_and_audit_requirements_unchanged": true,
+      "dependencies_exactly_seven_requested": true,
+      "no_hardcoded_data_paths_in_executable_code": true,
+      "local_document_links": true,
+      "large_data_ignore_rules": false,
+      "documentation_and_inventory_not_ignored": false,
+      "no_large_data_in_staging": true,
+      "CLI_independent_of_working_directory": true,
+      "legacy_source_metadata_and_small_file_hashes_unchanged": true,
+      "legacy_git_status_unchanged": true,
+      "no_analysis_notebook_app_or_model": true,
+      "git_diff_check": true
+    },
+    "passed": 13,
+    "total": 15,
+    "technical_checks_pass": false,
+    "acceptance": "Awaiting two students; P0-T3 not started",
+    "structure": {
+      "required_files": [
+        "AGENTS.md",
+        "README.md",
+        "requirements.txt",
+        ".gitignore",
+        "data/README.md",
+        "notebooks/README.md",
+        "docs/PROJECT_PLAN.md",
+        "docs/REPORT.md",
+        "docs/LEARNING_GUIDE.md",
+        "docs/PROGRESS.md",
+        "scripts/data_paths.py",
+        "tests/test_data_paths.py"
+      ],
+      "missing": [],
+      "deferred": [
+        "model/ at P5",
+        "app.py at Phase 6"
+      ]
+    },
+    "preservation": {
+      "preexisting_files": 16,
+      "removed": [],
+      "P0T1_evidence_files": 6,
+      "P0T1_evidence_changed": [],
+      "legacy_inventory_files": 153,
+      "legacy_small_files_hashed": 138,
+      "legacy_changed": [],
+      "legacy_scope": "All inventoried source file size/mtime; SHA256 for files <=1MiB; no CSV/header/data scan. Environments/Git/cache/symlinks excluded."
+    },
+    "dependencies": {
+      "direct": [
+        "duckdb",
+        "pandas",
+        "numpy",
+        "matplotlib",
+        "scikit-learn",
+        "streamlit",
+        "joblib"
+      ],
+      "new_environment_installed": false,
+      "full_imports_verified": false,
+      "versions_locked": false,
+      "pyarrow_direct": false
+    },
+    "code": {
+      "files_parsed": 4,
+      "hardcoded_paths": []
+    },
+    "git": {
+      "staged_paths": [],
+      "staged_large_or_data_paths": [],
+      "size_check_threshold_bytes": 10485760,
+      "ignore_probes": [
+        "data/raw/events.csv",
+        "data/cleaned/observation_events.parquet",
+        "data/archive.tar.gz",
+        "model/kmeans.joblib",
+        ".venv/Scripts/python.exe",
+        "results/customer_user_level.csv"
+      ]
+    },
+    "documents": {
+      "local_links_checked": 19,
+      "missing_links": []
+    },
+    "limits": [
+      "No dataset content scan or resolution of P0-T1 data issues",
+      "Legacy large-file preservation checked by size/mtime, not new content hashes",
+      "No dependency installation, environment lock, PyArrow import, Colab/Drive mount, EDA or model/app execution"
+    ]
+  }
+}
