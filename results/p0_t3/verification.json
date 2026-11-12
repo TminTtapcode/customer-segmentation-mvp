@@ -1,0 +1,226 @@
+{
+  "task": "P0-T3",
+  "checked_at_utc": "2026-11-12T12:28:17.680325+00:00",
+  "status": "READY FOR STUDENT TEST",
+  "execution_method": "nbformat.read/validate; exec each code cell in order inside a fresh Python subprocess per case; not a Jupyter/Colab kernel",
+  "environment": {
+    "python": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+    "executable": "D:\\Lap trinh\\customer-analytics-antigravity\\.venv\\Scripts\\python.exe",
+    "nbformat": "5.11.1",
+    "nbformat_install": "isolated .tmp/notebook-validation; not added to MVP runtime requirements",
+    "duckdb": "2.0.0"
+  },
+  "checks": {
+    "nbformat_read_and_validate": true,
+    "all_code_cells_execute_locally": true,
+    "all_eight_file_checks": true,
+    "row_count_matches_P0T1": true,
+    "source_sha256_matches_P0T1": true,
+    "missing_data_stops_clearly": true,
+    "no_Colab_or_Drive_execution_claim": true,
+    "no_Windows_paths_in_notebook": true,
+    "notebook_outputs_cleared": true,
+    "source_file_unchanged": true,
+    "notebook_file_unchanged_by_execution": true
+  },
+  "passed": 11,
+  "total": 11,
+  "source_relative_file": "data/features/buyer_features.parquet",
+  "source_before": {
+    "sha256": "7ffef97eb85a3bae7280d42694ba0dfc4992cf81de53826e47a73252e8ebcd3a",
+    "bytes": 2266870,
+    "mtime_ns": 1794395227082910700
+  },
+  "source_after": {
+    "sha256": "7ffef97eb85a3bae7280d42694ba0dfc4992cf81de53826e47a73252e8ebcd3a",
+    "bytes": 2266870,
+    "mtime_ns": 1794395227082910700
+  },
+  "notebook_sha256": "234b2afca7bb0df7dee2e977c74d52b9e549781422371e209baf7193a3a68e68",
+  "present": {
+    "command": [
+      "D:\\Lap trinh\\customer-analytics-antigravity\\.venv\\Scripts\\python.exe",
+      "-B",
+      "D:\\Lap trinh\\customer-segmentation-mvp\\scripts\\verify_colab_notebook.py",
+      "--case",
+      "present"
+    ],
+    "exit_code": 0,
+    "stderr": "",
+    "result": {
+      "case": "present",
+      "running_in_colab": false,
+      "cells_attempted": 9,
+      "cells": [
+        {
+          "cell": "environment",
+          "output": "{\n  \"python\": \"3.14.7\",\n  \"duckdb\": \"2.0.0\",\n  \"running_in_colab\": false\n}\n",
+          "failed": false
+        },
+        {
+          "cell": "mount-drive",
+          "output": "Đang chạy local: bỏ qua kết nối Google Drive.\n",
+          "failed": false
+        },
+        {
+          "cell": "data-config",
+          "output": "Tệp cần đọc: buyer_features.parquet\nĐã tìm thấy tệp: True\n",
+          "failed": false
+        },
+        {
+          "cell": "require-file",
+          "output": "Đã tìm thấy tệp ứng viên; bắt đầu đọc cấu trúc bảng.\n",
+          "failed": false
+        },
+        {
+          "cell": "read-schema",
+          "output": "user_id: BIGINT\nis_buyer: BOOLEAN\ncustomer_cohort: VARCHAR\nis_repeat_buyer: BOOLEAN\nrecency_days: DOUBLE\nfrequency: BIGINT\nmonetary: DOUBLE\nmonetary_per_session: DOUBLE\nitems_per_purchase_session: DOUBLE\npurchase_span_days: DOUBLE\ndays_since_last_event: DOUBLE\nsessions_30d: BIGINT\nviews_30d: BIGINT\ncarts_30d: BIGINT\nunique_products_30d: BIGINT\ncart_sessions_30d: BIGINT\ncart_to_view_ratio_30d: DOUBLE\nsessions_previous_30d: BIGINT\nsessions_recent_30d: BIGINT\nactivity_difference: BIGINT\nlog_activity_ratio: DOUBLE\nlifetime_events: BIGINT\nlifetime_sessions: BIGINT\n",
+          "failed": false
+        },
+        {
+          "cell": "read-counts",
+          "output": "{\n  \"rows\": 92652,\n  \"unique_users\": 92652,\n  \"missing_user_rows\": 0,\n  \"non_buyer_rows\": 0,\n  \"missing_feature_rows\": 0\n}\n",
+          "failed": false
+        },
+        {
+          "cell": "p0t1-reference",
+          "output": "Mốc P0-T1 đã nạp; không tự thay đổi theo tệp vừa đọc.\n",
+          "failed": false
+        },
+        {
+          "cell": "file-hash",
+          "output": "SHA256: 7ffef97eb85a3bae7280d42694ba0dfc4992cf81de53826e47a73252e8ebcd3a\n",
+          "failed": false
+        },
+        {
+          "cell": "verify-reference",
+          "output": "{\n  \"row_count_matches_P0_T1\": true,\n  \"schema_matches_P0_T1\": true,\n  \"file_size_matches_P0_T1\": true,\n  \"sha256_matches_P0_T1\": true,\n  \"one_row_per_user\": true,\n  \"no_missing_user\": true,\n  \"buyer_flag_only\": true,\n  \"five_features_not_missing\": true\n}\nĐã đọc và đối chiếu đúng tệp ứng viên P0-T1 trong phiên chạy này.\nP0-T3 vẫn chờ cả hai sinh viên chạy lại và giải thích kết quả trên Colab.\n",
+          "failed": false
+        }
+      ],
+      "failure": null,
+      "summary": {
+        "rows": 92652,
+        "unique_users": 92652,
+        "missing_user_rows": 0,
+        "non_buyer_rows": 0,
+        "missing_feature_rows": 0
+      },
+      "file_checks": {
+        "row_count_matches_P0_T1": true,
+        "schema_matches_P0_T1": true,
+        "file_size_matches_P0_T1": true,
+        "sha256_matches_P0_T1": true,
+        "one_row_per_user": true,
+        "no_missing_user": true,
+        "buyer_flag_only": true,
+        "five_features_not_missing": true
+      },
+      "actual_sha256": "7ffef97eb85a3bae7280d42694ba0dfc4992cf81de53826e47a73252e8ebcd3a"
+    }
+  },
+  "missing": {
+    "command": [
+      "D:\\Lap trinh\\customer-analytics-antigravity\\.venv\\Scripts\\python.exe",
+      "-B",
+      "D:\\Lap trinh\\customer-segmentation-mvp\\scripts\\verify_colab_notebook.py",
+      "--case",
+      "missing"
+    ],
+    "exit_code": 2,
+    "stderr": "",
+    "result": {
+      "case": "missing",
+      "running_in_colab": false,
+      "cells_attempted": 4,
+      "cells": [
+        {
+          "cell": "environment",
+          "output": "{\n  \"python\": \"3.14.7\",\n  \"duckdb\": \"2.0.0\",\n  \"running_in_colab\": false\n}\n",
+          "failed": false
+        },
+        {
+          "cell": "mount-drive",
+          "output": "Đang chạy local: bỏ qua kết nối Google Drive.\n",
+          "failed": false
+        },
+        {
+          "cell": "data-config",
+          "output": "Tệp cần đọc: buyer_features.parquet\nĐã tìm thấy tệp: False\n",
+          "failed": false
+        },
+        {
+          "cell": "require-file",
+          "output": "",
+          "failed": true
+        }
+      ],
+      "failure": {
+        "cell": "require-file",
+        "type": "FileNotFoundError",
+        "message": "Thiếu features/buyer_features.parquet. Hãy chuẩn bị đúng tệp ứng viên đã kiểm kê, kiểm tra DATA_ROOT và kết nối Drive rồi chạy lại từ đầu. Không tạo dữ liệu giả."
+      },
+      "summary": null,
+      "file_checks": null,
+      "actual_sha256": null
+    }
+  },
+  "limits": [
+    "No Colab account, Drive mount, upload or sharing change executed",
+    "No full MVP environment install/import or version lock",
+    "No EDA, feature generation, model load/training or source modification",
+    "File checks do not resolve the P0-T1 cleaning/buyer/rounding/February issues"
+  ],
+  "verification_correction": {
+    "prior_passed": 10,
+    "prior_total": 11,
+    "prior_failed_checks": [
+      "no_Windows_paths_in_notebook"
+    ],
+    "reason": "Initial Windows-path scan read serialized JSON escape sequences; corrected to scan decoded cell text. Notebook did not change."
+  },
+  "verification_command": [
+    "D:\\Lap trinh\\customer-analytics-antigravity\\.venv\\Scripts\\python.exe",
+    "-B",
+    "scripts/verify_colab_notebook.py"
+  ],
+  "tool_setup": {
+    "argv": [
+      "D:\\Lap trinh\\customer-analytics-antigravity\\.venv\\Scripts\\python.exe",
+      "-B",
+      "-m",
+      "pip",
+      "install",
+      "--target",
+      ".tmp/notebook-validation",
+      "nbformat"
+    ],
+    "exit_code": 0,
+    "nbformat": "5.11.1",
+    "scope": "QA only; project requirements and legacy environment packages were not changed"
+  },
+  "repository_review": {
+    "preexisting_files_retained": 26,
+    "historical_evidence_files_unchanged": 11,
+    "legacy_files_size_mtime_unchanged": 153,
+    "legacy_small_files_sha256_unchanged": 138,
+    "legacy_changed_paths": [],
+    "report_tables_unchanged": true,
+    "learning_guide_tables_unchanged": true,
+    "local_markdown_links_checked": 24,
+    "broken_local_links": [],
+    "staged_paths": [],
+    "temporary_QA_packages_ignored": true,
+    "privacy_review": {
+      "notebook_outputs_cleared": true,
+      "no_secret_assignments_or_values_found": true,
+      "no_user_row_display_or_exports": true
+    }
+  },
+  "official_references": [
+    "https://research.google.com/colaboratory/faq.html",
+    "https://colab.research.google.com/notebooks/io.ipynb",
+    "https://duckdb.org/docs/stable/data/parquet/overview",
+    "https://nbformat.readthedocs.io/en/latest/api.html"
+  ]
+}

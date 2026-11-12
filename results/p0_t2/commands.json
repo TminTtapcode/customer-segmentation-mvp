@@ -1,0 +1,195 @@
+{
+  "task": "P0-T2",
+  "checked_at_utc": "2026-11-12T09:25:43.868691+00:00",
+  "python": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+  "commands": [
+    {
+      "name": "unittest",
+      "argv": [
+        "D:\\Lap trinh\\customer-analytics-antigravity\\.venv\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "cwd": "D:\\Lap trinh\\customer-segmentation-mvp",
+      "exit_code": 0,
+      "combined_output": "test_absolute_override (test_data_paths.DataPathTests.test_absolute_override) ... ok\r\ntest_blank_override_uses_default (test_data_paths.DataPathTests.test_blank_override_uses_default) ... ok\r\ntest_default_root_independent_of_working_directory (test_data_paths.DataPathTests.test_default_root_independent_of_working_directory) ... ok\r\ntest_observation_path_with_external_root (test_data_paths.DataPathTests.test_observation_path_with_external_root) ... ok\r\ntest_relative_override_independent_of_working_directory (test_data_paths.DataPathTests.test_relative_override_independent_of_working_directory) ... ok\r\ntest_resolving_missing_data_does_not_create_files (test_data_paths.DataPathTests.test_resolving_missing_data_does_not_create_files) ... ok\r\n\r\n----------------------------------------------------------------------\r\nRan 6 tests in 0.011s\r\n\r\nOK\r\n",
+      "combined_output_sha256": "f9973ae96160eaa1c89139dc544d7da158a56c889d19d307a00ca564df3cbb60",
+      "original_log": "unittest_stdout.txt"
+    },
+    {
+      "name": "data_paths",
+      "argv": [
+        "D:\\Lap trinh\\customer-analytics-antigravity\\.venv\\Scripts\\python.exe",
+        "-B",
+        "scripts/data_paths.py"
+      ],
+      "cwd": "D:\\Lap trinh\\customer-segmentation-mvp",
+      "exit_code": 0,
+      "combined_output": "{\"data_root\": \"D:\\\\Lap trinh\\\\customer-segmentation-mvp\\\\data\", \"observation_path\": \"D:\\\\Lap trinh\\\\customer-segmentation-mvp\\\\data\\\\cleaned\\\\observation_events.parquet\", \"observation_exists\": false, \"note\": \"Path inspection only; existence is not data acceptance.\"}\r\n",
+      "combined_output_sha256": "8847fd9ef7a88607d682966a0d00946191cee9d2d1a9bdb2be270ed0439027ca",
+      "original_log": "data_paths_stdout.txt"
+    },
+    {
+      "name": "git_diff_check",
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "cwd": "D:\\Lap trinh\\customer-segmentation-mvp",
+      "exit_code": 0,
+      "combined_output": "warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it\r\n",
+      "combined_output_sha256": "98393da473cb511df7a03a393bcc6b5b7d82f973022491bb413a6d8a28262c2c",
+      "original_log": "git_diff_check_stdout.txt"
+    },
+    {
+      "name": "git_staged_names",
+      "argv": [
+        "git",
+        "diff",
+        "--cached",
+        "--name-only"
+      ],
+      "cwd": "D:\\Lap trinh\\customer-segmentation-mvp",
+      "exit_code": 0,
+      "combined_output": "",
+      "combined_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_log": "git_staged_names_stdout.txt"
+    },
+    {
+      "name": "git_ignore_data",
+      "argv": [
+        "git",
+        "check-ignore",
+        "--no-index",
+        "--stdin"
+      ],
+      "cwd": "D:\\Lap trinh\\customer-segmentation-mvp",
+      "stdin": "data/raw/events.csv\ndata/cleaned/observation_events.parquet\ndata/archive.tar.gz\nmodel/kmeans.joblib\n.venv/Scripts/python.exe\nresults/customer_user_level.csv\n",
+      "exit_code": 0,
+      "combined_output": "\"data/raw/events.csv\\r\"\r\n\"data/cleaned/observation_events.parquet\\r\"\r\n\"data/archive.tar.gz\\r\"\r\n\"model/kmeans.joblib\\r\"\r\n\".venv/Scripts/python.exe\\r\"\r\n",
+      "combined_output_sha256": "94d0483b84bb9f813713c416adb4e7116b3d9cd46cfb295853bc1acdc6da8c5c",
+      "original_log": "git_ignore_data_stdout.txt"
+    },
+    {
+      "name": "git_ignore_allowed",
+      "argv": [
+        "git",
+        "check-ignore",
+        "--no-index",
+        "--stdin"
+      ],
+      "cwd": "D:\\Lap trinh\\customer-segmentation-mvp",
+      "stdin": "data/README.md\nnotebooks/README.md\nrequirements.txt\nresults/p0_t1/inventory.csv\n",
+      "exit_code": 0,
+      "combined_output": "\"data/README.md\\r\"\r\n",
+      "combined_output_sha256": "b6ace5ee57129a883e754951a2d264221010d564a1de235075b337281b16d118",
+      "original_log": "git_ignore_allowed_stdout.txt"
+    },
+    {
+      "name": "git_staged_final",
+      "argv": [
+        "git",
+        "diff",
+        "--cached",
+        "--name-only",
+        "--diff-filter=ACMR"
+      ],
+      "cwd": "D:\\Lap trinh\\customer-segmentation-mvp",
+      "stdin": null,
+      "exit_code": 0,
+      "combined_output": "",
+      "combined_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_log": "git_staged_final_stdout.txt"
+    },
+    {
+      "name": "data_paths_other_cwd",
+      "argv": [
+        "D:\\Lap trinh\\customer-analytics-antigravity\\.venv\\Scripts\\python.exe",
+        "-B",
+        "D:\\Lap trinh\\customer-segmentation-mvp\\scripts\\data_paths.py"
+      ],
+      "cwd": "C:\\Users\\Dell\\AppData\\Local\\Temp\\tmp0n6nbb0p",
+      "stdin": null,
+      "exit_code": 0,
+      "combined_output": "{\"data_root\": \"D:\\\\Lap trinh\\\\customer-segmentation-mvp\\\\data\", \"observation_path\": \"D:\\\\Lap trinh\\\\customer-segmentation-mvp\\\\data\\\\cleaned\\\\observation_events.parquet\", \"observation_exists\": false, \"note\": \"Path inspection only; existence is not data acceptance.\"}\r\n",
+      "combined_output_sha256": "8847fd9ef7a88607d682966a0d00946191cee9d2d1a9bdb2be270ed0439027ca",
+      "original_log": "data_paths_other_cwd_stdout.txt"
+    },
+    {
+      "name": "legacy_git_status",
+      "argv": [
+        "git",
+        "-C",
+        "D:\\Lap trinh\\customer-analytics-antigravity",
+        "status",
+        "--short"
+      ],
+      "cwd": "D:\\Lap trinh\\customer-segmentation-mvp",
+      "stdin": null,
+      "exit_code": 0,
+      "combined_output": " M .gitignore\r\n M PROJECT_STATUS.md\r\n M README.md\r\n M reports/DATA_ANALYTICS_REPORT.md\r\n M reports/TECHNICAL_LEARNING_NOTES.md\r\n?? outputs/experiments/simple_report_2026_11_12.json\r\n?? outputs/experiments/system_audit_2026_11_11/\r\n?? outputs/reports/\r\n?? scripts/audit_current_system.py\r\n",
+      "combined_output_sha256": "95cf081610bc8b36e9d9c7a80c9cbe420ea1259cea0df9c73c18d23d8152643f",
+      "original_log": "legacy_git_status_stdout.txt"
+    },
+    {
+      "name": "git_diff_check_final",
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "cwd": "D:\\Lap trinh\\customer-segmentation-mvp",
+      "stdin": null,
+      "exit_code": 0,
+      "combined_output": "warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it\r\n",
+      "combined_output_sha256": "98393da473cb511df7a03a393bcc6b5b7d82f973022491bb413a6d8a28262c2c",
+      "original_log": "git_diff_check_final_stdout.txt"
+    },
+    {
+      "name": "git_ignore_data_argv",
+      "argv": [
+        "git",
+        "check-ignore",
+        "--no-index",
+        "--",
+        "data/raw/events.csv",
+        "data/cleaned/observation_events.parquet",
+        "data/archive.tar.gz",
+        "model/kmeans.joblib",
+        ".venv/Scripts/python.exe",
+        "results/customer_user_level.csv"
+      ],
+      "cwd": "D:\\Lap trinh\\customer-segmentation-mvp",
+      "exit_code": 0,
+      "combined_output": "data/raw/events.csv\r\ndata/cleaned/observation_events.parquet\r\ndata/archive.tar.gz\r\nmodel/kmeans.joblib\r\n.venv/Scripts/python.exe\r\nresults/customer_user_level.csv\r\n",
+      "combined_output_sha256": "6bd53241203ef0ff90d9d0489ac9ac1c8d973d0e29f74e36a53b9da3f3f44c03",
+      "original_log": "git_ignore_data_argv_stdout.txt"
+    },
+    {
+      "name": "git_ignore_allowed_argv",
+      "argv": [
+        "git",
+        "check-ignore",
+        "--no-index",
+        "--",
+        "data/README.md",
+        "notebooks/README.md",
+        "requirements.txt",
+        "results/p0_t1/inventory.csv"
+      ],
+      "cwd": "D:\\Lap trinh\\customer-segmentation-mvp",
+      "exit_code": 1,
+      "combined_output": "",
+      "combined_output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_log": "git_ignore_allowed_argv_stdout.txt",
+      "expected_exit_code": 1
+    }
+  ],
+  "log_storage": "Outputs embedded exactly in each command; combined readable transcript in verification_stdout.txt. Empty per-command log files consolidated."
+}

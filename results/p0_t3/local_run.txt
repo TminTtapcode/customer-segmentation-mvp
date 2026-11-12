@@ -1,0 +1,90 @@
+CASE: present / exit 0
+CELL: environment
+{
+  "python": "3.14.7",
+  "duckdb": "2.0.0",
+  "running_in_colab": false
+}
+
+CELL: mount-drive
+Đang chạy local: bỏ qua kết nối Google Drive.
+
+CELL: data-config
+Tệp cần đọc: buyer_features.parquet
+Đã tìm thấy tệp: True
+
+CELL: require-file
+Đã tìm thấy tệp ứng viên; bắt đầu đọc cấu trúc bảng.
+
+CELL: read-schema
+user_id: BIGINT
+is_buyer: BOOLEAN
+customer_cohort: VARCHAR
+is_repeat_buyer: BOOLEAN
+recency_days: DOUBLE
+frequency: BIGINT
+monetary: DOUBLE
+monetary_per_session: DOUBLE
+items_per_purchase_session: DOUBLE
+purchase_span_days: DOUBLE
+days_since_last_event: DOUBLE
+sessions_30d: BIGINT
+views_30d: BIGINT
+carts_30d: BIGINT
+unique_products_30d: BIGINT
+cart_sessions_30d: BIGINT
+cart_to_view_ratio_30d: DOUBLE
+sessions_previous_30d: BIGINT
+sessions_recent_30d: BIGINT
+activity_difference: BIGINT
+log_activity_ratio: DOUBLE
+lifetime_events: BIGINT
+lifetime_sessions: BIGINT
+
+CELL: read-counts
+{
+  "rows": 92652,
+  "unique_users": 92652,
+  "missing_user_rows": 0,
+  "non_buyer_rows": 0,
+  "missing_feature_rows": 0
+}
+
+CELL: p0t1-reference
+Mốc P0-T1 đã nạp; không tự thay đổi theo tệp vừa đọc.
+
+CELL: file-hash
+SHA256: 7ffef97eb85a3bae7280d42694ba0dfc4992cf81de53826e47a73252e8ebcd3a
+
+CELL: verify-reference
+{
+  "row_count_matches_P0_T1": true,
+  "schema_matches_P0_T1": true,
+  "file_size_matches_P0_T1": true,
+  "sha256_matches_P0_T1": true,
+  "one_row_per_user": true,
+  "no_missing_user": true,
+  "buyer_flag_only": true,
+  "five_features_not_missing": true
+}
+Đã đọc và đối chiếu đúng tệp ứng viên P0-T1 trong phiên chạy này.
+P0-T3 vẫn chờ cả hai sinh viên chạy lại và giải thích kết quả trên Colab.
+
+CASE: missing / exit 2
+CELL: environment
+{
+  "python": "3.14.7",
+  "duckdb": "2.0.0",
+  "running_in_colab": false
+}
+
+CELL: mount-drive
+Đang chạy local: bỏ qua kết nối Google Drive.
+
+CELL: data-config
+Tệp cần đọc: buyer_features.parquet
+Đã tìm thấy tệp: False
+
+CELL: require-file
+
+{"cell": "require-file", "type": "FileNotFoundError", "message": "Thiếu features/buyer_features.parquet. Hãy chuẩn bị đúng tệp ứng viên đã kiểm kê, kiểm tra DATA_ROOT và kết nối Drive rồi chạy lại từ đầu. Không tạo dữ liệu giả."}

@@ -1,0 +1,12 @@
+# Dependency trực tiếp cho MVP; chưa phải lockfile (file khóa phiên bản).
+# Chốt phiên bản sau khi xác minh môi trường ở P0-T3; chưa cài trong P0-T2.
+duckdb
+pandas
+numpy
+matplotlib
+scikit-learn
+streamlit
+joblib
+
+# Chưa khai báo pyarrow trực tiếp: DuckDB đọc/ghi Parquet cho pipeline dự kiến.
+# requirements-audit.txt giữ cấu hình tối thiểu đã dùng cho P0-T1.

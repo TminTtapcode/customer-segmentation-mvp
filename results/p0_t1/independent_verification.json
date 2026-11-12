@@ -1,0 +1,21 @@
+{
+  "method": "stratified deterministic real users; Python sets/datetime/Decimal aggregation",
+  "sample_users": 30,
+  "sample_events": 2733,
+  "mismatches_by_feature": {
+    "recency_days": 0,
+    "frequency": 0,
+    "monetary": 0,
+    "sessions_30d": 0,
+    "views_30d": 0
+  },
+  "checks": {
+    "main_audit_checks": true,
+    "independent_python_sample": true,
+    "four_candidate_hashes_match": true,
+    "observation_footer_row_count": true
+  },
+  "passed": 4,
+  "total": 4,
+  "limits": "Sample corroborates aggregate SQL; not proof of raw cleaning policy or all-user independent implementation. No user IDs exported."
+}

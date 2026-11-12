@@ -218,3 +218,17 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Dữ liệu chỉ lưu cục bộ / Drive riêng; chỉ theo dõi hướng dẫn trong data/.
+data/*
+!data/README.md
+
+# Artifacts lớn / dữ liệu cá nhân không đưa vào public Git.
+*.parquet
+*.joblib
+*.pkl
+*.pickle
+model/
+results/**/*user_level*.csv
+results/**/.duckdb_temp/
+.tmp/
