@@ -6,7 +6,9 @@
 - **P0-T2: PASS — đã nghiệm thu** dựa trên báo cáo Codex: 6/6 bài kiểm tra đường dẫn và 15/15 điều kiện kiểm tra đạt. Sinh viên chưa chạy lại script trên máy local.
 - **Sửa văn phong:** được chấp nhận theo báo cáo; sinh viên chưa mở bản local mới nhất để xác nhận độc lập.
 - **P0-T3: PASS (Student Verified).** Người dùng xác nhận ngày 13/11/2026 cả hai sinh viên đã trực tiếp nghiệm thu trên Colab/Drive. Không tự bổ sung log/chỉ số Colab chưa được gửi.
-- **P0-T4:** đã cập nhật quy trình và đưa bản bàn giao lên PR nháp #1; chờ nhóm nghiệm thu. Phase 0 chưa đóng; không tự chuyển Phase 1.
+- **P0-T4: PASS (Student Verified).** Người dùng xác nhận nhóm đã nghiệm thu và đóng Phase 0 trong yêu cầu P1-T1. Không yêu cầu làm lại P0.
+- **P1-T1:** READY FOR STUDENT REVIEW — xác định vấn đề, mục tiêu, ba câu hỏi và cách kiểm chứng dự kiến; chưa thực hiện P1-T2.
+- **GitHub cần nhóm xử lý:** PR #1 vẫn Open/Draft, chưa merge; main chỉ có `.gitignore` khi đối chiếu đầu P1-T1. Trạng thái này không được ghi thành “đã merge” theo suy đoán từ nghiệm thu học tập.
 
 ## 1. P0-T1 — kiểm kê dữ liệu cũ
 
@@ -127,7 +129,7 @@ Kiểm tra whitespace trên bảy tài liệu đạt với `git -c core.whitespa
 
 Kiểm tra `git var GIT_AUTHOR_IDENT` ban đầu chưa đạt vì local chưa cấu hình tác giả. Kết nối GitHub đọc được repo nhưng lệnh tạo blob và PR bị HTTP 403 (thiếu quyền ghi của integration). Đã dùng Git để push và GitHub REST API để tạo PR nháp bằng thông tin đăng nhập sẵn có của Git Credential Manager; không lưu token vào file/log. Tên đăng nhập/email tác giả được đối chiếu từ tài khoản GitHub và chỉ dùng cho lệnh commit, không đổi cấu hình toàn máy. Lệnh `git -c credential.interactive=never push -u origin p0-t4-team-workflow` thành công; PR được tạo với `draft=true`, base là main. Không chạy lại notebook, tests dữ liệu, ETL hoặc mô hình trong P0-T4.
 
-**Trạng thái P0-T4:** chờ nhóm nghiệm thu quy trình và bản bàn giao GitHub. Không tự ghi PASS Phase 0 khi chưa hoàn thành các mục dưới.
+**Trạng thái cập nhật theo yêu cầu P1-T1:** P0-T4 = PASS (Student Verified), nhóm xác nhận đóng Phase 0. Các kết quả kiểm tra P0-T4 phía trên là lịch sử, không chạy lại để nghiệm thu P0. Việc cập nhật GitHub main vẫn còn riêng bên dưới.
 
 ## 7. Checklist hoàn thành Phase 0
 
@@ -137,20 +139,60 @@ Kiểm tra `git var GIT_AUTHOR_IDENT` ban đầu chưa đạt vì local chưa c�
 - [x] Có quy trình một người sửa chính/notebook, bản Drive riêng và người còn lại kiểm tra.
 - [x] Có quy tắc lưu kết quả và thực hiện → giải thích → kiểm tra → cập nhật tài liệu → dừng nghiệm thu.
 - [x] Bản bàn giao đã lên nhánh GitHub và PR nháp #1 để nhóm kiểm tra.
-- [ ] Hai sinh viên đối chiếu notebook đề xuất với bản đã chấp nhận trên Drive, duyệt và đưa vào GitHub main chính thức.
-- [ ] Sinh viên nghiệm thu P0-T4 và xác nhận đóng Phase 0.
+- [ ] Đưa bản P0 đã được nhóm chấp nhận vào GitHub main; PR #1 thực tế chưa merge. Không tự bổ sung bằng chứng đối chiếu Drive chưa được gửi.
+- [x] Sinh viên nghiệm thu P0-T4 và xác nhận đóng Phase 0 theo thông báo trong yêu cầu P1-T1.
 
-**Phase 0: CHƯA ĐÓNG.** Các vấn đề dữ liệu đã được chấp nhận để chuyển bước không tự trở thành lý do làm lại P0, cũng không được đánh dấu đã giải quyết. Phần còn thiếu hiện tại là bàn giao phiên bản chính thức và nghiệm thu P0-T4. Dừng tại đây, chưa thực hiện Phase 1.
+**Phase 0: ĐÃ ĐÓNG theo xác nhận của nhóm.** Người dùng cho phép bắt đầu P1-T1 dù cần đối chiếu tình trạng merge. Phần bàn giao vào main chưa hoàn thành được theo dõi riêng, không tự sửa lịch sử GitHub hoặc làm lại P0. Các vấn đề dữ liệu vẫn để Phase 2, không đánh dấu đã giải quyết.
 
 | Nhóm task còn lại | Trạng thái |
 |---|---|
 | P0-T2 | PASS — đã nghiệm thu theo báo cáo Codex; sinh viên chưa chạy lại local |
 | P0-T3 | PASS (Student Verified) — xác nhận người dùng 13/11/2026, không thêm chỉ số Colab |
-| P0-T4 | Đã triển khai và bàn giao PR nháp #1; chờ nhóm nghiệm thu |
-| P1-T1…T4 | NOT STARTED |
+| P0-T4 | PASS (Student Verified); nhóm xác nhận đóng Phase 0, PR #1 chưa merge |
+| P1-T1 | READY FOR STUDENT REVIEW |
+| P1-T2…T4 | NOT STARTED |
 | P2-T1…T4 | NOT STARTED |
 | P3-T1…T3 | NOT STARTED |
 | P4-T1…T4 | NOT STARTED |
 | P5-T1…T4 | NOT STARTED |
 | P6-T1…T4 | NOT STARTED |
 | P7-T1…T4 | NOT STARTED |
+
+## 8. P1-T1 — vấn đề, mục tiêu và câu hỏi nghiên cứu
+
+**Đối chiếu trước khi sửa:** GitHub REST qua kết nối GitHub và `git ls-remote --heads origin main p0-t4-team-workflow` cùng cho thấy main ở `95cdb761b60aea21149e71cf1190a974c382f5e8`, chỉ có `.gitignore`. PR #1 Open/Draft, `merged=false`; nhánh P0-T4 ở `ef6042c159cae09ba829e0fcd0264fd4a0ec51c1` có đủ 30 file MVP. Working tree ban đầu sạch. Nhánh `p1-t1-research-questions` được tạo từ đúng commit P0-T4 này, không tạo lại P0, không sửa PR #1 hoặc tự merge main.
+
+**Đã thực hiện:**
+
+- REPORT mục 1: giới thiệu, lý do, mục tiêu, ba RQ, phạm vi và phương pháp dự kiến; mục 2: bảng dữ liệu → phương pháp → kết quả → đánh giá cho từng RQ.
+- LEARNING_GUIDE phần 13: sáu thuật ngữ nghiên cứu; ví dụ ba khách hàng và cặp có RFM giống nhau nhưng khác tương tác; bảng RFM/Engagement; ba câu hỏi tự kiểm tra kèm gợi ý.
+- Đồng bộ README, AGENTS, PROJECT_PLAN và trạng thái nghiệm thu P0 trong PROGRESS. Chỉ sửa sáu tài liệu có sẵn, không tạo báo cáo mới.
+- Giữ Frequency là số phiên có mua duy nhất, không phải số đơn. Nêu F0/F1 dùng cùng buyers; không kết luận từ riêng Silhouette, không coi phân cụm là dự đoán mua hay bằng chứng hiệu quả marketing.
+
+**Kiểm tra đã chạy:** dùng `..\customer-analytics-antigravity\.venv\Scripts\python.exe -B .tmp/p1t1-verify.py` cho QA tài liệu và `git diff --stat` để xem phạm vi. Script QA chỉ dùng thư viện chuẩn, nằm trong `.tmp/` đã ignore, không thêm vào bản bàn giao. Có 26 liên kết local hợp lệ; ba RQ khớp giữa REPORT và kế hoạch; các phép tính ngày minh họa đúng (2, 90, 20, 40). Chỉ sáu tài liệu đổi; 24 file còn lại và 13 bằng chứng giữ nguyên hash. Các bảng cũ, REPORT mục 4.1–4.8 và toàn bộ danh sách vấn đề ở mục 4 được bảo toàn. Nguồn cũ giữ metadata 153 file, SHA256 của 138 file nhỏ và Git status; không hash lại toàn bộ raw lớn.
+
+Kiểm tra whitespace qua `git -c core.whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol diff --check` exit 0. Lần dò section đầu qua stdin gặp `IndexError`; chuyển sang script QA tạm để kiểm tra đúng nội dung UTF-8, không sửa bằng chứng cũ để vượt kiểm tra. Tổng 14 điều kiện QA tài liệu đạt; đây không phải kết quả phân tích hoặc mô hình. Không chạy notebook, EDA, tạo đặc trưng, K-Means, dashboard hoặc cài dependency.
+
+**Hai sinh viên cần đọc và xác nhận:**
+
+Bản xem chung là [PR #2 — P1-T1](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/2), nhánh `p1-t1-research-questions`, base `p0-t4-team-workflow`. Bản này chỉ có thay đổi sáu tài liệu so với nền P0, không thay thế việc merge PR #1. Khi nhóm đã xử lý PR #1, cần đối chiếu lại base/diff trước khi đưa P1 vào main. Codex không tự merge hai PR.
+
+- [ ] Đọc REPORT mục 1–2, giải thích được ba RQ cần dữ liệu và bằng chứng nào.
+- [ ] Đọc LEARNING_GUIDE phần 13, mỗi người tự trả lời ba câu hỏi rồi đối chiếu gợi ý.
+- [ ] Giải thích vì sao nghiên cứu Engagement và vì sao vẫn có thể chưa tìm được bằng chứng F1 tốt hơn F0.
+- [ ] Thống nhất nội dung P1-T1 trước khi chuyển P1-T2; xử lý riêng việc đưa bản P0 vào main.
+
+**Còn mở:** toàn bộ vấn đề dữ liệu ở mục 4, giới hạn môi trường và các thông số Colab chưa được gửi vẫn giữ nguyên. Chưa có thực nghiệm trả lời RQ1–RQ3. Trạng thái **READY FOR STUDENT REVIEW**; dừng chờ nhóm nghiệm thu, không thực hiện P1-T2.
+
+### Điều chỉnh theo nhận xét P1-T1
+
+Nhận xét được cung cấp đánh giá nội dung P1-T1 đạt yêu cầu và đủ điều kiện nghiệm thu, nhưng vẫn yêu cầu hai sinh viên tự kiểm tra rồi xác nhận PASS. Chưa coi nhận xét này là xác nhận hoàn tất nghiệm thu.
+
+- Rút gọn REPORT mục 1.6 ở mức phương pháp dự kiến; chuyển chi tiết chỉ số, độ ổn định và tài nguyên sang phần kế hoạch Phase 5. Giữ nguyên ba RQ, bảng kiểm chứng và giới hạn diễn giải.
+- Bỏ thông tin cập nhật PR/main khỏi báo cáo nghiên cứu; nhật ký bàn giao ở PROGRESS. Không đổi ví dụ, công thức, số liệu hoặc kết quả P0.
+- Đối chiếu GitHub trong lượt review: PR #1 Open/Draft, chưa merge; PR #2 Open, đã ra khỏi Draft nhưng chưa merge, base vẫn `p0-t4-team-workflow`. Việc ra khỏi Draft chưa thay thế xác nhận PASS của sinh viên.
+- Thứ tự bàn giao được đề xuất: kiểm tra và merge PR #1 bằng merge commit để giữ lịch sử; đổi base PR #2 sang main, kiểm tra diff chỉ còn sáu tài liệu P1-T1; duyệt/merge P1-T1 sau nghiệm thu. Không tạo lại P0.
+
+**Kiểm tra đợt điều chỉnh:** chạy đoạn Python thư viện chuẩn qua `python -B -` để so hash, nội dung và liên kết; `git -c core.whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol diff --check` exit 0. Chỉ REPORT, PROGRESS và nhãn liên kết PR #2 trong README thay đổi; 27 file khác, gồm notebook, sổ tay/ví dụ và 13 bằng chứng, giữ nguyên hash. Ba RQ, các bảng, REPORT mục 4.1–4.8 và danh sách vấn đề dữ liệu không đổi; chi tiết đánh giá được chuyển nguyên nội dung sang phần dự kiến Phase 5. Có 26 liên kết local hợp lệ. Không chạy lại dữ liệu hoặc mô hình.
+
+P1-T1 giữ **READY FOR STUDENT REVIEW**; P1-T2 chưa bắt đầu. Chỉ triển khai prompt P1-T2 trong tệp nhận xét sau khi hai sinh viên xác nhận P1-T1 PASS.

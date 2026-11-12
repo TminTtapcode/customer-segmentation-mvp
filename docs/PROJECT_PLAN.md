@@ -1,15 +1,17 @@
 # Kế hoạch MVP — RFM + Engagement
 
 **Cập nhật:** 13/11/2026 (Asia/Bangkok). **Trạng thái thật:** xem `PROGRESS.md`.
-**Trạng thái hiện tại:** chỉ P0-T4 — hoàn thiện quy trình cộng tác và bản bàn giao GitHub để nhóm duyệt. P0-T3 = PASS (Student Verified) theo xác nhận người dùng ngày 13/11/2026; không có thêm chỉ số/log Colab được cung cấp. P0-T2 và phần sửa văn phong được chấp nhận theo báo cáo. P0-T1 vẫn còn vấn đề dữ liệu chờ Phase 2. Chưa đóng Phase 0 hoặc chuyển Phase 1 khi bản bàn giao chưa được nhóm chấp nhận và đưa vào main.
+**Trạng thái hiện tại:** nhóm xác nhận nghiệm thu P0-T4 và đóng Phase 0; chỉ thực hiện P1-T1, chờ sinh viên xem lại. Đối chiếu đầu task cho thấy PR #1 vẫn Open/Draft và main chỉ có `.gitignore`; dùng nhánh P0-T4 có đủ file làm nền P1-T1, không tự merge hoặc làm lại P0. Các vấn đề dữ liệu vẫn chờ Phase 2; nghiệm thu Colab không bổ sung các chỉ số chưa được gửi.
 
 ## 1. Mục tiêu, câu hỏi và phạm vi
 
 Đề tài: Phân khúc khách hàng thương mại điện tử bằng K-Means dựa trên mô hình RFM mở rộng với đặc trưng tương tác website. Dự án độc lập cho nhóm hai sinh viên, ưu tiên đơn giản, dễ giải thích và kiểm chứng theo CRISP-DM — quy trình hiểu nghiệp vụ, hiểu/chuẩn bị dữ liệu, mô hình hóa, đánh giá và trình diễn.
 
-- RQ1: REES46 thể hiện những đặc điểm nào về mua hàng và tương tác website?
-- RQ2: Thêm Engagement — mức độ tương tác website — vào RFM ảnh hưởng như thế nào đến phân cụm?
-- RQ3: Các nhóm khách có đặc điểm gì và gợi ý hướng marketing nào? Đây là gợi ý mô tả, chưa có bằng chứng hiệu quả chiến dịch hay quan hệ nhân quả.
+- RQ1: Dữ liệu REES46 cho thấy những đặc điểm gì về hành vi mua hàng và tương tác website?
+- RQ2: Bổ sung Engagement vào RFM có giúp phân biệt những hành vi khách hàng mà RFM truyền thống chưa thể hiện rõ không?
+- RQ3: Các phân khúc khách hàng có đặc điểm gì và có thể gợi ý những định hướng marketing nào? Đây là gợi ý mô tả, chưa có bằng chứng hiệu quả chiến dịch hay quan hệ nhân quả.
+
+P1-T1 xác định vấn đề, mục tiêu, phạm vi và phương pháp dự kiến tại REPORT mục 1; bảng kế hoạch ba câu hỏi ở mục 2. Sổ tay phần 13 giải thích thuật ngữ, hai ví dụ và ba câu hỏi tự kiểm tra. Chưa có kết quả thực nghiệm trả lời các RQ.
 
 **Bắt buộc:** REES46; audit làm sạch, EDA; F0 gồm R/F/M và F1 thêm sessions_30d/views_30d; K-Means K=2–6; so sánh Silhouette, Davies–Bouldin, cluster profiles — hồ sơ cụm; bốn notebook Colab có giải thích/output; Streamlit nhỏ; hai tài liệu tích lũy; PowerPoint cuối kỳ 7 slide (trong khoảng 5–8).
 
@@ -43,8 +45,8 @@ Tất cả dependency bao gồm nghiệm thu task trước. Lịch chi tiết ch
 | P0-T1 | Audit Existing Data Artifacts | Đọc nguồn cũ | Được sinh viên chấp nhận có điều kiện; inventory/log giữ nguyên, các vấn đề dữ liệu còn mở |
 | P0-T2 | Khởi tạo cấu trúc tối thiểu | P0-T1 được nghiệm thu | Đã nghiệm thu PASS theo báo cáo Codex: 6/6 tests, 15/15 checks; sinh viên chưa chạy lại local |
 | P0-T3 | Môi trường Colab | P0-T2 | PASS (Student Verified): người dùng xác nhận hai sinh viên đã trực tiếp nghiệm thu trên Colab/Drive; bằng chứng local của Codex giữ riêng |
-| P0-T4 | Hoàn thiện quy trình cộng tác nhóm | P0-T3 | Phân công một người sửa chính/notebook, bản Drive riêng, quy trình kiểm tra/lưu kết quả/cập nhật tài liệu; bàn giao GitHub và nghiệm thu trước khi đóng Phase 0 |
-| P1-T1 | Research questions | P0 | RQ→metric→grain→evidence |
+| P0-T4 | Hoàn thiện quy trình cộng tác nhóm | P0-T3 | Nhóm đã xác nhận nghiệm thu và đóng Phase 0; PR #1 chưa merge được theo dõi riêng |
+| P1-T1 | Vấn đề, mục tiêu và câu hỏi nghiên cứu | P0 được nhóm nghiệm thu; nền có đủ file P0 | REPORT mục 1–2, LEARNING_GUIDE phần 13, kế hoạch kiểm chứng từng RQ; READY FOR STUDENT REVIEW |
 | P1-T2 | RFM truyền thống tham khảo | P1-T1 | Review repo ch1ns0n; không sao chép preprocessing sai |
 | P1-T3 | Related work RFM-B | P1-T2 | Đọc nguồn nghiên cứu gốc, ghi phương pháp và giới hạn |
 | P1-T4 | Feature rationale | P1-T3 | Lý do chọn năm biến, liên hệ RQ2, chưa tự thêm biến |
@@ -114,4 +116,4 @@ Chưa copy dữ liệu, chưa cấu hình hoặc chạy Colab ở P0-T1. Đề x
 
 ## 8. Hoàn thành Phase 0
 
-Checklist chi tiết và điều kiện còn thiếu nằm tại PROGRESS. Vấn đề dữ liệu của P0-T1 đã được chấp nhận để chuyển bước phải tiếp tục theo dõi ở Phase 2, không tự ghi đã giải quyết. Chỉ đóng Phase 0 sau khi nhóm nghiệm thu P0-T4 và bản notebook/code được chấp nhận đã ở GitHub main. Có nhánh/PR để xem chưa đồng nghĩa bản chính thức đã được cập nhật. Không tự chuyển Phase 1.
+Theo xác nhận mới của người dùng, nhóm đã nghiệm thu P0-T4, đóng Phase 0 và cho phép bắt đầu P1-T1; không làm lại P0. GitHub chưa phản ánh việc merge PR #1, nên phần đưa bản bàn giao vào main vẫn theo dõi riêng tại PROGRESS. Có nhánh/PR chưa đồng nghĩa main đã cập nhật. Vấn đề dữ liệu của P0-T1 tiếp tục xử lý ở Phase 2, không tự ghi đã giải quyết. Chỉ làm P1-T1 và dừng chờ nghiệm thu, không tự chuyển P1-T2.

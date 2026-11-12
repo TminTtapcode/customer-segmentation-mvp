@@ -1,24 +1,62 @@
 # Báo cáo bài tập lớn — Phân khúc khách hàng bằng RFM và Engagement
 
-**Cập nhật:** 13/11/2026. P0-T3 đã được hai sinh viên trực tiếp nghiệm thu trên Colab/Drive theo xác nhận của người dùng: PASS (Student Verified). Kết quả local của Codex được giữ riêng; chưa có log hoặc chỉ số Colab mới được cung cấp. Ở P0-T4, nhóm hoàn thiện cách cộng tác và bàn giao mã nguồn, chưa chuyển sang nghiên cứu ở Phase 1.
+**Cập nhật:** 13/11/2026. Báo cáo trình bày vấn đề, mục tiêu và kế hoạch kiểm chứng; chưa có thí nghiệm F0/F1. Nhật ký thực hiện và nghiệm thu được ghi riêng trong `PROGRESS.md`.
 
-## 1. Giới thiệu đề tài
+## 1. Giới thiệu và thiết kế nghiên cứu — P1-T1
 
-Nhóm nghiên cứu cách phân khúc khách hàng từ dữ liệu REES46 Cosmetics bằng K-Means — phương pháp gom những khách hàng có đặc điểm gần nhau vào cùng một nhóm. Dữ liệu thuộc lĩnh vực mỹ phẩm trong giai đoạn 2019–2020.
+### 1.1. Giới thiệu đề tài
 
-Nhóm dự kiến so sánh hai bộ đặc trưng. F0 gồm RFM: Recency là thời gian từ lần mua gần nhất đến mốc chốt dữ liệu, Frequency là số phiên mua riêng biệt và Monetary là tổng giá trị mua hợp lệ. F1 bổ sung Engagement — mức độ tương tác website — qua hai biến sessions_30d và views_30d.
+Khách hàng của một website mỹ phẩm có thể khác nhau về thời điểm mua, số lần mua, mức chi tiêu và việc quay lại xem sản phẩm. Nếu chỉ nhìn tổng doanh thu hoặc coi mọi người giống nhau, doanh nghiệp có thể bỏ qua những nhu cầu khác nhau và khó giải thích vì sao cần một hướng chăm sóc khách hàng cụ thể.
 
-Mục tiêu là mô tả hành vi, xem việc thêm tương tác website có giúp nhận diện những nhóm dễ giải thích hơn hay không, và từ đó gợi ý hướng marketing. Những gợi ý này chưa chứng minh được hiệu quả của một chiến dịch thực tế. Phạm vi và điều kiện hoàn thành từng bước nằm trong `PROJECT_PLAN.md`.
+Phân khúc khách hàng là chia khách thành các nhóm có đặc điểm tương đồng theo tiêu chí đã chọn. Nhóm nghiên cứu cách phân khúc từ REES46 Cosmetics bằng K-Means — phương pháp gom các điểm dữ liệu gần nhau. Đây là nghiên cứu mô tả hành vi, chưa phải mô hình dự đoán một người sẽ mua hàng hay đánh giá hiệu quả chiến dịch.
 
-## 2. Vấn đề nghiên cứu
+### 1.2. Lý do chọn đề tài
 
-Nhóm đặt ra ba câu hỏi:
+Nhóm lựa chọn đề tài này vì dữ liệu mua hàng và dữ liệu tương tác phản ánh những khía cạnh khác nhau. Trong tình huống minh họa, khách A mua thường xuyên và chi tiêu nhiều; khách B từng mua nhưng đã lâu không quay lại; khách C mua ít nhưng vẫn truy cập và xem sản phẩm. Một thông điệp chung cho cả ba có thể chưa phù hợp với nhu cầu của từng người. Phân khúc giúp mô tả các khác biệt trước khi đặt giả thuyết về cách tiếp cận; không chứng minh thông điệp nào đã hiệu quả.
 
-- RQ1: Dữ liệu REES46 thể hiện những đặc điểm nào về mua hàng và tương tác website?
-- RQ2: Khi bổ sung Engagement vào RFM, kết quả phân cụm thay đổi như thế nào?
-- RQ3: Các nhóm khách hàng có đặc điểm gì và có thể gợi ý hướng marketing nào?
+RFM tóm tắt lịch sử mua qua Recency — thời gian từ lần mua gần nhất, Frequency — tần suất mua và Monetary — tổng giá trị mua. Các thành phần này được giới thiệu trong [tài liệu RFM của IBM](https://www.ibm.com/docs/en/watsonx/w-and-w/2.4.x?topic=properties-rfmanalysisnode). Trong REES46 không có order_id, nên nhóm đo Frequency bằng số phiên có mua duy nhất theo khóa `(user_id, session_id)`, không gọi đó là số đơn hàng. Monetary là tổng giá purchase hợp lệ, chưa phải doanh thu ròng.
 
-Ở P1-T1, nhóm sẽ xác định chỉ số và cách kiểm tra cho từng câu hỏi. Hiện chưa có kết quả mô hình để trả lời RQ2 hoặc RQ3.
+RFM chưa mô tả trực tiếp việc quay lại website mà chưa mua. Hai người có lịch sử mua giống nhau vẫn có thể khác số phiên truy cập và lượt xem gần đây. Vì vậy, nhóm đề xuất nghiên cứu thêm `sessions_30d` và `views_30d`, gọi chung là Engagement — mức độ tương tác website. Đây là lý do để kiểm tra, chưa phải kết luận hai biến chắc chắn làm phân cụm tốt hơn.
+
+### 1.3. Mục tiêu nghiên cứu
+
+Mục tiêu của nhóm là xem việc kết hợp RFM với Engagement có bổ sung cách mô tả khách hàng hữu ích hay không. Cụ thể:
+
+- Mô tả hành vi mua hàng và tương tác trong khoảng thời gian nghiên cứu.
+- So sánh F0 gồm R, F, M với F1 gồm R, F, M, sessions_30d, views_30d trên cùng tập buyers — khách mua đủ điều kiện.
+- Diễn giải đặc điểm các phân khúc và đề xuất hướng marketing có căn cứ mô tả, kèm giới hạn và nhu cầu thử nghiệm tiếp.
+
+### 1.4. Câu hỏi nghiên cứu
+
+Để tìm hiểu vấn đề trên, nhóm đặt ra:
+
+- **RQ1:** Dữ liệu REES46 cho thấy những đặc điểm gì về hành vi mua hàng và tương tác website?
+- **RQ2:** Bổ sung Engagement vào RFM có giúp phân biệt những hành vi khách hàng mà RFM truyền thống chưa thể hiện rõ không?
+- **RQ3:** Các phân khúc khách hàng có đặc điểm gì và có thể gợi ý những định hướng marketing nào?
+
+### 1.5. Phạm vi nghiên cứu
+
+Nhóm chỉ dùng REES46 Cosmetics. Khoảng quan sát dự kiến là `[2019-10-01, 2020-02-01)`; cửa sổ tương tác gần đây là `[2020-01-02, 2020-02-01)`, theo quy ước UTC đang chờ kiểm tra lại ở Phase 2. Mỗi bảng đặc trưng có một dòng/khách hàng; dữ liệu sự kiện được tổng hợp trước mốc chốt, kể cả khi session kéo dài qua mốc này.
+
+Chỉ buyers có RFM hợp lệ được đưa vào so sánh F0/F1. Non-buyers được mô tả riêng về tương tác, không gán Recency giả. Cách loại trùng, buyer, price, session và rounding vẫn chờ chốt ở Phase 2; các bảng cũ chỉ là ứng viên. Không dùng model/scaler/labels/metrics 7D cũ cho nghiên cứu 5D này. February đã được xem nên không phải untouched holdout; không dùng February tạo đặc trưng hoặc chọn mô hình.
+
+P1-T1 chỉ xác định bài toán và cách kiểm chứng. Chưa EDA, xử lý dữ liệu, tạo đặc trưng, chạy K-Means hoặc làm dashboard. Phạm vi toàn dự án nằm trong `PROJECT_PLAN.md`; các vấn đề dữ liệu giữ ở mục 4.5.
+
+### 1.6. Phương pháp nghiên cứu dự kiến
+
+Nhóm dự kiến kiểm tra chất lượng và chốt quy tắc dữ liệu ở Phase 2, mô tả hành vi ở Phase 3, tính năm đặc trưng ở Phase 4, so sánh F0/F1 ở Phase 5 rồi diễn giải ở Phase 6.
+
+Nhóm sẽ dùng K-Means để so sánh hai bộ đặc trưng trên cùng buyers và cửa sổ dữ liệu. F0 là baseline — phương án cơ sở để đối chiếu. Kết quả được xem xét bằng các tiêu chí phù hợp, kết hợp chất lượng phân cụm, đặc điểm khách hàng và khả năng giải thích; không mặc định F1 tốt hơn F0. Chi tiết thực nghiệm và cách đánh giá sẽ học ở Phase 5, theo kế hoạch bên dưới.
+
+## 2. Kế hoạch kiểm chứng ba câu hỏi
+
+Đọc bảng từ trái sang phải: câu hỏi cần biết điều gì → phải có dữ liệu nào → dự kiến làm gì → phải lưu kết quả nào → dựa vào đâu để nhận xét. Đây là kế hoạch, chưa phải kết quả phân tích.
+
+| Câu hỏi | Dữ liệu cần dùng | Cách phân tích dự kiến | Kết quả cần có | Cách đánh giá |
+|---|---|---|---|---|
+| RQ1 — hành vi mua và tương tác | Events trước cutoff: thời gian, loại event, user, session, price; quy tắc hợp lệ đã chốt | Phase 3: thống kê sự kiện, phiên và khách; mô tả phân phối mua/tương tác; tách buyers và non-buyers | Bảng/biểu đồ có đơn vị một dòng, mẫu số và cửa sổ thời gian rõ | Đối chiếu số đếm với nguồn đã chấp nhận; không coi purchase rows là số đơn; giải thích missing/outliers và giới hạn quan sát |
+| RQ2 — thông tin bổ sung từ Engagement | Cùng buyers với năm biến hợp lệ; F0 dùng ba biến, F1 dùng năm biến | Phase 5: so sánh F0/F1; xem chỉ số và đặc điểm cụm trên cùng năm biến ở đơn vị gốc | Bảng so sánh cấu hình, Silhouette, Davies–Bouldin, cỡ cụm, đặc điểm cụm, ổn định và tài nguyên | Đúng cohort/cutoff trước; cân nhắc chất lượng, thông tin bổ sung và khả năng giải thích; không xếp hạng chỉ bằng Silhouette; chấp nhận kết quả chưa có bằng chứng F1 tốt hơn |
+| RQ3 — diễn giải và gợi ý | Nhãn cụm mới cùng bảng đặc trưng đã chấp nhận; không lấy nhãn 7D cũ | Phase 6: mô tả mỗi nhóm và nối đặc điểm quan sát với hướng tiếp cận dự kiến | Bảng đặc điểm → diễn giải → gợi ý marketing → giới hạn | Mỗi gợi ý phải chỉ được bằng chứng mô tả; không gán xác suất mua, không khẳng định nhân quả hoặc hiệu quả chiến dịch khi chưa thử nghiệm |
 
 ## 3. Tài liệu tham khảo liên quan
 
@@ -141,13 +179,21 @@ Ngày 13/11/2026, người dùng xác nhận cả hai sinh viên đã trực ti�
 
 Nhóm quy định GitHub main giữ mã nguồn chính thức, còn Drive giữ dữ liệu và các bản thực hành. Mỗi notebook có một người sửa chính và một người kiểm tra trên bản sao riêng; sau khi chạy lại và được chấp nhận, bản code được bàn giao để xem thay đổi trước khi đưa vào main. Kết quả phù hợp được giữ trên Drive và trong results để không mất khi bỏ output khỏi bản mã nguồn public.
 
-Sau mỗi task, nhóm thực hiện, giải thích kiến thức, kiểm tra và cập nhật báo cáo/sổ tay/nhật ký khi có nội dung liên quan, rồi dừng nghiệm thu. Quy trình và phân công nằm trong README; P0-T4 còn chờ nhóm duyệt bản bàn giao trước khi đóng Phase 0. Việc này không thay đổi kết luận nghiên cứu hoặc giải quyết các vấn đề dữ liệu chờ Phase 2.
+Sau mỗi task, nhóm thực hiện, giải thích kiến thức, kiểm tra và cập nhật báo cáo/sổ tay/nhật ký khi có nội dung liên quan, rồi dừng nghiệm thu. Quy trình và phân công nằm trong README. Việc thống nhất cách làm việc không thay thế bước kiểm tra và chốt các vấn đề dữ liệu ở Phase 2.
 
 ## 5–11. Chuẩn bị dữ liệu, EDA, đặc trưng, mô hình, đánh giá và trình diễn
 
 Những phần này chưa được thực hiện trong MVP. EDA là phân tích khám phá dữ liệu; Feature Engineering là tạo đặc trưng phục vụ mô hình. Nhóm sẽ giải thích cách làm, lý do chọn và giới hạn khi đến từng bước.
 
 Hiện chưa có model F0/F1, chỉ số phân cụm, chiến dịch hoặc Streamlit mới. Các kết quả kiểm kê ở mục 4 không thay thế kết quả của P2–P6.
+
+### Kế hoạch đánh giá ở Phase 5 — chưa thực hiện
+
+Hai phương án dùng cùng buyers và cửa sổ dữ liệu, cùng dải K=2–6 và cách ghi seed/cấu hình; bộ chuẩn hóa thang đo được học riêng cho mỗi bộ biến. Chi tiết thực nghiệm chỉ hoàn thiện khi đến task tương ứng.
+
+Ở Phase 5, nhóm dự kiến dùng Silhouette để xem mức gần nhau trong cụm so với cụm lân cận và Davies–Bouldin để xem độ phân tán so với khoảng cách giữa cụm. Trong cùng điều kiện đánh giá, Silhouette cao hơn và Davies–Bouldin thấp hơn thường được ưu tiên về mặt hình học. Hai chỉ số không phải độ chính xác dự đoán hay hiệu quả kinh doanh. Xem định nghĩa tại [Silhouette](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.silhouette_score.html) và [Davies–Bouldin](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.davies_bouldin_score.html).
+
+F0 và F1 có số chiều và không gian khoảng cách khác nhau, nên không kết luận F1 tốt hơn chỉ vì một điểm số cao hơn. Nhóm sẽ đối chiếu cả hai cách chia trên cùng năm biến ở đơn vị gốc: kích thước cụm, trung vị và độ phân tán, khác biệt tương tác giữa các nhóm có RFM tương tự, mức ổn định qua seed, khả năng giải thích, thời gian và bộ nhớ. Việc F1 chia nhóm theo chính hai biến được thêm vào cũng chưa tự chứng minh lợi ích. Nếu nhóm không ổn định, chỉ tách vài điểm cực đoan hoặc không bổ sung cách diễn giải rõ ràng, nhóm cần báo cáo giới hạn thay vì mặc định đề xuất đã thành công.
 
 ## 12. Kết luận hiện tại và hạn chế
 
@@ -158,6 +204,6 @@ Nhóm chưa có cơ sở nói việc thêm Engagement tạo ra mô hình tốt h
 ## 13. Nguồn tham chiếu
 
 - [REES46 Cosmetics trên Kaggle](https://www.kaggle.com/datasets/mkechinov/ecommerce-events-history-in-cosmetics-shop): URL do config nguồn khai báo; điều khoản/cách thu thập còn chờ kiểm tra.
-- [`TminTtapcode/customer-segmentation-mvp`](https://github.com/TminTtapcode/customer-segmentation-mvp): repository đích, clone riêng. Kết quả hiện tại nằm local.
+- [`TminTtapcode/customer-segmentation-mvp`](https://github.com/TminTtapcode/customer-segmentation-mvp): nơi lưu mã nguồn, tài liệu và bằng chứng kiểm tra của MVP.
 - Nguồn local cũ: `PROJECT_STATUS.md`; `configs/project.yaml`; `configs/kpi_dictionary.yaml`; `scripts/phase2_etl.py`; `scripts/phase3_feature_engineering.py`; `reports/DATA_ANALYTICS_REPORT.md` mục 12.3; `reports/TECHNICAL_LEARNING_NOTES.md` phần X. Hash/version nguồn trong `audit.json`.
 - Bằng chứng mới: `results/p0_t1/{audit.json,inventory.csv,independent_verification.json,audit_stdout.txt,verification_stdout.txt,execution.json}`.
