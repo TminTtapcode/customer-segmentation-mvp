@@ -215,6 +215,8 @@ Chỉ sáu tài liệu đổi; 24 file khác, gồm notebook, code, requirements
 
 **Hai sinh viên cần nghiệm thu:**
 
+Bản bàn giao là [PR nháp #3 — P1-T2](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/3), nhánh `p1-t2-rfm-reference`, base main. Chỉ sáu tài liệu P1-T2 khác main; PR này chưa merge và không làm thay đổi các bản P0/P1-T1 đã nghiệm thu.
+
 - [ ] Đọc REPORT mục 3 và LEARNING_GUIDE phần 14; giải thích được mười điểm đọc code trong yêu cầu.
 - [ ] Mỗi người tính lại RFM của A/B, ví dụ log và StandardScaler; trả lời ba câu cuối phần 14 trước khi xem gợi ý.
 - [ ] Phân biệt điểm học được với K=4, xử lý M âm, tên cụm và cách biến đổi web không được sao chép nguyên.
