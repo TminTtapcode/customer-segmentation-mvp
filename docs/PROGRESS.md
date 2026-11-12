@@ -7,8 +7,9 @@
 - **Sửa văn phong:** được chấp nhận theo báo cáo; sinh viên chưa mở bản local mới nhất để xác nhận độc lập.
 - **P0-T3: PASS (Student Verified).** Người dùng xác nhận ngày 13/11/2026 cả hai sinh viên đã trực tiếp nghiệm thu trên Colab/Drive. Không tự bổ sung log/chỉ số Colab chưa được gửi.
 - **P0-T4: PASS (Student Verified).** Người dùng xác nhận nhóm đã nghiệm thu và đóng Phase 0 trong yêu cầu P1-T1. Không yêu cầu làm lại P0.
-- **P1-T1:** READY FOR STUDENT REVIEW — xác định vấn đề, mục tiêu, ba câu hỏi và cách kiểm chứng dự kiến; chưa thực hiện P1-T2.
-- **GitHub cần nhóm xử lý:** PR #1 vẫn Open/Draft, chưa merge; main chỉ có `.gitignore` khi đối chiếu đầu P1-T1. Trạng thái này không được ghi thành “đã merge” theo suy đoán từ nghiệm thu học tập.
+- **P1-T1: PASS (Student Verified).** Người dùng xác nhận trực tiếp “P1-T1 PASS”; không tự bổ sung bài trả lời hoặc log sinh viên chưa gửi.
+- **P1-T2:** READY FOR STUDENT REVIEW — đọc và giải thích repository RFM truyền thống; không chạy mô hình.
+- **GitHub:** PR #1 và PR #2 đã merge theo thứ tự bằng merge commit sau nghiệm thu. Main có đủ 30 file P0/P1-T1; P1-T2 làm trên nhánh riêng và chưa merge.
 
 ## 1. P0-T1 — kiểm kê dữ liệu cũ
 
@@ -139,18 +140,19 @@ Kiểm tra `git var GIT_AUTHOR_IDENT` ban đầu chưa đạt vì local chưa c�
 - [x] Có quy trình một người sửa chính/notebook, bản Drive riêng và người còn lại kiểm tra.
 - [x] Có quy tắc lưu kết quả và thực hiện → giải thích → kiểm tra → cập nhật tài liệu → dừng nghiệm thu.
 - [x] Bản bàn giao đã lên nhánh GitHub và PR nháp #1 để nhóm kiểm tra.
-- [ ] Đưa bản P0 đã được nhóm chấp nhận vào GitHub main; PR #1 thực tế chưa merge. Không tự bổ sung bằng chứng đối chiếu Drive chưa được gửi.
+- [x] Đưa bản P0 đã được nhóm chấp nhận vào GitHub main bằng merge commit của PR #1; không tự bổ sung bằng chứng đối chiếu Drive chưa được gửi.
 - [x] Sinh viên nghiệm thu P0-T4 và xác nhận đóng Phase 0 theo thông báo trong yêu cầu P1-T1.
 
-**Phase 0: ĐÃ ĐÓNG theo xác nhận của nhóm.** Người dùng cho phép bắt đầu P1-T1 dù cần đối chiếu tình trạng merge. Phần bàn giao vào main chưa hoàn thành được theo dõi riêng, không tự sửa lịch sử GitHub hoặc làm lại P0. Các vấn đề dữ liệu vẫn để Phase 2, không đánh dấu đã giải quyết.
+**Phase 0: ĐÃ ĐÓNG theo xác nhận của nhóm.** Bàn giao P0 vào main đã hoàn thành khi bắt đầu P1-T2, không làm lại P0. Các vấn đề dữ liệu vẫn để Phase 2, không đánh dấu đã giải quyết.
 
 | Nhóm task còn lại | Trạng thái |
 |---|---|
 | P0-T2 | PASS — đã nghiệm thu theo báo cáo Codex; sinh viên chưa chạy lại local |
 | P0-T3 | PASS (Student Verified) — xác nhận người dùng 13/11/2026, không thêm chỉ số Colab |
-| P0-T4 | PASS (Student Verified); nhóm xác nhận đóng Phase 0, PR #1 chưa merge |
-| P1-T1 | READY FOR STUDENT REVIEW |
-| P1-T2…T4 | NOT STARTED |
+| P0-T4 | PASS (Student Verified); nhóm xác nhận đóng Phase 0, PR #1 đã merge |
+| P1-T1 | PASS (Student Verified); PR #2 đã merge |
+| P1-T2 | READY FOR STUDENT REVIEW |
+| P1-T3…T4 | NOT STARTED |
 | P2-T1…T4 | NOT STARTED |
 | P3-T1…T3 | NOT STARTED |
 | P4-T1…T4 | NOT STARTED |
@@ -173,16 +175,16 @@ Kiểm tra `git var GIT_AUTHOR_IDENT` ban đầu chưa đạt vì local chưa c�
 
 Kiểm tra whitespace qua `git -c core.whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol diff --check` exit 0. Lần dò section đầu qua stdin gặp `IndexError`; chuyển sang script QA tạm để kiểm tra đúng nội dung UTF-8, không sửa bằng chứng cũ để vượt kiểm tra. Tổng 14 điều kiện QA tài liệu đạt; đây không phải kết quả phân tích hoặc mô hình. Không chạy notebook, EDA, tạo đặc trưng, K-Means, dashboard hoặc cài dependency.
 
-**Hai sinh viên cần đọc và xác nhận:**
+**Nội dung tự kiểm tra đã giao ở P1-T1:**
 
-Bản xem chung là [PR #2 — P1-T1](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/2), nhánh `p1-t1-research-questions`, base `p0-t4-team-workflow`. Bản này chỉ có thay đổi sáu tài liệu so với nền P0, không thay thế việc merge PR #1. Khi nhóm đã xử lý PR #1, cần đối chiếu lại base/diff trước khi đưa P1 vào main. Codex không tự merge hai PR.
+Tại thời điểm bàn giao P1-T1, bản xem chung là [PR #2](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/2), nhánh `p1-t1-research-questions`, base `p0-t4-team-workflow`, chỉ đổi sáu tài liệu và chưa merge. Sau khi người dùng xác nhận PASS, hai PR được xử lý theo thứ tự đã đề xuất; kết quả hiện hành ghi ở mục 9.
 
-- [ ] Đọc REPORT mục 1–2, giải thích được ba RQ cần dữ liệu và bằng chứng nào.
-- [ ] Đọc LEARNING_GUIDE phần 13, mỗi người tự trả lời ba câu hỏi rồi đối chiếu gợi ý.
-- [ ] Giải thích vì sao nghiên cứu Engagement và vì sao vẫn có thể chưa tìm được bằng chứng F1 tốt hơn F0.
-- [ ] Thống nhất nội dung P1-T1 trước khi chuyển P1-T2; xử lý riêng việc đưa bản P0 vào main.
+- Đọc REPORT mục 1–2, giải thích được ba RQ cần dữ liệu và bằng chứng nào.
+- Đọc LEARNING_GUIDE phần 13, mỗi người tự trả lời ba câu hỏi rồi đối chiếu gợi ý.
+- Giải thích vì sao nghiên cứu Engagement và vì sao vẫn có thể chưa tìm được bằng chứng F1 tốt hơn F0.
+- Thống nhất nội dung P1-T1 trước khi chuyển P1-T2. Người dùng sau đó đã xác nhận PASS; chưa gửi bài trả lời riêng nên không tự điền kết quả từng câu.
 
-**Còn mở:** toàn bộ vấn đề dữ liệu ở mục 4, giới hạn môi trường và các thông số Colab chưa được gửi vẫn giữ nguyên. Chưa có thực nghiệm trả lời RQ1–RQ3. Trạng thái **READY FOR STUDENT REVIEW**; dừng chờ nhóm nghiệm thu, không thực hiện P1-T2.
+**Còn mở:** toàn bộ vấn đề dữ liệu ở mục 4, giới hạn môi trường và các thông số Colab chưa được gửi vẫn giữ nguyên. Chưa có thực nghiệm trả lời RQ1–RQ3. Tại thời điểm bàn giao P1-T1, trạng thái là READY FOR STUDENT REVIEW; xác nhận PASS sau đó được ghi bên dưới.
 
 ### Điều chỉnh theo nhận xét P1-T1
 
@@ -195,4 +197,26 @@ Nhận xét được cung cấp đánh giá nội dung P1-T1 đạt yêu cầu v
 
 **Kiểm tra đợt điều chỉnh:** chạy đoạn Python thư viện chuẩn qua `python -B -` để so hash, nội dung và liên kết; `git -c core.whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol diff --check` exit 0. Chỉ REPORT, PROGRESS và nhãn liên kết PR #2 trong README thay đổi; 27 file khác, gồm notebook, sổ tay/ví dụ và 13 bằng chứng, giữ nguyên hash. Ba RQ, các bảng, REPORT mục 4.1–4.8 và danh sách vấn đề dữ liệu không đổi; chi tiết đánh giá được chuyển nguyên nội dung sang phần dự kiến Phase 5. Có 26 liên kết local hợp lệ. Không chạy lại dữ liệu hoặc mô hình.
 
-P1-T1 giữ **READY FOR STUDENT REVIEW**; P1-T2 chưa bắt đầu. Chỉ triển khai prompt P1-T2 trong tệp nhận xét sau khi hai sinh viên xác nhận P1-T1 PASS.
+Ở cuối lượt review, P1-T1 giữ READY FOR STUDENT REVIEW và P1-T2 chưa bắt đầu. Người dùng sau đó xác nhận trực tiếp **“P1-T1 PASS”**; điều kiện bắt đầu prompt P1-T2 đã được đáp ứng.
+
+## 9. P1-T2 — học RFM từ repository tham khảo
+
+**Nền tảng bàn giao:** theo thứ tự trong nhận xét, đưa PR #1 khỏi Draft rồi merge bằng merge commit `887f8bc`; đổi base PR #2 sang main, xác nhận diff chỉ sáu tài liệu và merge bằng merge commit `7098357`. Hai head được đối chiếu trước khi merge, không squash/rebase hoặc ghi đè nhánh. Cây file main sau merge khớp bản P1-T1 được chấp nhận. Không có commit statuses/check runs CI trên hai head; không gọi việc thiếu CI là tests PASS. Nhánh mới `p1-t2-rfm-reference` bắt đầu từ main `70983578c809aec5784502b46c022780c239cc24`.
+
+**Đã đọc:** README.md, toàn bộ 28 ô Customer_Segmentation_Model.ipynb và customer_segmentation_app/app.py của ch1ns0n/Customer-Segmentation, tại commit `d4a8a864ef0128708a0cd0a0e2799faf23b9dd60`. Đọc thêm tài liệu gốc UCI về schema/cancellation và tài liệu NumPy/scikit-learn về log1p, StandardScaler, K-Means. Không tải Excel, model/scaler pickle hoặc đọc sâu Flask/HTML/CSS. Không xác nhận tệp Excel trùng bản UCI, môi trường chạy hay artifact pickle tái lập được.
+
+**Kết quả đọc:** F đếm InvoiceNo riêng biệt; M cộng Quantity × UnitPrice; log rồi chuẩn hóa ba biến trước K-Means. Có Elbow K=1–10, K=4/seed=42 được đặt thủ công; tên cụm gán bằng dictionary. Code chưa tách hủy/hoàn trả. Output gốc ô 12–13 có RuntimeWarning và 41 giá trị Monetary_log thiếu; đây là output được lưu trong repo tham khảo, không phải lần chạy mới hoặc số liệu MVP. Ô 14 đưa M≤0 về 0 nhưng web lấy log trực tiếp; nhóm không sao chép sự khác biệt này.
+
+**Tài liệu:** REPORT mục 3 phân tích cách triển khai, giới hạn có vị trí code và bảng so sánh REES46. LEARNING_GUIDE phần 14 có ví dụ RFM hai khách, log/scaler, K-Means ở mức khái niệm và ba câu hỏi/gợi ý. README, AGENTS và PROJECT_PLAN đồng bộ trạng thái. Chỉ sửa sáu tài liệu hiện có, không tạo báo cáo hoặc notebook mới.
+
+**Kiểm tra đã chạy:** `..\customer-analytics-antigravity\.venv\Scripts\python.exe -B .tmp/p1t2-verify.py` dùng thư viện chuẩn, exit 0; script QA tạm được ignore, không thêm vào dự án. Có 26 liên kết local hợp lệ. Ví dụ tính tay A=(R=1,F=2,M=40), B=(R=4,F=1,M=30); log1p(1)≈0,6931, log1p(9)≈2,3026; cột [1,3] có mean=2/std=1 và giá trị mới 5 thành z=3. Đây chỉ là kiểm tra ví dụ giảng dạy, không phải chạy mô hình hoặc phân tích dataset.
+
+Chỉ sáu tài liệu đổi; 24 file khác, gồm notebook, code, requirements và 13 bằng chứng P0, giữ nguyên SHA256. REPORT mục 1–2 và từ mục 4 trở đi, nội dung sổ tay cũ, các bảng và danh sách vấn đề dữ liệu không đổi. Hai file text tham khảo README/app.py có Git blob hash khớp cây nguồn; notebook được đọc tại commit cố định và có 28 ô. Nguồn cũ giữ metadata 153 file, hash 138 file nhỏ và Git status; không hash lại raw lớn. `git -c core.whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol diff --check` exit 0. Không chạy code repository tham khảo, ETL, EDA, features, K-Means trên REES46 hoặc web; không cài dependency, không đổi cleaning policy.
+
+**Hai sinh viên cần nghiệm thu:**
+
+- [ ] Đọc REPORT mục 3 và LEARNING_GUIDE phần 14; giải thích được mười điểm đọc code trong yêu cầu.
+- [ ] Mỗi người tính lại RFM của A/B, ví dụ log và StandardScaler; trả lời ba câu cuối phần 14 trước khi xem gợi ý.
+- [ ] Phân biệt điểm học được với K=4, xử lý M âm, tên cụm và cách biến đổi web không được sao chép nguyên.
+
+**Còn mở:** danh sách vấn đề dữ liệu ở mục 4 giữ nguyên. Chưa có kết quả mô hình hoặc chính sách dữ liệu mới của REES46. P1-T2 = **READY FOR STUDENT REVIEW**; dừng chờ nghiệm thu, không thực hiện P1-T3/P1-T4.

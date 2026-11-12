@@ -60,7 +60,48 @@ Nhóm sẽ dùng K-Means để so sánh hai bộ đặc trưng trên cùng buyer
 
 ## 3. Tài liệu tham khảo liên quan
 
-Repository [ch1ns0n/Customer-Segmentation](https://github.com/ch1ns0n/Customer-Segmentation) được người dùng đề xuất để tham khảo cách tổ chức notebook, RFM và K-Means. Nhóm chưa đọc và đánh giá code hoặc bài nghiên cứu liên quan trong P0-T1. Không lấy K=4 hoặc cách tiền xử lý của repository đó làm lựa chọn mặc định cho dự án này.
+### 3.1. Dự án RFM truyền thống được tham khảo — P1-T2
+
+Nhóm đọc repository ch1ns0n/Customer-Segmentation tại commit `d4a8a864ef0128708a0cd0a0e2799faf23b9dd60`, gồm [README](https://github.com/ch1ns0n/Customer-Segmentation/blob/d4a8a864ef0128708a0cd0a0e2799faf23b9dd60/README.md), [Customer_Segmentation_Model.ipynb](https://github.com/ch1ns0n/Customer-Segmentation/blob/d4a8a864ef0128708a0cd0a0e2799faf23b9dd60/Customer_Segmentation_Model.ipynb) và [customer_segmentation_app/app.py](https://github.com/ch1ns0n/Customer-Segmentation/blob/d4a8a864ef0128708a0cd0a0e2799faf23b9dd60/customer_segmentation_app/app.py). Mục đích là hiểu cách nối dữ liệu giao dịch với RFM, biến đổi và phân cụm, không sao chép hoặc chạy lại mô hình. Số ô notebook dưới đây đếm từ 1, gồm cả ô Markdown, không phải execution count.
+
+README ghi nguồn Online Retail từ UCI. Theo [mô tả UCI](https://archive.ics.uci.edu/dataset/352/online+retail), đây là giao dịch bán lẻ trực tuyến tại Anh giai đoạn 2010–2011. Tám cột gồm InvoiceNo — mã hóa đơn, StockCode — mã sản phẩm, Description — mô tả, Quantity — số lượng, InvoiceDate — thời điểm, UnitPrice — đơn giá, CustomerID — mã khách và Country — quốc gia. Một dòng thể hiện một mặt hàng trong giao dịch; một hóa đơn có thể có nhiều dòng. UCI mô tả mã InvoiceNo bắt đầu bằng C/c là giao dịch hủy và UnitPrice dùng bảng Anh. Nhóm chỉ đối chiếu mô tả và code, chưa tải/kiểm tra tệp Excel để xác nhận nó trùng bản UCI.
+
+### 3.2. Cách repository tính RFM và phân cụm
+
+| Bước và vị trí | Cách làm trong repository | Điều nhóm cần hiểu |
+|---|---|---|
+| Chuẩn bị, ô 3–7 | Đọc Excel, bỏ dòng thiếu CustomerID, tạo TotalPrice bằng Quantity × UnitPrice | Thiếu mã khách thì không gom RFM cho đúng người. Phân tích sau khi bỏ dòng chỉ đại diện các khách có ID; tổng giá một dòng khác đơn giá |
+| RFM, ô 8 | Mốc tham chiếu là InvoiceDate lớn nhất sau bước bỏ ID thiếu cộng một ngày. Gom theo CustomerID: R lấy chênh lệch với ngày cuối bằng `.days`; F đếm InvoiceNo riêng biệt; M cộng TotalPrice | Một hóa đơn nhiều sản phẩm vẫn chỉ làm F tăng một. Code lấy ngày cuối của các dòng còn lại, chưa tách riêng mua hợp lệ với hủy/hoàn trả |
+| Biến đổi, ô 12–15 | Lấy log1p của F và M; sau đó ghi đè Monetary_log: M dương thì lấy log1p, còn lại bằng 0. StandardScaler học trên R, Frequency_log, Monetary_log theo đúng thứ tự này | Log giảm chênh lệch lớn; scaler đưa các biến về thang đo so sánh được. Hai bước có vai trò khác nhau và chưa tự bảo đảm phân cụm tốt |
+| Chọn K và phân cụm, ô 16–18 | Vẽ Elbow từ inertia cho K=1–10; sau đó đặt K=4, random_state=42 | Inertia là tổng khoảng cách bình phương tới tâm cụm. README nói K=4 được chọn thủ công theo khả năng diễn giải; không có lệnh tự tìm điểm gãy và không có chứng minh 4 là lựa chọn duy nhất |
+| Diễn giải, ô 19–26 | Xem trung bình RFM, boxplot/biểu đồ; vẽ PCA hai chiều; gán tên bằng dictionary theo nhãn 0–3 | PCA được dùng sau khi fit để vẽ, không phải ba biến đầu vào mô hình. Tên cụm do tác giả đặt, không phải thuật toán tự hiểu nghiệp vụ |
+| Demo, ô 28 và app.py | Lưu model/scaler; web nhận R/F/M, biến đổi log F/M, dùng scaler đã lưu rồi gán cụm bằng model | `predict` ở đây là gán vào cụm đã học, không phải dự đoán xác suất mua. Nhóm chỉ đọc luồng này, không mở web hoặc nạp pickle |
+
+Tên được gán là Occasional Buyers, Loyal High-Spenders, Dormant Customers và Potential Loyalists. Bảng trung bình đã lưu ở ô 19 phù hợp với cách mô tả tương đối: cụm 1 có F/M cao hơn, cụm 2 có R cao hơn các cụm còn lại. Tuy nhiên, tên “tiềm năng trung thành” chưa xác minh hành vi tương lai. Khi tự nghiên cứu, nhóm cần đọc đặc điểm ở đơn vị gốc trước khi đặt tên; không mang nguyên tên hay số cụm sang REES46.
+
+### 3.3. Những điểm cần thận trọng khi học theo
+
+Các nhận xét dưới đây chỉ dựa trên ba file đã đọc và output được lưu trong notebook gốc, không phải kết quả chạy mới:
+
+- **Hủy/hoàn trả:** trước khi tính RFM, code chỉ bỏ ID thiếu; chưa có bước lọc InvoiceNo dạng C/c hoặc kiểm tra Quantity/UnitPrice. Vì vậy hóa đơn hủy có thể được tính vào F, ngày hủy có thể ảnh hưởng R và giá trị âm có thể đi vào M. Cần xác định ý nghĩa giao dịch trước khi gọi chúng là hành vi mua.
+- **Monetary không dương:** ô 12–13 lưu cảnh báo log không hợp lệ và giá trị Monetary_log thiếu. Ô 14 thay toàn bộ M≤0 bằng 0 trên thang log, làm mất phân biệt giữa các mức âm và 0; đây chưa phải chính sách xử lý hoàn trả đã được giải thích. Không chuyển quy tắc này sang MVP khi cleaning policy còn chờ Phase 2.
+- **Đánh giá K:** ba file có inertia/Elbow và mô tả cụm, nhưng không có code tính Silhouette, Davies–Bouldin hoặc kiểm tra ổn định qua nhiều seed. Elbow và biểu đồ hai chiều chưa đủ để khẳng định K=4 tốt nhất; không suy ra độ chính xác phân loại hoặc hiệu quả marketing.
+- **Nhất quán khi đưa lên web:** notebook dùng quy tắc M dương mới lấy log, còn app.py lấy log1p(M) trực tiếp. M âm có thể cho giá trị khác bước huấn luyện, hoặc không hữu hạn khi M≤−1. Chỉ riêng việc nạp cùng scaler không sửa được khác biệt này. App cũng chưa có kiểm tra miền giá trị nghiệp vụ trước bước log.
+- **Giới hạn kiểm chứng:** không chạy notebook, không tải Excel, không nạp model/scaler pickle nên chưa xác nhận các artifact lưu sẵn khớp đúng notebook này. Đường dẫn xuất file Windows riêng ở ô 28 không phù hợp để sao chép sang Colab hoặc máy của nhóm.
+
+### 3.4. So sánh với nghiên cứu REES46 của nhóm
+
+| Nội dung | Repository Online Retail | MVP REES46 |
+|---|---|---|
+| Nguồn dữ liệu | UCI theo README, bán lẻ trực tuyến 2010–2011; chưa xác minh bản Excel | Cosmetics events 2019–2020; nguồn/điều khoản còn các mục cần xác minh ở Phase 2 |
+| Đơn vị một dòng | Dòng mặt hàng trong giao dịch/hóa đơn | Sự kiện website: view, cart, purchase… |
+| Mã hóa đơn/đơn hàng | Có InvoiceNo, một hóa đơn có thể nhiều dòng | Không có order_id; không suy mã đơn từ session |
+| Frequency | Code đếm InvoiceNo riêng biệt, chưa loại hóa đơn hủy | Số phiên có mua duy nhất theo `(user_id, session_id)`; chính sách hợp lệ vẫn cần chốt |
+| Monetary | Cộng Quantity × UnitPrice; code chưa tách hủy/hoàn trả | Cộng price của purchase hợp lệ; không có quantity để tự nhân, không gọi là net GMV |
+| Đầu vào K-Means | Ba biến R, log F, log M sau StandardScaler, với quy tắc M≤0 nêu trên | Dự kiến F0: R/F/M; F1 thêm sessions_30d/views_30d; biến đổi cụ thể chờ Phase 4 |
+| Đánh giá/trình bày | Inertia/Elbow, thống kê/biểu đồ, tên cụm thủ công và Flask demo | Dự kiến so sánh nhiều tiêu chí ở Phase 5 và giải thích kết quả ở Phase 6; chưa có model/metrics MVP |
+
+Nhóm có thể học cách gom từ dòng giao dịch lên một khách hàng, xem phân phối trước khi biến đổi và đọc đặc điểm cụm trước khi đặt tên. Nhóm không sao chép K=4, quy tắc xử lý giá âm, dictionary tên cụm, đường dẫn xuất model hay Flask. Không so trực tiếp điểm Silhouette hoặc tên cụm giữa hai dự án có dữ liệu, định nghĩa và không gian đặc trưng khác nhau. P1-T2 chỉ giúp hiểu phương pháp; không thay đổi chính sách dữ liệu hoặc hoàn thành thí nghiệm REES46.
 
 ## 4. Tìm hiểu dữ liệu và chuẩn bị dự án
 

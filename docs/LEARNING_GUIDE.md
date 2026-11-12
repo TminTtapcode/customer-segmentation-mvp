@@ -1,6 +1,6 @@
 # Sổ tay học tập — MVP RFM + Engagement
 
-**Cập nhật 13/11/2026.** Phần 1–9 về kiểm kê P0-T1, phần 10 về tổ chức dự án, phần 11 về notebook Colab, phần 12 về cộng tác nhóm và phần 13 về vấn đề nghiên cứu P1-T1. Nhóm đã xác nhận đóng Phase 0; tình trạng GitHub được ghi riêng trong PROGRESS. Số liệu local cũ vẫn giữ riêng, không coi là số đo Colab mới.
+**Cập nhật 13/11/2026.** Phần 1–9 về kiểm kê P0-T1, phần 10–12 về công cụ/cộng tác, phần 13 về câu hỏi nghiên cứu và phần 14 về RFM từ repository tham khảo. P1-T1 đã được người dùng xác nhận PASS; P1-T2 chờ nghiệm thu. Số liệu local cũ vẫn giữ riêng, không coi là số đo Colab mới.
 
 ## 1. Tệp dữ liệu, cấu trúc bảng và nguồn gốc xử lý là gì?
 
@@ -345,3 +345,85 @@ Hai bạn trả lời riêng trước khi xem gợi ý, rồi giải thích cho 
 3. Nếu F1 có Silhouette cao hơn F0, nhóm đã trả lời xong RQ2 và chứng minh marketing hiệu quả chưa? Cần kiểm tra thêm gì?
 
 **Gợi ý đối chiếu:** (1) F tăng 1; events không phải order_id và phải gộp theo user-session. (2) Cùng R/F/M nhưng khác tương tác gần đây; chưa có bằng chứng về lần mua tương lai. (3) Chưa: cần cùng buyers/cutoff, xem cỡ và đặc điểm cụm trên đơn vị gốc, sự ổn định, khả năng giải thích và tài nguyên. Khác không gian khoảng cách nên không chỉ so một điểm; hiệu quả chiến dịch cần thử nghiệm riêng.
+
+## 14. P1-T2 — Học RFM từ repository Online Retail
+
+### 14.1. Đọc code theo luồng dữ liệu
+
+Nguồn đọc và bảng so sánh với REES46 nằm ở REPORT mục 3. Nhóm dùng commit `d4a8a864ef0128708a0cd0a0e2799faf23b9dd60`; số ô dưới đây gồm cả Markdown, đếm từ 1. Không cần học Flask/HTML/CSS hoặc chạy model ở bài này.
+
+Luồng chính là: dòng mặt hàng → bỏ dòng thiếu mã khách → tính giá dòng → gom thành RFM mỗi khách → biến đổi log → chuẩn hóa → K-Means → xem đặc điểm và đặt tên. Bỏ CustomerID thiếu vì không biết dòng thuộc người nào để gom RFM; không có nghĩa những giao dịch đó không có giá trị với mọi bài toán khác.
+
+Trong [ô 8 của notebook](https://github.com/ch1ns0n/Customer-Segmentation/blob/d4a8a864ef0128708a0cd0a0e2799faf23b9dd60/Customer_Segmentation_Model.ipynb), `InvoiceNo` được gom bằng `nunique`, nghĩa là đếm mã khác nhau; `TotalPrice` được cộng bằng `sum`. Mốc tính R là thời điểm InvoiceDate lớn nhất còn lại cộng một ngày. Chênh lệch được lấy bằng `.days`, tức số ngày nguyên; đừng tự coi đó là ngày UTC hoặc công thức làm tròn hai chữ số của REES46.
+
+### 14.2. Ví dụ tính RFM bằng tay cho hai khách
+
+**Đây là số minh họa để học, không lấy từ Excel hoặc REES46 và không thay thế dữ liệu nghiên cứu.** Giả sử các thời điểm đều lúc 00:00 và không có hủy/hoàn trả:
+
+| Khách | InvoiceNo minh họa | Ngày | Quantity | UnitPrice minh họa | Giá dòng |
+|---|---|---|---:|---:|---:|
+| A | 1001 | 01/12/2011 | 2 | 10 | 20 |
+| A | 1001 | 01/12/2011 | 1 | 5 | 5 |
+| A | 1002 | 08/12/2011 | 1 | 15 | 15 |
+| B | 2001 | 05/12/2011 | 3 | 10 | 30 |
+
+Ngày cuối trong ví dụ là 08/12, nên theo cách đặt mốc của repo, ngày tham chiếu là **09/12/2011**. Kết quả tính tay:
+
+| Khách | R — ngày | F — hóa đơn riêng biệt | M — tổng giá dòng |
+|---|---:|---:|---:|
+| A | 1 | 2 | 40 |
+| B | 4 | 1 | 30 |
+
+A có ba dòng nhưng chỉ hai hóa đơn. Hóa đơn 1001 gồm hai sản phẩm, giá cộng là 20+5=25; M của A là 25+15=40. B mua ba đơn vị giá 10 nên M=30, không phải 10. Vì vậy cần TotalPrice = Quantity × UnitPrice trước khi cộng theo khách.
+
+Với REES46, mỗi dòng là event và không có Quantity/InvoiceNo như trên. Nhóm không tự nhân price với số lượng hoặc đếm purchase rows làm Frequency. Vẫn dùng số phiên có mua riêng biệt; công thức REES46 ở mục 3 không thay đổi.
+
+### 14.3. Log transformation — biến đổi log
+
+Ô 12 dùng log1p, tức `ln(1+x)` — log tự nhiên của 1+x theo [NumPy](https://numpy.org/doc/stable/reference/generated/numpy.log1p.html). Ví dụ F=1 và F=9 biến thành khoảng 0,6931 và 2,3026. Chênh lệch từ 8 trên thang gốc còn khoảng 1,6094 trên thang log. Mục đích là giảm sự chênh lệch quá lớn, không làm mọi phân phối tự động thành chuẩn hoặc bảo đảm K-Means tốt hơn.
+
+Khi đọc ô 12–14 cần chú ý thứ tự: Monetary được log trước, rồi ở ô 14 được tính lại theo quy tắc M>0 mới lấy log; M≤0 được đưa về 0. Tên cột giữ nguyên nhưng cách tính đã đổi. Với M=−5, log1p trực tiếp không cho kết quả thực hữu hạn; việc đổi nó thành 0 còn làm mất thông tin về giá trị âm. Đây là lựa chọn của repo cần nhận xét, chưa phải cách xử lý hoàn trả của nhóm.
+
+Lựa chọn khác là giữ thang gốc hoặc xem xét biến đổi khác sau khi hiểu dữ liệu. Trong MVP, nhóm chưa quyết định biến đổi ở P1-T2; cleaning policy chờ Phase 2 và lựa chọn biến đổi chờ Phase 4.
+
+### 14.4. StandardScaler — chuẩn hóa thang đo
+
+Nếu một biến đo bằng ngày và một biến có giá trị tiền lớn, khoảng cách có thể bị biến có thang đo lớn chi phối. StandardScaler lấy từng giá trị trừ trung bình rồi chia độ lệch chuẩn đã học: `z = (x − mean) / std`. Nó không đưa mọi giá trị vào [0,1], không tự sửa giá trị âm, không loại outliers và không chọn K. Xem [tài liệu scikit-learn](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html).
+
+Ví dụ một cột có hai giá trị minh họa [1,3]: mean=2, std=1 khi chia phương sai cho n như StandardScaler mặc định. Hai giá trị chuẩn hóa là [−1,1]. Với giá trị mới 5, dùng lại mean/std cũ được z=3; không học lại scaler chỉ trên một người mới.
+
+Ô 15 học scaler trên ba cột theo thứ tự R, Frequency_log, Monetary_log. Log thay đổi quan hệ giữa các mức giá trị; scaler điều chỉnh thang đo từng cột. Hai thao tác này khác nhau. Khi giải thích cụm, quay lại R/F/M gốc để nói về ngày, hóa đơn và giá, thay vì gọi z=1 là “một đơn vị tiền”.
+
+### 14.5. K-Means ở mức khái niệm và cách chọn K
+
+Hãy xem mỗi khách là một điểm có ba tọa độ RFM đã biến đổi/chuẩn hóa. Với K tâm cụm, thuật toán gán điểm về tâm gần, cập nhật tâm bằng trung bình các điểm trong cụm rồi lặp lại. K là số nhóm phải chọn; thuật toán không biết trước ai là khách trung thành. Đây là cách hiểu khái niệm từ [hướng dẫn K-Means](https://scikit-learn.org/stable/modules/clustering.html#k-means), chưa cần học công thức tối ưu.
+
+Ô 16 thử K từ 1 đến 10 và vẽ inertia — tổng khoảng cách bình phương từ các điểm đến tâm được gán. Elbow — phương pháp khuỷu tay — tìm chỗ đường giảm bắt đầu bớt rõ; tăng K có thể giảm inertia mà chưa tạo nhóm hữu ích hơn. Ô 18 đặt K=4, seed=42 để cố định nguồn ngẫu nhiên khi khởi tạo; README nói chọn K thủ công theo khả năng diễn giải. Không có lệnh tự chọn điểm gãy hoặc đánh giá nhiều seed trong các file đã đọc. Vì vậy không chép K=4 sang REES46.
+
+Các biểu đồ và bảng trung bình ô 19–26 giúp nhìn đặc điểm cụm. PCA — phân tích thành phần chính — ở ô 23 chỉ phục vụ hình hai chiều sau khi mô hình đã fit trên ba biến; hình đẹp không chứng minh phân cụm đúng nghiệp vụ. Cách so sánh nhiều tiêu chí của MVP sẽ thực hiện ở Phase 5.
+
+### 14.6. Tên cụm và tính nhất quán với web demo
+
+Ô 24 tự ánh xạ nhãn 0–3 sang bốn tên. Ví dụ tên Loyal High-Spenders gắn với cụm có mua nhiều/chi tiêu cao trong bảng trung bình được lưu. Số 0,1,2,3 chỉ là định danh, không phải xếp hạng và không giữ cùng ý nghĩa khi đổi dataset/lần fit. Tên Potential Loyalists là diễn giải, chưa chứng minh khách sẽ trung thành trong tương lai.
+
+Trong [app.py](https://github.com/ch1ns0n/Customer-Segmentation/blob/d4a8a864ef0128708a0cd0a0e2799faf23b9dd60/customer_segmentation_app/app.py), luồng là R/F/M nhập vào → log F/M → scaler đã học → model đã học → dictionary tên. Không fit lại scaler trên form, không đổi thứ tự cột. Gán cụm bằng `predict` không trả xác suất mua.
+
+Điểm chưa thống nhất là ô 14 đưa M≤0 về 0 còn web gọi log1p(M) trực tiếp. Với M=−0,5, hai cách cho 0 và khoảng −0,6931; với M=−5, cách web không cho giá trị thực hữu hạn. Vì vậy cần cùng định nghĩa, miền đầu vào và chuỗi biến đổi, không chỉ cùng tên file model/scaler. Nhóm chưa nạp pickle nên chưa xác nhận các file lưu sẵn khớp code này.
+
+### 14.7. Những lỗi dễ mắc
+
+- Đếm dòng sản phẩm thành số hóa đơn, hoặc coi hóa đơn hủy cũng là một lần mua mà không giải thích.
+- Lấy ngày hủy/hoàn trả làm lần mua cuối vì chưa chốt điều kiện giao dịch hợp lệ.
+- Chép quy tắc giá âm bằng 0 chỉ để log chạy được; đổi cách biến đổi giữa notebook và web.
+- Chép K=4, tên cụm hoặc đường dẫn Windows ở ô xuất model sang MVP.
+- So điểm phân cụm giữa hai dataset/không gian khác nhau như cùng một thước đo, hoặc coi inertia/PCA là độ chính xác dự đoán.
+
+### 14.8. Ba câu hỏi và gợi ý tự kiểm tra
+
+Hai bạn trả lời riêng rồi đối chiếu code/công thức; không cần chạy notebook tham khảo:
+
+1. Trong ví dụ, vì sao A có ba dòng nhưng F=2, M=40? Nếu là REES46, vì sao không dùng InvoiceNo để tính F?
+2. Log và StandardScaler có cùng mục đích không? Với cột [1,3], mean=2, std=1, giá trị mới 5 được biến đổi thế nào và vì sao không fit lại scaler?
+3. Repo chọn K=4 và đặt tên cụm dựa trên đâu? Vì sao chưa thể chép K/tên cụm sang REES46 hoặc dùng trực tiếp cách log M của web cho mọi giá trị?
+
+**Gợi ý:** (1) Hai InvoiceNo khác nhau, M=2×10+1×5+1×15=40. REES46 không có InvoiceNo/order_id nên dùng phiên có mua. (2) Log nén chênh lệch mức giá trị; scaler đưa về thang đo dựa trên mean/std đã học. Giá trị 5 thành z=3; fit lại sẽ đổi hệ tọa độ so với model. (3) Có Elbow và lý do diễn giải, nhưng K được đặt thủ công; tên được gán bằng dictionary sau khi xem đặc điểm cụm. Dữ liệu và định nghĩa khác nên phải kiểm tra lại. Quy tắc M≤0 của notebook khác web; chưa có chính sách giá âm chung để sao chép.
