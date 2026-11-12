@@ -6,7 +6,7 @@
 - **P0-T2: PASS — đã nghiệm thu** dựa trên báo cáo Codex: 6/6 bài kiểm tra đường dẫn và 15/15 điều kiện kiểm tra đạt. Sinh viên chưa chạy lại script trên máy local.
 - **Sửa văn phong:** được chấp nhận theo báo cáo; sinh viên chưa mở bản local mới nhất để xác nhận độc lập.
 - **P0-T3: PASS (Student Verified).** Người dùng xác nhận ngày 13/11/2026 cả hai sinh viên đã trực tiếp nghiệm thu trên Colab/Drive. Không tự bổ sung log/chỉ số Colab chưa được gửi.
-- **P0-T4:** đang hoàn thiện quy trình cộng tác và bản bàn giao GitHub để nhóm duyệt. Phase 0 chưa đóng; không tự chuyển Phase 1.
+- **P0-T4:** đã cập nhật quy trình và đưa bản bàn giao lên PR nháp #1; chờ nhóm nghiệm thu. Phase 0 chưa đóng; không tự chuyển Phase 1.
 
 ## 1. P0-T1 — kiểm kê dữ liệu cũ
 
@@ -119,13 +119,13 @@ Chưa nhận link/bản notebook đã chạy, log, phiên bản Python/DuckDB ho
 
 **Đã thực hiện:** phân biệt GitHub main chính thức với nhánh task/PR và bản Drive thực hành; phân công notebook 01 cho Thành viên 1 sửa chính, Thành viên 2 kiểm tra trên bản sao riêng. Đây là vai trò, chưa tự gán tên cá nhân. README hướng dẫn lấy cùng phiên bản, tránh sửa chung, chạy lại từ đầu, giữ output phù hợp trước khi bỏ output khỏi bản public và cập nhật tài liệu sau mỗi task.
 
-**Bàn giao GitHub:** kiểm tra trực tiếp đầu lượt 13/11/2026 cho thấy main chỉ có `.gitignore`; commit gốc local là `95cdb761b60aea21149e71cf1190a974c382f5e8`. Codex chuẩn bị nhánh `p0-t4-team-workflow` để nhóm xem bản bàn giao cùng notebook local P0-T3 giữ nguyên. Không sửa notebook, data, code, dependencies hoặc bằng chứng cũ để tạo kết quả mới. Không tự merge vào main.
+**Bàn giao GitHub:** đã tạo nhánh `p0-t4-team-workflow` và [PR nháp #1](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/1). Kiểm tra trực tiếp đầu lượt 13/11/2026 cho thấy main chỉ có `.gitignore`; commit gốc là `95cdb761b60aea21149e71cf1190a974c382f5e8`. Vì vậy, PR gồm cả notebook, code và bằng chứng đã có từ P0-T1/T2/T3; riêng P0-T4 chỉ sửa bảy tài liệu. Notebook local giữ nguyên để nhóm so với bản Drive đã nghiệm thu. Không sửa data, code, dependencies hoặc bằng chứng cũ; chưa đưa PR vào main.
 
 **Kiểm tra local:** chạy đoạn Python thư viện chuẩn qua `python -B -` để đối chiếu snapshot trước/sau, các bảng, liên kết và nội dung file; chạy `git diff --check`, `git diff --cached --name-only` và `git ls-remote --heads origin main p0-t4-team-workflow`. Có 25 liên kết local hợp lệ; chỉ đổi bảy tài liệu có sẵn, không thêm/xóa file dự án. Notebook và 13 tệp bằng chứng P0-T1/T2/T3 giữ nguyên SHA256; code, tests và requirements không đổi. Source cũ giữ metadata của 153 tệp và hash của 138 tệp nhỏ; không kiểm tra lại mọi byte của raw lớn. Staging ban đầu rỗng. Bản bàn giao chỉ gồm 30 file đã kiểm tra, không có dataset/model; đối chiếu Git blob bảo đảm giữ đúng bytes local.
 
 Kiểm tra whitespace trên bảy tài liệu đạt với `git -c core.whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol diff --cached --check -- AGENTS.md README.md docs/LEARNING_GUIDE.md docs/PROGRESS.md docs/PROJECT_PLAN.md docs/REPORT.md notebooks/README.md`. Kiểm tra toàn staging chưa đạt: sau khi nhận diện CRLF, còn 37 cảnh báo ở log lịch sử `results/p0_t2/verification_stdout.txt`. Giữ nguyên log này để bảo toàn bằng chứng; không gọi kiểm tra toàn bộ là PASS.
 
-Kiểm tra `git var GIT_AUTHOR_IDENT` ban đầu chưa đạt vì local chưa cấu hình tác giả. Kết nối GitHub đọc được repo nhưng lệnh tạo blob bị HTTP 403 (thiếu quyền ghi của integration). Git Credential Manager trên máy có thông tin đăng nhập; dùng Git với tên đăng nhập/email đã đối chiếu từ tài khoản GitHub cho riêng lệnh commit, không đổi cấu hình tác giả toàn máy. Không chạy lại notebook, tests dữ liệu, ETL hoặc mô hình trong P0-T4. Đường dẫn PR và đối chiếu nội dung trên nhánh sẽ được bổ sung khi bàn giao xong.
+Kiểm tra `git var GIT_AUTHOR_IDENT` ban đầu chưa đạt vì local chưa cấu hình tác giả. Kết nối GitHub đọc được repo nhưng lệnh tạo blob và PR bị HTTP 403 (thiếu quyền ghi của integration). Đã dùng Git để push và GitHub REST API để tạo PR nháp bằng thông tin đăng nhập sẵn có của Git Credential Manager; không lưu token vào file/log. Tên đăng nhập/email tác giả được đối chiếu từ tài khoản GitHub và chỉ dùng cho lệnh commit, không đổi cấu hình toàn máy. Lệnh `git -c credential.interactive=never push -u origin p0-t4-team-workflow` thành công; PR được tạo với `draft=true`, base là main. Không chạy lại notebook, tests dữ liệu, ETL hoặc mô hình trong P0-T4.
 
 **Trạng thái P0-T4:** chờ nhóm nghiệm thu quy trình và bản bàn giao GitHub. Không tự ghi PASS Phase 0 khi chưa hoàn thành các mục dưới.
 
@@ -136,7 +136,7 @@ Kiểm tra `git var GIT_AUTHOR_IDENT` ban đầu chưa đạt vì local chưa c�
 - [x] P0-T3 được người dùng xác nhận hai sinh viên trực tiếp nghiệm thu trên Colab/Drive; không thêm chỉ số chưa cung cấp.
 - [x] Có quy trình một người sửa chính/notebook, bản Drive riêng và người còn lại kiểm tra.
 - [x] Có quy tắc lưu kết quả và thực hiện → giải thích → kiểm tra → cập nhật tài liệu → dừng nghiệm thu.
-- [ ] Bản bàn giao đã lên nhánh GitHub để nhóm kiểm tra.
+- [x] Bản bàn giao đã lên nhánh GitHub và PR nháp #1 để nhóm kiểm tra.
 - [ ] Hai sinh viên đối chiếu notebook đề xuất với bản đã chấp nhận trên Drive, duyệt và đưa vào GitHub main chính thức.
 - [ ] Sinh viên nghiệm thu P0-T4 và xác nhận đóng Phase 0.
 
@@ -146,7 +146,7 @@ Kiểm tra `git var GIT_AUTHOR_IDENT` ban đầu chưa đạt vì local chưa c�
 |---|---|
 | P0-T2 | PASS — đã nghiệm thu theo báo cáo Codex; sinh viên chưa chạy lại local |
 | P0-T3 | PASS (Student Verified) — xác nhận người dùng 13/11/2026, không thêm chỉ số Colab |
-| P0-T4 | Quy trình đã soạn; chờ bàn giao GitHub và nhóm nghiệm thu |
+| P0-T4 | Đã triển khai và bàn giao PR nháp #1; chờ nhóm nghiệm thu |
 | P1-T1…T4 | NOT STARTED |
 | P2-T1…T4 | NOT STARTED |
 | P3-T1…T3 | NOT STARTED |

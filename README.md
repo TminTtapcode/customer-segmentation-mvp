@@ -21,7 +21,7 @@ GitHub `main` là mã nguồn chính thức đã được chấp nhận. Drive g
 5. Khi notebook được chấp nhận, người sửa chính tải bản cuối về; giữ code đã được duyệt, bỏ output và thông tin riêng trước khi đưa lên nhánh task. Lưu kết quả tổng hợp cần thiết dưới `results/`; giữ dataset và bản thực hành trên Drive. Xem diff và danh sách file trước commit, không thêm dữ liệu lớn, credentials hoặc user IDs. Người còn lại kiểm tra PR trước khi nhóm đưa vào `main`; không ghi đè thay đổi mới trên GitHub.
 6. Sau mỗi task: thực hiện → giải thích kiến thức → kiểm tra → cập nhật REPORT/LEARNING_GUIDE/PROGRESS khi phù hợp → dừng nghiệm thu. Code hoặc dữ liệu thay đổi sau khi được duyệt thì kiểm tra lại.
 
-**Bàn giao P0-T4:** đầu lượt kiểm tra 13/11/2026, GitHub main chỉ có `.gitignore`. Bản notebook local P0-T3 được giữ nguyên để đưa vào nhánh bàn giao; hai bạn cần so với bản đã nghiệm thu trên Drive trước khi chấp nhận PR và đưa vào main. Chưa coi Phase 0 hoàn tất chỉ vì tài liệu local đã có đủ.
+**Bàn giao P0-T4:** [PR nháp #1](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/1) trên nhánh `p0-t4-team-workflow` đã có các file MVP để nhóm xem. Đầu lượt kiểm tra 13/11/2026, GitHub main chỉ có `.gitignore`, nên PR bàn giao cả các file đã có từ P0-T1/T2/T3. Notebook local P0-T3 được giữ nguyên; hai bạn so với bản đã nghiệm thu trên Drive trước khi chấp nhận PR và đưa vào main. Phase 0 còn chờ nghiệm thu P0-T4 và cập nhật bản chính thức.
 
 ## Mở và chạy notebook P0-T3
 
