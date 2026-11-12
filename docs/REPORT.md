@@ -1,6 +1,6 @@
 # Báo cáo bài tập lớn — Phân khúc khách hàng bằng RFM và Engagement
 
-**Cập nhật:** 13/11/2026. Nhóm xác nhận nghiệm thu P0-T4 và đóng Phase 0. P1-T1 trình bày vấn đề, mục tiêu và kế hoạch kiểm chứng; chưa có thí nghiệm F0/F1. Trạng thái học tập này được ghi riêng với việc PR #1 chưa merge vào GitHub main; xem `PROGRESS.md`.
+**Cập nhật:** 13/11/2026. Báo cáo trình bày vấn đề, mục tiêu và kế hoạch kiểm chứng; chưa có thí nghiệm F0/F1. Nhật ký thực hiện và nghiệm thu được ghi riêng trong `PROGRESS.md`.
 
 ## 1. Giới thiệu và thiết kế nghiên cứu — P1-T1
 
@@ -44,11 +44,9 @@ P1-T1 chỉ xác định bài toán và cách kiểm chứng. Chưa EDA, xử l�
 
 ### 1.6. Phương pháp nghiên cứu dự kiến
 
-Nhóm dự kiến kiểm tra chất lượng và chốt quy tắc dữ liệu ở Phase 2, mô tả hành vi ở Phase 3, tính năm đặc trưng ở Phase 4, so sánh F0/F1 ở Phase 5 rồi diễn giải ở Phase 6. F0 là baseline — phương án cơ sở để đối chiếu. Hai phương án dùng cùng buyers và cửa sổ dữ liệu, cùng dải K=2–6 và cách ghi seed/cấu hình; bộ chuẩn hóa thang đo được học riêng cho mỗi bộ biến. Chi tiết thực nghiệm chỉ hoàn thiện khi đến task tương ứng.
+Nhóm dự kiến kiểm tra chất lượng và chốt quy tắc dữ liệu ở Phase 2, mô tả hành vi ở Phase 3, tính năm đặc trưng ở Phase 4, so sánh F0/F1 ở Phase 5 rồi diễn giải ở Phase 6.
 
-Ở Phase 5, nhóm dự kiến dùng Silhouette để xem mức gần nhau trong cụm so với cụm lân cận và Davies–Bouldin để xem độ phân tán so với khoảng cách giữa cụm. Trong cùng điều kiện đánh giá, Silhouette cao hơn và Davies–Bouldin thấp hơn thường được ưu tiên về mặt hình học. Hai chỉ số không phải độ chính xác dự đoán hay hiệu quả kinh doanh. Xem định nghĩa tại [Silhouette](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.silhouette_score.html) và [Davies–Bouldin](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.davies_bouldin_score.html).
-
-F0 và F1 có số chiều và không gian khoảng cách khác nhau, nên không kết luận F1 tốt hơn chỉ vì một điểm số cao hơn. Nhóm sẽ đối chiếu cả hai cách chia trên cùng năm biến ở đơn vị gốc: kích thước cụm, trung vị và độ phân tán, khác biệt tương tác giữa các nhóm có RFM tương tự, mức ổn định qua seed, khả năng giải thích, thời gian và bộ nhớ. Việc F1 chia nhóm theo chính hai biến được thêm vào cũng chưa tự chứng minh lợi ích. Nếu nhóm không ổn định, chỉ tách vài điểm cực đoan hoặc không bổ sung cách diễn giải rõ ràng, nhóm cần báo cáo giới hạn thay vì mặc định đề xuất đã thành công.
+Nhóm sẽ dùng K-Means để so sánh hai bộ đặc trưng trên cùng buyers và cửa sổ dữ liệu. F0 là baseline — phương án cơ sở để đối chiếu. Kết quả được xem xét bằng các tiêu chí phù hợp, kết hợp chất lượng phân cụm, đặc điểm khách hàng và khả năng giải thích; không mặc định F1 tốt hơn F0. Chi tiết thực nghiệm và cách đánh giá sẽ học ở Phase 5, theo kế hoạch bên dưới.
 
 ## 2. Kế hoạch kiểm chứng ba câu hỏi
 
@@ -181,13 +179,21 @@ Ngày 13/11/2026, người dùng xác nhận cả hai sinh viên đã trực ti�
 
 Nhóm quy định GitHub main giữ mã nguồn chính thức, còn Drive giữ dữ liệu và các bản thực hành. Mỗi notebook có một người sửa chính và một người kiểm tra trên bản sao riêng; sau khi chạy lại và được chấp nhận, bản code được bàn giao để xem thay đổi trước khi đưa vào main. Kết quả phù hợp được giữ trên Drive và trong results để không mất khi bỏ output khỏi bản mã nguồn public.
 
-Sau mỗi task, nhóm thực hiện, giải thích kiến thức, kiểm tra và cập nhật báo cáo/sổ tay/nhật ký khi có nội dung liên quan, rồi dừng nghiệm thu. Quy trình và phân công nằm trong README. Người dùng đã xác nhận nhóm nghiệm thu P0-T4 và đóng Phase 0; việc GitHub main chưa nhận PR #1 được ghi riêng trong PROGRESS. Nghiệm thu này không giải quyết các vấn đề dữ liệu chờ Phase 2.
+Sau mỗi task, nhóm thực hiện, giải thích kiến thức, kiểm tra và cập nhật báo cáo/sổ tay/nhật ký khi có nội dung liên quan, rồi dừng nghiệm thu. Quy trình và phân công nằm trong README. Việc thống nhất cách làm việc không thay thế bước kiểm tra và chốt các vấn đề dữ liệu ở Phase 2.
 
 ## 5–11. Chuẩn bị dữ liệu, EDA, đặc trưng, mô hình, đánh giá và trình diễn
 
 Những phần này chưa được thực hiện trong MVP. EDA là phân tích khám phá dữ liệu; Feature Engineering là tạo đặc trưng phục vụ mô hình. Nhóm sẽ giải thích cách làm, lý do chọn và giới hạn khi đến từng bước.
 
 Hiện chưa có model F0/F1, chỉ số phân cụm, chiến dịch hoặc Streamlit mới. Các kết quả kiểm kê ở mục 4 không thay thế kết quả của P2–P6.
+
+### Kế hoạch đánh giá ở Phase 5 — chưa thực hiện
+
+Hai phương án dùng cùng buyers và cửa sổ dữ liệu, cùng dải K=2–6 và cách ghi seed/cấu hình; bộ chuẩn hóa thang đo được học riêng cho mỗi bộ biến. Chi tiết thực nghiệm chỉ hoàn thiện khi đến task tương ứng.
+
+Ở Phase 5, nhóm dự kiến dùng Silhouette để xem mức gần nhau trong cụm so với cụm lân cận và Davies–Bouldin để xem độ phân tán so với khoảng cách giữa cụm. Trong cùng điều kiện đánh giá, Silhouette cao hơn và Davies–Bouldin thấp hơn thường được ưu tiên về mặt hình học. Hai chỉ số không phải độ chính xác dự đoán hay hiệu quả kinh doanh. Xem định nghĩa tại [Silhouette](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.silhouette_score.html) và [Davies–Bouldin](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.davies_bouldin_score.html).
+
+F0 và F1 có số chiều và không gian khoảng cách khác nhau, nên không kết luận F1 tốt hơn chỉ vì một điểm số cao hơn. Nhóm sẽ đối chiếu cả hai cách chia trên cùng năm biến ở đơn vị gốc: kích thước cụm, trung vị và độ phân tán, khác biệt tương tác giữa các nhóm có RFM tương tự, mức ổn định qua seed, khả năng giải thích, thời gian và bộ nhớ. Việc F1 chia nhóm theo chính hai biến được thêm vào cũng chưa tự chứng minh lợi ích. Nếu nhóm không ổn định, chỉ tách vài điểm cực đoan hoặc không bổ sung cách diễn giải rõ ràng, nhóm cần báo cáo giới hạn thay vì mặc định đề xuất đã thành công.
 
 ## 12. Kết luận hiện tại và hạn chế
 
@@ -198,6 +204,6 @@ Nhóm chưa có cơ sở nói việc thêm Engagement tạo ra mô hình tốt h
 ## 13. Nguồn tham chiếu
 
 - [REES46 Cosmetics trên Kaggle](https://www.kaggle.com/datasets/mkechinov/ecommerce-events-history-in-cosmetics-shop): URL do config nguồn khai báo; điều khoản/cách thu thập còn chờ kiểm tra.
-- [`TminTtapcode/customer-segmentation-mvp`](https://github.com/TminTtapcode/customer-segmentation-mvp): repository đích, clone riêng. Các file P0 hiện có trên nhánh `p0-t4-team-workflow`; chưa merge vào main ở lần đối chiếu đầu P1-T1.
+- [`TminTtapcode/customer-segmentation-mvp`](https://github.com/TminTtapcode/customer-segmentation-mvp): nơi lưu mã nguồn, tài liệu và bằng chứng kiểm tra của MVP.
 - Nguồn local cũ: `PROJECT_STATUS.md`; `configs/project.yaml`; `configs/kpi_dictionary.yaml`; `scripts/phase2_etl.py`; `scripts/phase3_feature_engineering.py`; `reports/DATA_ANALYTICS_REPORT.md` mục 12.3; `reports/TECHNICAL_LEARNING_NOTES.md` phần X. Hash/version nguồn trong `audit.json`.
 - Bằng chứng mới: `results/p0_t1/{audit.json,inventory.csv,independent_verification.json,audit_stdout.txt,verification_stdout.txt,execution.json}`.
