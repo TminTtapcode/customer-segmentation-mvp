@@ -1,6 +1,6 @@
 # Sổ tay học tập — MVP RFM + Engagement
 
-**Cập nhật 13/11/2026.** Phần 1–9 về kiểm kê P0-T1, phần 10 về tổ chức dự án, phần 11 về notebook Colab và phần 12 về cộng tác nhóm. P0-T3 đã được người dùng xác nhận hai sinh viên nghiệm thu trên Colab/Drive; số liệu local cũ vẫn giữ riêng, không coi là số đo Colab mới.
+**Cập nhật 13/11/2026.** Phần 1–9 về kiểm kê P0-T1, phần 10 về tổ chức dự án, phần 11 về notebook Colab, phần 12 về cộng tác nhóm và phần 13 về vấn đề nghiên cứu P1-T1. Nhóm đã xác nhận đóng Phase 0; tình trạng GitHub được ghi riêng trong PROGRESS. Số liệu local cũ vẫn giữ riêng, không coi là số đo Colab mới.
 
 ## 1. Tệp dữ liệu, cấu trúc bảng và nguồn gốc xử lý là gì?
 
@@ -100,7 +100,7 @@ Khi chuyển tệp, đối chiếu SHA256. Nếu file bị khóa và hash/schema
 - Nghĩ không thấy notebook trong source tree đồng nghĩa không có notebook trên Drive hoặc máy khác.
 - Kết luận hiệu quả marketing hoặc quan hệ nhân quả từ mô tả một cụm.
 
-Nhóm chưa dựng lại raw→clean, chưa kiểm tra toàn bộ CSV, chưa giải quyết file lock hoặc xác minh xong license/currency. Colab và mô hình MVP chưa chạy. Tính nhất quán của bảng hiện có không thay thế việc chốt quy tắc xử lý ở P2.
+Ở P0-T1, nhóm chưa dựng lại raw→clean, chưa kiểm tra toàn bộ CSV, chưa giải quyết file lock hoặc xác minh xong license/currency. P0-T3 sau đó đã được sinh viên nghiệm thu trên Colab; mô hình MVP chưa chạy. Tính nhất quán của bảng hiện có không thay thế việc chốt quy tắc xử lý ở P2.
 
 ## 9. Câu hỏi tự kiểm tra
 
@@ -268,3 +268,80 @@ Thực hiện → giải thích kiến thức → kiểm tra → cập nhật RE
 P0-T3 có hai nguồn thông tin khác nhau: logs local do Codex tạo và xác nhận Colab/Drive do sinh viên cung cấp qua người dùng ngày 13/11/2026. Có thể ghi PASS (Student Verified) theo xác nhận đó, nhưng không tự ghi Python/DuckDB version, thời gian hoặc số đo Colab chưa được gửi. Notebook gốc và logs local vẫn giữ nguyên để đối chiếu.
 
 Tự kiểm tra: Ai được sửa bản chính của notebook đang làm? Khi bỏ output để đưa lên GitHub, bằng chứng đã được giữ ở đâu? Một PR đã tạo nhưng chưa đưa vào main đã đủ để gọi là bản chính thức chưa?
+
+## 13. P1-T1 — Từ vấn đề kinh doanh đến câu hỏi nghiên cứu
+
+### Vì sao website mỹ phẩm cần hiểu các nhóm khách?
+
+Giả sử A mua thường xuyên, B từng mua nhưng lâu không quay lại, còn C mua ít nhưng hay xem sản phẩm. Nếu nhìn cả ba như nhau, doanh nghiệp khó biết ai đang mua đều, ai ít hoạt động và ai vẫn đang tìm hiểu. Phân khúc giúp mô tả các kiểu hành vi để đặt câu hỏi phù hợp: cần tìm hiểu lý do B ít hoạt động hay nội dung nào có thể hữu ích cho C?
+
+Đó mới là hướng nghiên cứu. Chưa thể nói gửi ưu đãi cho B sẽ khiến B quay lại, hoặc C xem nhiều nên chắc chắn sắp mua. Khách có thể xem để so sánh, chưa tìm được sản phẩm hoặc vì nhiều lý do khác mà dữ liệu chưa giải thích được.
+
+### Sáu khái niệm để lập luận rõ ràng
+
+| Khái niệm | Là gì và vì sao cần? | Ví dụ của đề tài | Tự kiểm tra cách hiểu |
+|---|---|---|---|
+| Business Problem — vấn đề kinh doanh | Khó khăn thực tế cần hiểu; giúp đề tài có lý do bắt đầu | Chỉ nhìn tổng doanh thu chưa thấy các kiểu mua và quay lại website khác nhau | Nêu được khó khăn mà không mở đầu bằng tên thuật toán chưa? |
+| Research Objective — mục tiêu nghiên cứu | Điều nhóm muốn tìm hiểu; giúp giới hạn công việc | So sánh cách mô tả buyers khi dùng RFM và khi thêm Engagement | Mục tiêu có gắn với vấn đề, hay chỉ ghi “chạy K-Means”? |
+| Research Question — câu hỏi nghiên cứu | Câu hỏi cụ thể cần dữ liệu trả lời; giúp chọn phân tích | RQ2 hỏi hai biến tương tác có bổ sung sự phân biệt hành vi không | Chỉ được dữ liệu và kết quả nào sẽ giúp trả lời chưa? |
+| Hypothesis — giả thuyết | Nhận định tạm thời có thể không được bằng chứng ủng hộ; tránh coi mong muốn là kết quả | F1 có thể phân biệt mức tương tác giữa buyers có RFM tương tự theo cách ổn định và dễ giải thích | Nếu cụm không ổn định hoặc không có cách diễn giải bổ sung, có chấp nhận chưa đủ bằng chứng không? |
+| Evidence — bằng chứng | Kết quả có nguồn và cách kiểm tra; giúp nhận xét không dựa vào cảm giác | Bảng đặc điểm cụm, chỉ số và cấu hình/lần chạy thực ở Phase 5; hiện chưa có | Kết quả đã tạo thật chưa, lấy từ đâu, có khớp đối tượng so sánh không? |
+| Baseline — phương án cơ sở | Mốc so sánh để biết phần thêm vào có giá trị gì | F0 dùng R, F, M trên cùng buyers với F1 | Bỏ hai biến tương tác thì còn đúng F0 không? Có vô tình dùng model 7D cũ làm mốc không? |
+
+Các RQ và bảng dữ liệu → phương pháp → kết quả → đánh giá nằm ở mục 1–2 của [REPORT](REPORT.md). Không cần học sâu thuật toán K-Means ở P1-T1.
+
+### Ví dụ 1 — Đọc RFM của ba khách hàng
+
+**Các số dưới đây chỉ để tính tay, không lấy từ REES46 và không dùng làm dữ liệu nghiên cứu.** Giả sử mốc chốt `T = 01/02/2020 00:00 UTC`, chỉ xét các lần mua hợp lệ từ 01/10/2019 đến trước T. Mỗi ngày trong ví dụ có 24 giờ; giá dùng đơn vị minh họa, không khẳng định tiền tệ REES46.
+
+| Khách | Lần mua gần nhất, lúc 00:00 UTC | R — ngày | F — phiên có mua duy nhất | M — tổng giá mua | Cách đọc |
+|---|---|---:|---:|---:|---|
+| A | 30/01/2020 | 2 | 6 | 120 | Mua gần đây, nhiều phiên mua và chi tiêu cao hơn hai người còn lại |
+| B | 03/11/2019 | 90 | 2 | 40 | Lần mua cuối cách xa mốc chốt; riêng RFM chưa cho biết có quay lại xem hay không |
+| C | 12/01/2020 | 20 | 1 | 20 | Mới có một phiên mua; muốn biết có hay xem sản phẩm phải xem thêm tương tác |
+
+Recency là số ngày từ lần mua cuối đến T; R nhỏ nghĩa là mua gần hơn. Frequency đếm các phiên có mua riêng biệt theo từng user; Monetary cộng giá purchase hợp lệ. Công thức và giới hạn quy tắc cũ đã có ở mục 3, không thay đổi ở bài này.
+
+Ví dụ một người có hai purchase events giá 10 và 20 trong cùng phiên s1: F tăng 1, M tăng 30. Không biết đó là một hay nhiều đơn hàng vì dataset không có order_id. Khi dữ liệu có mã đơn đáng tin cậy, doanh nghiệp có thể đếm các order_id khác nhau; nhóm hiện chỉ có chỉ báo thay thế bằng phiên có mua. Cùng token s1 ở hai user là hai khóa khác nhau: `(user_id, session_id)`.
+
+### Ví dụ 2 — RFM giống nhau nhưng tương tác khác nhau
+
+Tiếp tục dùng mốc T trên. Hai buyers D và E đều có lần mua cuối ngày 23/12/2019, R=40 ngày, F=2 phiên mua và M=50 đơn vị minh họa. Cửa sổ 30 ngày là `[02/01/2020, 01/02/2020)`, nên các lần mua của họ nằm trước cửa sổ này. Đây cũng chỉ là ví dụ học tập.
+
+| Khách | R | F | M | sessions_30d | views_30d |
+|---|---:|---:|---:|---:|---:|
+| D | 40 | 2 | 50 | 0 | 0 |
+| E | 40 | 2 | 50 | 8 | 25 |
+
+F0 nhìn D và E qua cùng ba giá trị mua hàng. F1 thêm thông tin E vẫn tương tác trong 30 ngày, còn D không có hoạt động được ghi nhận trong cửa sổ đó. Hai hàng khác nhau không bảo đảm K-Means sẽ đưa họ vào hai cụm khác nhau, vì kết quả còn phụ thuộc các khách khác, thang đo và K.
+
+`sessions_30d` đếm các phiên riêng biệt của user trong cửa sổ gần đây; một phiên có nhiều events vẫn chỉ tính một lần. `views_30d` đếm events xem sản phẩm, không phải số sản phẩm khác nhau. Hai biến mô tả việc quay lại và mức xem gần đây; không phải xác suất mua. Một phiên cũng có thể có purchase, nên Engagement không có nghĩa chỉ tính người chưa mua.
+
+### RFM và Engagement khác nhau ở đâu?
+
+| Nội dung | RFM trong đề tài | Engagement trong đề tài |
+|---|---|---|
+| Câu hỏi chính | Mua gần đây không, mua qua bao nhiêu phiên, tổng giá bao nhiêu? | Gần đây có bao nhiêu phiên và bao nhiêu lượt xem? |
+| Dữ liệu cần | Purchase hợp lệ, thời gian, user, session, price | Events hợp lệ cho từng phép đếm, thời gian, user, session và loại view |
+| Khoảng thời gian | Observation trước cutoff; R đo từ lần mua cuối | 30 ngày trước cùng cutoff |
+| Điều chưa thể kết luận | R lớn không tự chứng minh đã ngừng truy cập hoặc rời bỏ | Xem nhiều không tự chứng minh ý định mua hoặc hiệu quả marketing |
+
+Trong so sánh chính, F0 và F1 đều dùng cùng buyers có RFM hợp lệ. Non-buyers được mô tả riêng, không gán Recency bằng 0/999 để đưa vào K-Means.
+
+### Kiểm chứng đề xuất bằng cách nào?
+
+Nhóm sẽ đối chiếu F0 (R, F, M) với F1 (R, F, M, sessions_30d, views_30d). Mục 2 của REPORT chỉ rõ dữ liệu và đầu ra dự kiến cho mỗi RQ. Ở Phase 5, nhóm xem đồng thời chỉ số, cỡ cụm, đặc điểm trên cùng năm biến ở đơn vị gốc, mức ổn định và khả năng giải thích; chưa chạy bất kỳ phép so sánh nào ở P1-T1.
+
+Silhouette và Davies–Bouldin phản ánh quan hệ khoảng cách của các cụm, không đo tỷ lệ dự đoán đúng. Vì thêm biến làm thay đổi không gian khoảng cách, một điểm Silhouette cao hơn chưa đủ kết luận F1 tốt hơn. Định nghĩa chính thức nằm tại [Silhouette](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.silhouette_score.html) và [Davies–Bouldin](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.davies_bouldin_score.html); công thức chi tiết sẽ học ở Phase 5.
+
+Lựa chọn đơn giản hơn là chỉ giữ F0 nếu phần bổ sung chưa cho thấy giá trị rõ. Giả thuyết không được ủng hộ vẫn là kết quả cần báo cáo. Nếu đề xuất một hướng marketing từ đặc điểm cụm, muốn kết luận hiệu quả cần một thử nghiệm riêng; trong bài này chưa thực hiện chiến dịch.
+
+### Ba câu hỏi tự kiểm tra và gợi ý trả lời
+
+Hai bạn trả lời riêng trước khi xem gợi ý, rồi giải thích cho nhau; không cần chạy notebook cho task này.
+
+1. Một user có ba purchase events trong cùng một phiên hợp lệ thì F tăng bao nhiêu? Vì sao chưa được gọi là ba đơn hàng?
+2. D và E trong ví dụ 2 giống nhau ở đâu, khác nhau ở đâu? Việc E có 25 views có chứng minh E sắp mua không?
+3. Nếu F1 có Silhouette cao hơn F0, nhóm đã trả lời xong RQ2 và chứng minh marketing hiệu quả chưa? Cần kiểm tra thêm gì?
+
+**Gợi ý đối chiếu:** (1) F tăng 1; events không phải order_id và phải gộp theo user-session. (2) Cùng R/F/M nhưng khác tương tác gần đây; chưa có bằng chứng về lần mua tương lai. (3) Chưa: cần cùng buyers/cutoff, xem cỡ và đặc điểm cụm trên đơn vị gốc, sự ổn định, khả năng giải thích và tài nguyên. Khác không gian khoảng cách nên không chỉ so một điểm; hiệu quả chiến dịch cần thử nghiệm riêng.

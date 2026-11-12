@@ -34,7 +34,8 @@
 - Sau mỗi phase, khởi động lại phiên chạy và chạy notebook từ ô đầu tới ô cuối để phát hiện biến còn sót từ phiên trước. Chỉ ghi đã chạy Colab khi có lần chạy thật trên Colab; kiểm tra local không thay thế xác nhận của hai sinh viên.
 - Sổ tay giải thích khái niệm, lý do sử dụng, cách hoạt động/công thức, ví dụ tính tay, code, cách đọc/kiểm tra kết quả và lỗi thường gặp. Nêu lựa chọn khác và giới hạn khi cần; có 2–3 câu hỏi tự kiểm tra.
 - Sau mỗi task, tóm tắt việc đã làm, kết quả thực tế, tài liệu đã sửa và vấn đề còn lại. Dùng mẫu chi tiết khi người dùng yêu cầu; không áp một mẫu dài cho mọi chỉnh sửa nhỏ.
-- P0-T3 = **PASS (Student Verified)** theo xác nhận ngày 13/11/2026 của người dùng rằng cả hai sinh viên đã trực tiếp nghiệm thu trên Colab/Drive. Không biến số liệu local của Codex thành số liệu Colab; chưa có log, phiên bản thư viện hoặc chỉ số Colab mới được cung cấp. Lượt hiện tại **chỉ làm P0-T4 — hoàn thiện quy trình cộng tác** và chuẩn bị bản bàn giao GitHub để nhóm duyệt. Không tự merge hoặc chuyển Phase 1. Giữ nguyên vấn đề dữ liệu chờ Phase 2; không EDA, sửa data, thêm dependency, tạo features/model/dashboard. `app.py` chỉ tạo tại Phase 6.
+- Người dùng đã xác nhận P0-T3 PASS (Student Verified), nghiệm thu P0-T4 và đóng Phase 0. Không biến số liệu local của Codex thành chỉ số Colab chưa được gửi. Việc nghiệm thu học tập không tự chứng minh PR #1 đã merge; phải ghi riêng trạng thái GitHub thực tế.
+- Lượt hiện tại **chỉ làm P1-T1 — vấn đề, mục tiêu và câu hỏi nghiên cứu**. Dùng nhánh có đủ file P0 làm nền, không tạo lại P0 hoặc tự merge/ghi đè main. Cập nhật tài liệu hiện có, ghi READY FOR STUDENT REVIEW và dừng; không tự chuyển P1-T2. Giữ nguyên vấn đề dữ liệu chờ Phase 2; không EDA, sửa data, thêm dependency, tạo features/model/dashboard. `app.py` chỉ tạo tại Phase 6.
 
 ## Cộng tác giữa hai thành viên
 

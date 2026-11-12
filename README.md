@@ -2,7 +2,7 @@
 
 Dự án nghiên cứu độc lập trên **REES46 Cosmetics**, cho nhóm hai sinh viên. So sánh K-Means F0 (RFM) với F1 (RFM + sessions_30d, views_30d), sau đó diễn giải và trình diễn Streamlit khi đến task tương ứng. Không có model hoặc dashboard MVP ở bước hiện tại.
 
-**P0-T3: PASS (Student Verified)** theo xác nhận của người dùng ngày 13/11/2026: cả hai sinh viên đã trực tiếp nghiệm thu trên Colab/Drive. Các số liệu 11/11, 92.652 dòng và phiên bản thư viện trong logs vẫn là kết quả local của Codex, không phải chỉ số Colab mới được cung cấp. **Hiện chỉ làm P0-T4**, chờ nghiệm thu quy trình và bàn giao vào GitHub main; chưa chuyển Phase 1. Xem [tiến độ](docs/PROGRESS.md), [kế hoạch](docs/PROJECT_PLAN.md), [báo cáo](docs/REPORT.md) và [sổ tay](docs/LEARNING_GUIDE.md).
+**Nhóm đã xác nhận nghiệm thu P0-T4 và đóng Phase 0.** Hiện chỉ làm **P1-T1 — xác định vấn đề, mục tiêu và câu hỏi nghiên cứu**, chờ sinh viên xem lại. Đọc mục 1–2 của [báo cáo](docs/REPORT.md) và phần 13 của [sổ tay](docs/LEARNING_GUIDE.md), rồi đối chiếu [tiến độ](docs/PROGRESS.md) và [kế hoạch](docs/PROJECT_PLAN.md). P1-T2 chưa bắt đầu.
 
 ## Hai thành viên cùng làm việc
 
@@ -21,7 +21,7 @@ GitHub `main` là mã nguồn chính thức đã được chấp nhận. Drive g
 5. Khi notebook được chấp nhận, người sửa chính tải bản cuối về; giữ code đã được duyệt, bỏ output và thông tin riêng trước khi đưa lên nhánh task. Lưu kết quả tổng hợp cần thiết dưới `results/`; giữ dataset và bản thực hành trên Drive. Xem diff và danh sách file trước commit, không thêm dữ liệu lớn, credentials hoặc user IDs. Người còn lại kiểm tra PR trước khi nhóm đưa vào `main`; không ghi đè thay đổi mới trên GitHub.
 6. Sau mỗi task: thực hiện → giải thích kiến thức → kiểm tra → cập nhật REPORT/LEARNING_GUIDE/PROGRESS khi phù hợp → dừng nghiệm thu. Code hoặc dữ liệu thay đổi sau khi được duyệt thì kiểm tra lại.
 
-**Bàn giao P0-T4:** [PR nháp #1](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/1) trên nhánh `p0-t4-team-workflow` đã có các file MVP để nhóm xem. Đầu lượt kiểm tra 13/11/2026, GitHub main chỉ có `.gitignore`, nên PR bàn giao cả các file đã có từ P0-T1/T2/T3. Notebook local P0-T3 được giữ nguyên; hai bạn so với bản đã nghiệm thu trên Drive trước khi chấp nhận PR và đưa vào main. Phase 0 còn chờ nghiệm thu P0-T4 và cập nhật bản chính thức.
+**Đối chiếu GitHub trước P1-T1:** [PR #1](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/1) vẫn Open/Draft, chưa merge; `main` chỉ có `.gitignore`. Điều này được ghi riêng với xác nhận đóng Phase 0 của nhóm. Nhánh `p1-t1-research-questions` lấy nền từ `p0-t4-team-workflow` tại commit `ef6042c`, đã có đủ file P0; không tạo lại hoặc ghi đè chúng. Nhóm còn cần xử lý PR #1 để cập nhật main. Nội dung P1-T1 được chuẩn bị riêng để nghiệm thu, không tự chuyển P1-T2.
 
 ## Mở và chạy notebook P0-T3
 
