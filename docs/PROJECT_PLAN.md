@@ -1,7 +1,7 @@
 # Kế hoạch MVP — RFM + Engagement
 
 **Cập nhật:** 13/11/2026 (Asia/Bangkok). **Trạng thái thật:** xem `PROGRESS.md`.
-**Trạng thái hiện tại:** P1-T1 đã được người dùng xác nhận PASS; chỉ thực hiện P1-T2, chờ sinh viên nghiệm thu. P0 và P1-T1 đã được bàn giao vào main theo thứ tự, không làm lại P0. Các vấn đề dữ liệu vẫn chờ Phase 2; nghiệm thu Colab không bổ sung các chỉ số chưa được gửi. P1-T3/P1-T4 chưa bắt đầu.
+**Trạng thái hiện tại:** P1-T2 đã được hai sinh viên xác nhận PASS; chỉ thực hiện P1-T3, chờ nghiệm thu. Nền P0/P1-T1/P1-T2 đã có trên main. Chỉ đọc bài báo và cập nhật tài liệu, không thêm biến hay đổi F0/F1; vấn đề dữ liệu vẫn chờ Phase 2. P1-T4 chưa bắt đầu.
 
 ## 1. Mục tiêu, câu hỏi và phạm vi
 
@@ -47,8 +47,8 @@ Tất cả dependency bao gồm nghiệm thu task trước. Lịch chi tiết ch
 | P0-T3 | Môi trường Colab | P0-T2 | PASS (Student Verified): người dùng xác nhận hai sinh viên đã trực tiếp nghiệm thu trên Colab/Drive; bằng chứng local của Codex giữ riêng |
 | P0-T4 | Hoàn thiện quy trình cộng tác nhóm | P0-T3 | Nhóm đã xác nhận nghiệm thu/đóng Phase 0; PR #1 đã merge main |
 | P1-T1 | Vấn đề, mục tiêu và câu hỏi nghiên cứu | P0 được nhóm nghiệm thu; nền có đủ file P0 | PASS theo xác nhận người dùng; PR #2 đã merge main |
-| P1-T2 | RFM truyền thống tham khảo | P1-T1 PASS | REPORT mục 3, LEARNING_GUIDE phần 14: ba file nguồn, RFM/biến đổi/K-Means, hạn chế và so sánh REES46; READY FOR STUDENT REVIEW |
-| P1-T3 | Related work RFM-B | P1-T2 | Đọc nguồn nghiên cứu gốc, ghi phương pháp và giới hạn |
+| P1-T2 | RFM truyền thống tham khảo | P1-T1 PASS | PASS theo xác nhận hai sinh viên; PR #3 đã merge main |
+| P1-T3 | Đọc nghiên cứu RFM-B | P1-T2 PASS | REPORT mục 3.5–3.9, LEARNING_GUIDE phần 15: định nghĩa, kết quả tác giả, giới hạn và liên hệ Cosmetics; READY FOR STUDENT REVIEW |
 | P1-T4 | Feature rationale | P1-T3 | Lý do chọn năm biến, liên hệ RQ2, chưa tự thêm biến |
 | P2-T1 | Schema | P1 | Kiểu dữ liệu/timezone/khóa được đọc và xác minh |
 | P2-T2 | Chất lượng dữ liệu | P2-T1 | Missing, duplicates, giá, biên thời gian và ảnh hưởng metric |
@@ -116,4 +116,4 @@ Chưa copy dữ liệu, chưa cấu hình hoặc chạy Colab ở P0-T1. Đề x
 
 ## 8. Hoàn thành Phase 0
 
-Nhóm đã nghiệm thu P0-T4, đóng Phase 0 và xác nhận P1-T1 PASS. PR #1 và PR #2 đã được merge theo thứ tự; kết quả kiểm tra và commit bàn giao nằm trong PROGRESS. Không làm lại P0 hoặc đổi kết quả cũ. Vấn đề dữ liệu tiếp tục xử lý ở Phase 2, không tự ghi đã giải quyết. Lượt hiện tại chỉ làm P1-T2 rồi dừng chờ nghiệm thu; không tự chuyển P1-T3/P1-T4.
+Nhóm đã nghiệm thu P0-T4/đóng Phase 0, P1-T1 và P1-T2 PASS. PR #1/#2/#3 đã merge; kết quả kiểm tra và commit bàn giao nằm trong PROGRESS. Không làm lại P0 hoặc đổi kết quả cũ. Vấn đề dữ liệu tiếp tục xử lý ở Phase 2, không tự ghi đã giải quyết. Lượt hiện tại chỉ làm P1-T3 rồi dừng chờ nghiệm thu; không tự chuyển P1-T4.

@@ -2,7 +2,7 @@
 
 Dự án nghiên cứu độc lập trên **REES46 Cosmetics**, cho nhóm hai sinh viên. So sánh K-Means F0 (RFM) với F1 (RFM + sessions_30d, views_30d), sau đó diễn giải và trình diễn Streamlit khi đến task tương ứng. Không có model hoặc dashboard MVP ở bước hiện tại.
 
-**P1-T1 đã được người dùng xác nhận PASS.** **P1-T2 — học RFM từ repository tham khảo: READY FOR STUDENT REVIEW.** Đọc mục 3 của [báo cáo](docs/REPORT.md) và phần 14 của [sổ tay](docs/LEARNING_GUIDE.md), rồi đối chiếu [tiến độ](docs/PROGRESS.md) và [kế hoạch](docs/PROJECT_PLAN.md). Task chỉ đọc và giải thích phương pháp; chưa chạy mô hình REES46. P1-T3/P1-T4 chưa bắt đầu.
+**P1-T2 đã được hai sinh viên xác nhận PASS.** **P1-T3 — đọc bài nghiên cứu RFM-B: READY FOR STUDENT REVIEW.** Đọc mục 3.5–3.9 của [báo cáo](docs/REPORT.md) và phần 15 của [sổ tay](docs/LEARNING_GUIDE.md), rồi đối chiếu [tiến độ](docs/PROGRESS.md) và [kế hoạch](docs/PROJECT_PLAN.md). Task chỉ đọc hiểu, không chạy REES46 hoặc thêm biến; F0/F1 vẫn ba/năm chiều. P1-T4 chưa bắt đầu.
 
 ## Hai thành viên cùng làm việc
 
@@ -21,7 +21,7 @@ GitHub `main` là mã nguồn chính thức đã được chấp nhận. Drive g
 5. Khi notebook được chấp nhận, người sửa chính tải bản cuối về; giữ code đã được duyệt, bỏ output và thông tin riêng trước khi đưa lên nhánh task. Lưu kết quả tổng hợp cần thiết dưới `results/`; giữ dataset và bản thực hành trên Drive. Xem diff và danh sách file trước commit, không thêm dữ liệu lớn, credentials hoặc user IDs. Người còn lại kiểm tra PR trước khi nhóm đưa vào `main`; không ghi đè thay đổi mới trên GitHub.
 6. Sau mỗi task: thực hiện → giải thích kiến thức → kiểm tra → cập nhật REPORT/LEARNING_GUIDE/PROGRESS khi phù hợp → dừng nghiệm thu. Code hoặc dữ liệu thay đổi sau khi được duyệt thì kiểm tra lại.
 
-**Bàn giao GitHub:** [PR #1 — Phase 0](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/1) và [PR #2 — P1-T1](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/2) đã merge theo thứ tự bằng merge commit sau nghiệm thu. Trước khi merge PR #2, base được đổi sang main và diff được đối chiếu đúng sáu tài liệu. `main` đã có đủ file P0/P1-T1. Nhánh `p1-t2-rfm-reference` bắt đầu từ main tại `7098357`, giữ nguyên notebook, code và bằng chứng cũ; nội dung P1-T2 chờ nhóm nghiệm thu riêng.
+**Bàn giao GitHub:** PR #1/#2 và [PR #3 — P1-T2](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/3) đã merge sau nghiệm thu. Main có đủ file P0/P1-T1/P1-T2. Nhánh `p1-t3-rfmb-paper` bắt đầu từ main tại `5995264`, giữ nguyên notebook, code và bằng chứng cũ; nội dung P1-T3 chờ nhóm nghiệm thu riêng.
 
 ## Mở và chạy notebook P0-T3
 

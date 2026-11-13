@@ -8,8 +8,9 @@
 - **P0-T3: PASS (Student Verified).** Người dùng xác nhận ngày 13/11/2026 cả hai sinh viên đã trực tiếp nghiệm thu trên Colab/Drive. Không tự bổ sung log/chỉ số Colab chưa được gửi.
 - **P0-T4: PASS (Student Verified).** Người dùng xác nhận nhóm đã nghiệm thu và đóng Phase 0 trong yêu cầu P1-T1. Không yêu cầu làm lại P0.
 - **P1-T1: PASS (Student Verified).** Người dùng xác nhận trực tiếp “P1-T1 PASS”; không tự bổ sung bài trả lời hoặc log sinh viên chưa gửi.
-- **P1-T2:** READY FOR STUDENT REVIEW — đọc và giải thích repository RFM truyền thống; không chạy mô hình.
-- **GitHub:** PR #1 và PR #2 đã merge theo thứ tự bằng merge commit sau nghiệm thu. Main có đủ 30 file P0/P1-T1; P1-T2 làm trên nhánh riêng và chưa merge.
+- **P1-T2: PASS (Student Verified).** Phần xác nhận sau trong tệp yêu cầu P1-T3 ghi hai sinh viên đã đọc REPORT mục 3, LEARNING_GUIDE phần 14, trả lời câu hỏi và xác nhận PASS; checklist được cung cấp ghi 5/5. Không tự bổ sung bài trả lời ngoài nội dung đã gửi.
+- **P1-T3:** READY FOR STUDENT REVIEW — đọc bài RFM-B gốc và liên hệ MVP, chưa chạy mô hình.
+- **GitHub:** PR #1/#2/#3 đã merge sau nghiệm thu. Main có đủ 30 file P0/P1-T1/P1-T2; P1-T3 làm trên nhánh riêng và chưa merge.
 
 ## 1. P0-T1 — kiểm kê dữ liệu cũ
 
@@ -151,8 +152,9 @@ Kiểm tra `git var GIT_AUTHOR_IDENT` ban đầu chưa đạt vì local chưa c�
 | P0-T3 | PASS (Student Verified) — xác nhận người dùng 13/11/2026, không thêm chỉ số Colab |
 | P0-T4 | PASS (Student Verified); nhóm xác nhận đóng Phase 0, PR #1 đã merge |
 | P1-T1 | PASS (Student Verified); PR #2 đã merge |
-| P1-T2 | READY FOR STUDENT REVIEW |
-| P1-T3…T4 | NOT STARTED |
+| P1-T2 | PASS (Student Verified); PR #3 đã merge |
+| P1-T3 | READY FOR STUDENT REVIEW |
+| P1-T4 | NOT STARTED |
 | P2-T1…T4 | NOT STARTED |
 | P3-T1…T3 | NOT STARTED |
 | P4-T1…T4 | NOT STARTED |
@@ -213,12 +215,36 @@ Nhận xét được cung cấp đánh giá nội dung P1-T1 đạt yêu cầu v
 
 Chỉ sáu tài liệu đổi; 24 file khác, gồm notebook, code, requirements và 13 bằng chứng P0, giữ nguyên SHA256. REPORT mục 1–2 và từ mục 4 trở đi, nội dung sổ tay cũ, các bảng và danh sách vấn đề dữ liệu không đổi. Hai file text tham khảo README/app.py có Git blob hash khớp cây nguồn; notebook được đọc tại commit cố định và có 28 ô. Nguồn cũ giữ metadata 153 file, hash 138 file nhỏ và Git status; không hash lại raw lớn. `git -c core.whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol diff --check` exit 0. Không chạy code repository tham khảo, ETL, EDA, features, K-Means trên REES46 hoặc web; không cài dependency, không đổi cleaning policy.
 
+**Bàn giao P1-T2 tại thời điểm chờ nghiệm thu:**
+
+Bản bàn giao khi đó là [PR #3 — P1-T2](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/3), nhánh `p1-t2-rfm-reference`, base main, chỉ đổi sáu tài liệu. Sau xác nhận PASS trong tệp yêu cầu P1-T3, PR #3 được merge; lịch sử bàn giao giữ riêng với kết quả đọc tài liệu.
+
+- [x] Đọc REPORT mục 3 và LEARNING_GUIDE phần 14, trả lời câu hỏi theo xác nhận của hai sinh viên.
+- [x] Nghiệm thu ví dụ RFM/log/scaler và các khái niệm theo checklist 5/5 được cung cấp.
+- [x] Xác nhận P1-T2 PASS; không tự điền bài trả lời chi tiết chưa được gửi.
+
+**Còn mở:** danh sách vấn đề dữ liệu ở mục 4 giữ nguyên. Chưa có kết quả mô hình hoặc chính sách dữ liệu mới của REES46. Trạng thái bàn giao P1-T2 khi đó là READY FOR STUDENT REVIEW; hiện đã được sinh viên xác nhận PASS để bắt đầu riêng P1-T3.
+
+## 10. P1-T3 — đọc bài nghiên cứu RFM-B
+
+**Nền tảng:** PR #3 được đối chiếu head `4ce7021`, diff đúng sáu tài liệu đã nghiệm thu, đưa khỏi Draft và merge bằng merge commit `599526493300da3d9939d5222802f8de0a9e042f`. Không có statuses/check runs CI; không coi việc thiếu CI là tests PASS. Cây file main sau merge khớp bản P1-T2 đã chấp nhận. Nhánh `p1-t3-rfmb-paper` bắt đầu từ main này, không sửa code hoặc dữ liệu cũ.
+
+**Đã đọc:** bài *Behavioral Intelligence in Digital Retail: An Extended RFM Framework for Customer Segmentation and Resource Allocation*, Iman Squalli Houssaini và Miloud Daoud; Preprints.org v1, đăng 13/04/2026, DOI `10.20944/preprints202604.0852.v1`. Đọc HTML gốc: Abstract, Introduction, mục 3/Bảng 2, mục 5–6/Bảng 3–4, mục 8 và Conclusion. Trang nguồn ghi chưa peer-reviewed. Không dựa riêng vào phần tóm tắt được dán trong yêu cầu.
+
+**Kết quả học:** phân biệt CVR event với tỷ lệ phiên, AOV theo phiên mua với đơn hàng, danh mục cấp cao với category_id và missing brand với một thương hiệu. Đọc K/metrics như kết quả tác giả công bố; RF học nhãn K-Means, không phải nhãn mua tương lai. Trong phần phương pháp/kết quả và bảng đã đọc chưa thấy đối chứng 3D/7D cùng quy trình; không kết luận bài báo đã chứng minh RFM-B vượt RFM. Giữ F0=3D, F1=5D, chưa quyết định thêm biến hoặc làm feature rationale P1-T4.
+
+**Tài liệu:** REPORT chỉ thêm mục 3.5–3.9, giữ phần P1-T2; LEARNING_GUIDE thêm phần 15 với ví dụ và ba câu hỏi/gợi ý. PROGRESS ghi xác nhận P1-T2, nguồn đọc, bàn giao và giới hạn. README, PROJECT_PLAN, AGENTS chỉ đồng bộ trạng thái/phạm vi hiện hành; không tạo báo cáo mới.
+
+**Kiểm tra đã chạy:** `..\customer-analytics-antigravity\.venv\Scripts\python.exe -B .tmp/p1t3-verify.py`, thư viện chuẩn, exit 0; script/ghi chú QA tạm được ignore. Có 26 liên kết local hợp lệ. Ví dụ tính tay xác nhận 3/10=0,3 khác 1/2=0,5; 300/2=150, 300/10=30; ba ID danh mục có thể ánh xạ thành hai nhóm cấp cao; hai brand được quan sát và phần missing vẫn chưa biết. Số ghi trong REPORT được đối chiếu với ghi chú đọc mục 3.3/6.1 và Bảng 2/4, không phải tái tạo các metrics.
+
+Chỉ sáu tài liệu đổi; 24 file khác, gồm code, notebook, requirements và 13 bằng chứng, giữ nguyên hash. REPORT phần P1-T1/P1-T2 và từ mục 4 trở đi, nội dung sổ tay 1–14, các bảng cũ, hợp đồng F0/F1 và danh sách vấn đề dữ liệu giữ nguyên. Source cũ giữ metadata 153 file, hash 138 file nhỏ và Git status; không hash lại raw lớn. `git -c core.whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol diff --check` exit 0. Không chạy REES46, EDA, K-Means/Random Forest, tạo feature/notebook, thêm dependency hoặc sửa source cũ.
+
 **Hai sinh viên cần nghiệm thu:**
 
-Bản bàn giao là [PR nháp #3 — P1-T2](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/3), nhánh `p1-t2-rfm-reference`, base main. Chỉ sáu tài liệu P1-T2 khác main; PR này chưa merge và không làm thay đổi các bản P0/P1-T1 đã nghiệm thu.
+Bản bàn giao là [PR nháp #4 — P1-T3](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/4), nhánh `p1-t3-rfmb-paper`, base main. PR chỉ có thay đổi sáu tài liệu, chưa merge; số liệu công bố trong phần đọc bài báo không phải kết quả thực nghiệm MVP.
 
-- [ ] Đọc REPORT mục 3 và LEARNING_GUIDE phần 14; giải thích được mười điểm đọc code trong yêu cầu.
-- [ ] Mỗi người tính lại RFM của A/B, ví dụ log và StandardScaler; trả lời ba câu cuối phần 14 trước khi xem gợi ý.
-- [ ] Phân biệt điểm học được với K=4, xử lý M âm, tên cụm và cách biến đổi web không được sao chép nguyên.
+- [ ] Đọc REPORT mục 3.5–3.9 và LEARNING_GUIDE phần 15; giải thích được bốn biến và dữ liệu cần để đo.
+- [ ] Tính lại ví dụ event/session, AOV, danh mục và thương hiệu; trả lời ba câu cuối phần 15 trước khi xem gợi ý.
+- [ ] Phân biệt kết quả tác giả với kết quả MVP, accuracy nhãn cụm với dự đoán mua và nhận xét sơ bộ với quyết định feature P1-T4.
 
-**Còn mở:** danh sách vấn đề dữ liệu ở mục 4 giữ nguyên. Chưa có kết quả mô hình hoặc chính sách dữ liệu mới của REES46. P1-T2 = **READY FOR STUDENT REVIEW**; dừng chờ nghiệm thu, không thực hiện P1-T3/P1-T4.
+**Còn mở:** toàn bộ vấn đề dữ liệu ở mục 4 giữ nguyên. Chưa kiểm tra dữ liệu/code của bài báo để tái lập kết quả; chưa xác minh trên Cosmetics các điều kiện tính bốn biến. P1-T3 = **READY FOR STUDENT REVIEW**; dừng chờ nghiệm thu, không thực hiện P1-T4.

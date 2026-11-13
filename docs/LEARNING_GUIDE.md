@@ -1,6 +1,6 @@
 # Sổ tay học tập — MVP RFM + Engagement
 
-**Cập nhật 13/11/2026.** Phần 1–9 về kiểm kê P0-T1, phần 10–12 về công cụ/cộng tác, phần 13 về câu hỏi nghiên cứu và phần 14 về RFM từ repository tham khảo. P1-T1 đã được người dùng xác nhận PASS; P1-T2 chờ nghiệm thu. Số liệu local cũ vẫn giữ riêng, không coi là số đo Colab mới.
+**Cập nhật 13/11/2026.** Phần 1–9 về kiểm kê P0-T1, phần 10–12 về công cụ/cộng tác, phần 13–14 về câu hỏi nghiên cứu và RFM truyền thống, phần 15 về cách đọc bài RFM-B. P1-T2 đã được nhóm xác nhận PASS; P1-T3 chờ nghiệm thu. Số liệu local cũ vẫn giữ riêng, không coi là số đo Colab mới.
 
 ## 1. Tệp dữ liệu, cấu trúc bảng và nguồn gốc xử lý là gì?
 
@@ -427,3 +427,77 @@ Hai bạn trả lời riêng rồi đối chiếu code/công thức; không cầ
 3. Repo chọn K=4 và đặt tên cụm dựa trên đâu? Vì sao chưa thể chép K/tên cụm sang REES46 hoặc dùng trực tiếp cách log M của web cho mọi giá trị?
 
 **Gợi ý:** (1) Hai InvoiceNo khác nhau, M=2×10+1×5+1×15=40. REES46 không có InvoiceNo/order_id nên dùng phiên có mua. (2) Log nén chênh lệch mức giá trị; scaler đưa về thang đo dựa trên mean/std đã học. Giá trị 5 thành z=3; fit lại sẽ đổi hệ tọa độ so với model. (3) Có Elbow và lý do diễn giải, nhưng K được đặt thủ công; tên được gán bằng dictionary sau khi xem đặc điểm cụm. Dữ liệu và định nghĩa khác nên phải kiểm tra lại. Quy tắc M≤0 của notebook khác web; chưa có chính sách giá âm chung để sao chép.
+
+## 15. P1-T3 — Học cách mở rộng RFM từ bài nghiên cứu RFM-B
+
+### 15.1. Đọc bài báo khác với chấp nhận kết luận
+
+Nguồn là [bài RFM-B, v1 ngày 13/04/2026](https://www.preprints.org/manuscript/202604.0852/v1), chưa qua bình duyệt. REPORT mục 3.5–3.9 ghi định nghĩa, kết quả tác giả công bố và nhận xét của nhóm. Ở bài học này chỉ đọc, tính ví dụ nhỏ và kiểm tra cách lập luận; không tái tạo mô hình hoặc thay đổi F0/F1.
+
+Khi đọc một kết luận, tự hỏi: tác giả muốn giải quyết gì, đo bằng đại lượng nào, mẫu số là gì, so với phương án nào, và kết quả có đủ để khẳng định điều đó không? “Tác giả công bố” khác với “nhóm đã chạy và kiểm chứng”. Các ví dụ tiếp theo **đều do nhóm đặt để học, không phải số liệu bài báo hoặc REES46**.
+
+### 15.2. CVR: tỷ số event không phải tỷ lệ phiên
+
+Với một khách trong cùng cửa sổ, gọi P là số purchase events và V là số view events. Định nghĩa ở Bảng 2 dùng `CVR_event = P/V`, khi V>0. Nó mô tả mức đếm mua so với mức đếm xem, không trực tiếp cho biết bao nhiêu phiên hoặc người đã chuyển thành mua hàng.
+
+| Phiên minh họa | View events | Purchase events |
+|---|---:|---:|
+| s1 | 5 | 3 |
+| s2 | 5 | 0 |
+
+Trong ví dụ này, P/V=3/10=0,3. Nếu định nghĩa tỷ lệ phiên có mua là số phiên có ít nhất một purchase chia tổng phiên hợp lệ, kết quả là 1/2=0,5. Ba purchase events nằm trong một phiên, nên không được đổi 0,3 thành “30% phiên có mua”. Đây là phản ví dụ tính tay, chưa phải định nghĩa KPI mới của MVP.
+
+V=0 thì phép chia chưa xác định, không tự gán 0 hoặc cộng 1 cho mẫu số. Tỷ số event có thể lớn hơn 1, chẳng hạn P=4, V=1 cho 4; nó không mặc nhiên là xác suất. Khi áp dụng Cosmetics cần kiểm tra loại event, user, thời gian, chất lượng session và điều kiện hợp lệ; phần văn giải thích theo phiên không được thay công thức event của Bảng 2 mà không nói rõ.
+
+### 15.3. AOV: gọi tên theo đúng mẫu số
+
+Trong bài, `AOV_proxy = M/F`, với F là số phiên có mua riêng biệt. M=300, F=2 cho 150 đơn vị giá **mỗi phiên mua**. Đây là Average Spend per Purchase Session, không phải bình quân mỗi order thật khi REES46 không có order_id. Chỉ tính khi F>0; không gán giá trị tùy ý cho non-buyers.
+
+| Khách minh họa | M | F — phiên có mua | M/F |
+|---|---:|---:|---:|
+| A | 300 | 2 | 150 |
+| B | 300 | 10 | 30 |
+
+A mua ít phiên hơn nhưng chi nhiều hơn mỗi phiên; B có nhiều phiên nhưng mức chi mỗi phiên thấp hơn. RFM đã phân biệt họ qua F; AOV giúp diễn đạt tỷ số M/F rõ hơn, không bảo đảm thuật toán sẽ cho hai cụm khác nhau. Vì M/F suy ra từ hai số đã có, không tự gọi nó là thông tin độc lập hoặc bằng chứng mô hình tốt hơn.
+
+Để liên hệ Cosmetics, cần cùng tập purchase hợp lệ cho M và F, khóa user-session rõ và chính sách giá/làm tròn đã chốt. Đơn vị giá/currency còn mở; không mang nhãn USD của bài báo sang dữ liệu nhóm.
+
+### 15.4. Category Breadth và Brand Diversity
+
+**Category Breadth — độ rộng danh mục mua:** công thức là số nhóm danh mục cấp cao khác nhau mà khách đã mua. Giả sử ba category_id 10, 11, 20 được một bản đồ danh mục minh họa xác nhận lần lượt thuộc nhóm cấp cao Chăm sóc da, Chăm sóc da, Chăm sóc tóc. Số ID là 3 nhưng độ rộng cấp cao là 2. Nó cho biết phạm vi danh mục đã mua, chưa chứng minh khách gắn bó hơn.
+
+Với Cosmetics, cần xác minh category_id đại diện cấp nào, có bản đồ phân cấp hay category_code đáng tin không, và phần bị thiếu ảnh hưởng ra sao. Không tự giả sử mỗi ID là một nhóm cấp cao, hoặc ép số nhóm tối đa theo nền tảng multi-category của bài báo.
+
+**Brand Diversity — độ đa dạng thương hiệu mua:** công thức là số thương hiệu khác nhau trong các lần mua. Ví dụ A, A, B và một giá trị thiếu cho thấy **hai thương hiệu được quan sát**; phần thiếu vẫn chưa biết. Không biến missing thành thương hiệu “Unknown” rồi tính thêm một, cũng không suy một brand duy nhất là bằng chứng lòng trung thành.
+
+Muốn áp dụng cần kiểm tra missing brand, chuỗi rỗng, cách viết hoa/thường và tên chuẩn nếu có. Chưa đọc các phân phối này ở P1-T3, không điền thương hiệu giả hoặc tự chốt quy tắc chuẩn hóa. Cả hai biến chỉ là ứng viên có điều kiện về dữ liệu, chưa được đưa vào MVP.
+
+### 15.5. Hiểu bước Random Forest mà không triển khai
+
+Luồng cần phân biệt là: bảy đặc trưng → K-Means → nhãn cụm; sau đó Random Forest học dự đoán **nhãn cụm đó**. Bảng kết quả công bố được giữ ở REPORT mục 3.7. Nhãn đích không phải “sẽ mua tháng tới”, và bộ phân loại không kiểm tra hiệu quả chiến dịch.
+
+Ví dụ tính tay khác: nếu bộ phân loại khớp nhãn K-Means của 9 trong 10 khách kiểm tra, accuracy phục hồi nhãn là 9/10=90%. Điều đó không có nghĩa 90% khách sẽ mua, hoặc 90% gợi ý marketing có tác dụng. Đây chỉ là ví dụ về ý nghĩa mẫu số, không phải accuracy bài báo/MVP.
+
+Feature importance trong bộ phân loại cho biết biến giúp phân biệt các nhãn đó; không tự chứng minh nguyên nhân mua hoặc lợi nhuận. Bài học có thể hiểu bằng luồng trên, không cần huấn luyện thêm Random Forest trong MVP.
+
+### 15.6. Cần đối chứng gì và vì sao chưa dùng đủ bảy biến?
+
+Trong các phần phương pháp/kết quả và bảng đã đọc, nhóm chưa tìm thấy đối chứng rõ RFM 3D với RFM-B 7D trên cùng tập khách và cùng quy trình. Không lấy một kết quả 7D, hình PCA hoặc accuracy chép nhãn cao làm bằng chứng phương án đó vượt RFM.
+
+Một so sánh có ích cần giữ cùng khách, cutoff và điều kiện dữ liệu; ghi rõ cách chuẩn hóa/lựa chọn K; xem nhiều tiêu chí và đặc điểm cụm trên thang gốc. Các không gian có số chiều khác nhau không được xếp hạng bằng một điểm Silhouette đơn lẻ. Đây là cách đọc bằng chứng; P1-T3 không chạy thí nghiệm để sửa bài báo.
+
+Nhóm dùng Cosmetics, còn bài dùng REES46 multi-category; không mặc định schema, cấp danh mục, missing, số khách hoặc cleaning giống nhau. Khoảng quan sát ngắn cũng không đủ để khẳng định một kiểu hành vi bền vững; tên “Lost” hoặc “Potential Loyalists” không phải nhãn tương lai đã xác minh.
+
+MVP giữ F0=R/F/M và F1 thêm sessions_30d/views_30d. Hai phép đếm mô tả việc quay lại và xem gần cutoff, dễ nối với câu hỏi nghiên cứu và phạm vi học hiện tại. Chưa chứng minh chúng tốt nhất; cũng không cần thêm mọi biến đã đọc để gọi là vận dụng bài báo. P1-T4 sẽ tiếp tục phần lý do lựa chọn sau nghiệm thu, không làm trong task này.
+
+### 15.7. Ba câu hỏi tự kiểm tra
+
+Hai bạn tự trả lời trước khi đọc gợi ý:
+
+1. CVR tính bằng purchase events / view events có giống tỷ lệ phiên có mua không? Vì sao?
+2. Một khách có Monetary=300 và Frequency=2 thì AOV proxy bằng bao nhiêu? Tại sao không gọi đó là giá trị đơn hàng trung bình thực tế?
+3. Bài báo có bảy đặc trưng, vậy tại sao nhóm không bắt buộc dùng đủ bảy? Muốn biết đặc trưng bổ sung có ích thì cần thực nghiệm như thế nào?
+
+**Gợi ý đối chiếu:** (1) Không: event và session khác đơn vị đếm; ví dụ 3/10=0,3 nhưng chỉ 1/2 phiên có mua. (2) 150 đơn vị giá/phiên mua; không có order_id để gọi là giá trị mỗi đơn. (3) Cần phù hợp dữ liệu, câu hỏi và phạm vi; giữ F0/F1 như kế hoạch. Muốn đánh giá phần thêm vào cần đối chứng cùng khách/cutoff, quy trình minh bạch và nhiều tiêu chí, không mặc định nhiều biến hơn là tốt hơn. P1-T3 chưa thực hiện đối chứng đó.
+
+Lỗi dễ mắc: gọi event ratio là xác suất phiên mua; coi purchase session là đơn hàng; đếm category_id thành danh mục cấp cao; đếm missing brand thành thương hiệu; gọi accuracy phục hồi nhãn là độ chính xác mua hàng; mang K=5/metrics hoặc model 7D cũ vào kết quả MVP.
