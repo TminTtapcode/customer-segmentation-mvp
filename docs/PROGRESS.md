@@ -269,6 +269,8 @@ Chỉ sáu tài liệu đổi; 24 file còn lại, gồm notebook, code, tests, 
 
 Đọc tài liệu chính thức scikit-learn cho KMeans, StandardScaler và adjusted_rand_score để kiểm tra ý nghĩa cấu hình/scaling/ARI; liên kết nằm trong REPORT và LEARNING_GUIDE. Không dùng phiên bản tài liệu web làm bằng chứng môi trường local đã được cài hoặc tái lập đầy đủ.
 
+**Bàn giao P1-T4:** [PR nháp #5](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/5), nhánh `p1-t4-improvement-design`, base main; chỉ thay sáu Markdown hiện có. Commit nội dung `7161992`. Đã chạy `git -c core.autocrlf=false add -- AGENTS.md README.md docs/PROJECT_PLAN.md docs/REPORT.md docs/LEARNING_GUIDE.md docs/PROGRESS.md`, kiểm tra `git diff --cached --check` với cấu hình whitespace phía trên (exit 0), rồi đối chiếu Git blob với bytes local: khớp cả sáu file, không có data/model trong staging. Dùng tên tác giả cho riêng lệnh commit, không đổi Git config toàn máy; `git -c credential.interactive=never push -u origin p1-t4-improvement-design` thành công. PR tạo với draft=true; không merge P1-T4 khi chưa nghiệm thu.
+
 **Những điều đã chốt và còn chờ:** chốt phạm vi năm biến, ba giả thuyết và cách kiểm chứng; không chốt giả thuyết đúng. Toàn bộ mục 4 giữ nguyên. Phase 2 còn schema/nguồn/cleaning/buyer/price/session/rounding; Phase 3–4 còn phân phối, outliers, tính đặc trưng và chọn biến đổi; Phase 5 mới có nhãn, K, metrics, thời gian/bộ nhớ và kết luận F0/F1 thật. Chưa chứng minh log/scaling tốt hơn, tên cụm hay hiệu quả marketing.
 
 **Hai sinh viên tự kiểm tra trước nghiệm thu:**
