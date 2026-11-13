@@ -1,6 +1,6 @@
 # Báo cáo bài tập lớn — Phân khúc khách hàng bằng RFM và Engagement
 
-**Cập nhật:** 13/11/2026. Báo cáo trình bày vấn đề, mục tiêu và kế hoạch kiểm chứng; chưa có thí nghiệm F0/F1. Nhật ký thực hiện và nghiệm thu được ghi riêng trong `PROGRESS.md`.
+**Cập nhật:** 13/11/2026. Phase 1 đã được nhóm nghiệm thu; P2-T1 đã kiểm tra schema trong phạm vi đọc được, còn thiếu CSV tháng 12. Chưa có thí nghiệm F0/F1. Nhật ký thực hiện và nghiệm thu được ghi riêng trong `PROGRESS.md`.
 
 ## 1. Giới thiệu và thiết kế nghiên cứu — P1-T1
 
@@ -281,9 +281,99 @@ Sau mỗi task, nhóm thực hiện, giải thích kiến thức, kiểm tra và
 
 ## 5–11. Chuẩn bị dữ liệu, EDA, đặc trưng, mô hình, đánh giá và trình diễn
 
-Những phần này chưa được thực hiện trong MVP. EDA là phân tích khám phá dữ liệu; Feature Engineering là tạo đặc trưng phục vụ mô hình. Nhóm sẽ giải thích cách làm, lý do chọn và giới hạn khi đến từng bước.
+P2-T1 mới kiểm tra cấu trúc dữ liệu trong phạm vi bên dưới; chưa hoàn thành vì CSV tháng 12 chưa đọc được. Các task làm sạch, EDA — phân tích khám phá, Feature Engineering — tạo đặc trưng, và mô hình chưa thực hiện trong MVP. Thiết kế P1-T4 đã nghiệm thu được giữ ở phần A–G sau kết quả schema.
 
 Hiện chưa có model F0/F1, chỉ số phân cụm, chiến dịch hoặc Streamlit mới. Các kết quả kiểm kê ở mục 4 không thay thế kết quả của P2–P6.
+
+### Phase 2 — Data Understanding: kiểm tra schema P2-T1
+
+#### Nguồn và phạm vi đọc thực tế
+
+Nhóm kiểm tra dữ liệu đang có dưới `../customer-analytics-antigravity/data`, tính từ root MVP; code nhận đường dẫn qua tham số hoặc `REES46_DATA_ROOT`, không viết cứng ổ đĩa. URL REES46 Cosmetics trong cấu hình cũ và bằng chứng P0-T1 giúp tìm tệp, chưa xác nhận lại biên nhận tải, điều khoản hoặc currency. Không tải thêm dữ liệu.
+
+Ngày 13/11/2026, nhóm dùng Python csv để đọc header và tối đa **1.000 dòng đầu** của mỗi CSV observation truy cập được. Kiểu số được kiểm tra trên bản mẫu trong bộ nhớ bằng DuckDB TRY_CAST, có kiểm tra dạng chữ số nguyên để tránh ép số thập phân thành số nguyên. Thời gian được parse bằng Python và kiểm tra thông tin timezone có trong chuỗi. Đây là kiểu suy luận của bộ kiểm tra trên mẫu, không phải kiểu nhúng sẵn trong CSV hoặc kết quả auto-detect toàn tệp của read_csv.
+
+| Tệp, tương đối với root dữ liệu | Bytes hiện tại | Thực sự đã đọc | Kết quả |
+|---|---:|---|---|
+| raw/2019-Oct.csv | 482.542.278 | Header + 1.000 dòng đầu | 9 cột |
+| raw/2019-Nov.csv | 545.839.412 | Header + 1.000 dòng đầu | Cùng 9 cột, cùng thứ tự với tháng 10 |
+| raw/2019-Dec.csv | 415.302.972 | Chỉ metadata hệ thống tệp | PermissionError; chưa xác minh header, kiểu hoặc dữ liệu mẫu |
+| raw/2020-Jan.csv | 501.792.804 | Header + 1.000 dòng đầu | Cùng 9 cột, cùng thứ tự với tháng 10 |
+| raw/2020-Feb.csv | 488.799.986 | Chỉ header | Cùng 9 tên cột; không đọc event, không đưa vào observation |
+| cleaned/observation_events.parquet | 397.476.664 | Chỉ footer/schema | 21 cột; footer ghi 15.667.350 dòng |
+| cleaned/clean_events.parquet | 497.767.704 | Chỉ footer/schema | Cùng schema 21 cột; footer ghi 19.583.742 dòng; có cả future theo nguồn cũ |
+| cleaned/holdout_events.parquet | 100.271.296 | Chỉ footer/schema | Cùng schema 21 cột; footer ghi 3.916.392 dòng; không đọc outcome |
+| features/customer_features.parquet | 14.002.271 | Chỉ footer/schema | 23 cột; footer ghi 1.341.499 dòng |
+| features/buyer_features.parquet | 2.266.870 | Chỉ footer/schema | Cùng schema 23 cột; footer ghi 92.652 dòng |
+| features/non_buyer_features.parquet | 10.048.173 | Chỉ footer/schema | Cùng schema 23 cột; footer ghi 1.248.847 dòng |
+| features/buyer_clusters.parquet | 3.031.687 | Chỉ metadata hệ thống tệp | Loại khỏi đầu vào MVP; không đọc nhãn/PCA 7D |
+
+Tổng cộng đọc **3.000 dòng CSV**, không quét toàn bộ events hoặc đọc dòng Parquet. Số dòng footer là metadata của tệp đã có, không phải phép đếm lại nội dung. Ba header CSV observation đọc được giống nhau; **chưa kết luận đủ bốn tháng cùng schema**. Bảng đầy đủ theo tệp/cột/kiểu lưu/kiểu đọc và sự hiện diện ở các tệp khác nằm tại [schema.csv](../results/p2_t1/schema.csv); chi tiết phạm vi tại [inspection.json](../results/p2_t1/inspection.json).
+
+Theo metadata và code ETL cũ được đọc dưới dạng văn bản: raw CSV → clean_events/observation_events/holdout_events → bảng feature khách hàng. Trong Parquet, `user_session` đổi tên thành `session_id`; `user_session_id` được tạo từ user-session; các cột ngày, partition và cờ chất lượng do xử lý cũ bổ sung. P2-T1 không chạy lại ETL hoặc chứng minh cleaning policy đúng. Các bảng này vẫn là ứng viên tái sử dụng.
+
+#### Schema quan sát và ý nghĩa các cột
+
+CSV chỉ lưu văn bản, không có schema kiểu cột nhúng sẵn. Trong **cả ba mẫu 1.000 dòng**, các kiểu suy luận sau giống nhau. Cột “Parquet” là kiểu DuckDB đọc từ schema của ba tệp sự kiện, có ánh xạ session như trên. Các ví dụ ID chỉ là hình thức minh họa, không lấy ID thật.
+
+| Cột CSV | Kiểu suy luận trên mẫu / kiểu đọc Parquet | Loại và ý nghĩa | Ví dụ hình thức | Dùng ở đâu và giới hạn |
+|---|---|---|---|---|
+| event_time | TIMESTAMP WITH TIME ZONE / TIMESTAMP | Thời gian của event | `2019-10-01 00:00:00 UTC` là giá trị thời gian đã đọc | Recency, observation, cửa sổ 30 ngày; Parquet không giữ chú thích timezone như chuỗi gốc |
+| event_type | VARCHAR / VARCHAR | Danh mục loại hành động | view, cart, purchase, remove_from_cart đều có trong từng mẫu | Phân biệt mua/xem; chưa khẳng định toàn dữ liệu chỉ có bốn loại |
+| product_id | BIGINT / BIGINT | Định danh sản phẩm | `<product_A>` | Hiểu event/sản phẩm; không phải số lượng mua, không đưa ID vào khoảng cách K-Means |
+| category_id | BIGINT / BIGINT | Định danh danh mục | `<category_A>` | Hiểu cấu trúc danh mục; chưa biết cấp cao nhất hoặc bản đồ phân cấp |
+| category_code | VARCHAR / VARCHAR | Chuỗi mã/đường dẫn danh mục nếu có | `<nhom>.<nhanh>` — minh họa | Có ô trống trong cả ba mẫu; chưa chốt cách diễn giải cấp hoặc xử lý thiếu |
+| brand | VARCHAR / VARCHAR | Danh mục tên thương hiệu | `<brand_A>` — minh họa | Có ô trống trong cả ba mẫu; không thay missing thành một brand thật |
+| price | DOUBLE / DOUBLE | Số đo giá trị tại event | `12.50` — minh họa | Monetary lấy purchase hợp lệ; chưa xác minh giá 0/âm/missing toàn bộ, currency, quantity hoặc refunds; không phải net GMV |
+| user_id | BIGINT / BIGINT | Định danh khách, dù biểu diễn bằng số | `<user_A>` | Gom theo khách/nối bảng; không phải đại lượng khoảng cách. Parse được trong mẫu chưa chứng minh khóa toàn cục đầy đủ |
+| user_session | VARCHAR / session_id VARCHAR | Token phiên truy cập | `<session_A>`; chuỗi mẫu parse được theo dạng UUID | Đếm phiên với khóa user-session; không phải order_id. Chưa xác minh mọi token hợp lệ hoặc riêng cho một user |
+
+Kiểu vật lý Parquet tương ứng: các ID số là INT64, price là DOUBLE; chuỗi là BYTE_ARRAY/UTF8; event_time là INT64 với TIMESTAMP_MICROS. Footer event_time ghi `isAdjustedToUTC=0`, DuckDB đọc là TIMESTAMP không kèm timezone. Chi tiết physical/logical/converted type được lưu riêng trong JSON; xem cách đọc [metadata Parquet của DuckDB](https://duckdb.org/docs/2.0/data/parquet/metadata.html).
+
+Ngoài chín trường nguồn sau đổi tên session, 12 cột bổ sung trong Parquet sự kiện là `event_date DATE`; `user_session_id, source_month, split_partition, quality_flag VARCHAR`; và bảy cờ BOOLEAN `is_valid_for_monetary, is_valid_for_engagement, is_valid_session, is_missing_brand, is_missing_category_code, is_invalid_price, is_missing_session`. Chúng là kết quả xử lý cũ, không phải cột raw hoặc bằng chứng chính sách đã được nghiệm thu. Schema 23 cột của ba bảng feature có đủ năm tên biến đã thống nhất, nhưng chỉ đọc schema không xác nhận lại giá trị feature.
+
+#### Event, session, customer và khóa
+
+Một dòng raw là **một event**, không phải một đơn hàng. Session gom các event của một user trong một phiên; customer là mức một dòng/khách sau tổng hợp, dự kiến tạo ở Phase 4. user_id lặp nhiều lần trong bảng event là bình thường. Không có event_id hoặc order_id trong các header đã đọc; không chứng minh có primary key — khóa duy nhất cho từng event — chỉ bằng tên cột.
+
+Khóa ghép `(user_id, user_session)` giúp nhận diện phiên theo người dùng. Đây là khóa nhóm phiên, không duy nhất cho từng event; không lấy riêng token session làm mã đơn. Trong từng mẫu, 1.000/1.000 user_id không trống và ép được BIGINT; 1.000/1.000 user_session không trống và parse được UUID. Chưa kiểm tra toàn bộ missing, tính duy nhất, token dùng lại hoặc xung đột khóa. Kết quả về session trong P0-T1 vẫn là bằng chứng lịch sử, không phải phép tính lại ở P2-T1.
+
+Ví dụ **chỉ để học**: một khách xem ba sản phẩm và có hai purchase events trong cùng phiên tạo năm event, một khóa user-session và một khách. Nếu phiên đáp ứng quy tắc mua hợp lệ, Frequency dự kiến tăng một; không suy ra hai đơn hàng. Không tạo bảng feature từ ví dụ hoặc từ 3.000 dòng mẫu.
+
+#### Thời gian và giới hạn kiểm tra UTC
+
+Trong mỗi mẫu, 1.000/1.000 chuỗi event_time có hậu tố `UTC`, parse được, offset bằng 0; không có lỗi parse trong 3.000 dòng đã đọc. Đây là bằng chứng UTC **trong mẫu**, bổ sung cho quy ước UTC của cấu hình cũ, chưa xác nhận toàn CSV hoặc tháng 12. UTC của phiên DuckDB chỉ là cấu hình công cụ; nó không chứng minh timezone của chuỗi không có offset. TIMESTAMP không kèm timezone khác TIMESTAMP WITH TIME ZONE; xem [kiểu thời gian DuckDB](https://duckdb.org/docs/2.0/sql/data_types/timestamp.html).
+
+| Mẫu | Thời gian nhỏ nhất trong mẫu (UTC) | Thời gian lớn nhất trong mẫu (UTC) |
+|---|---|---|
+| 1.000 dòng đầu tháng 10 | 2019-10-01 00:00:00 | 2019-10-01 00:36:08 |
+| 1.000 dòng đầu tháng 11 | 2019-11-01 00:00:02 | 2019-11-01 01:08:39 |
+| 1.000 dòng đầu tháng 01 | 2020-01-01 00:00:00 | 2020-01-01 01:25:55 |
+
+Đây không phải min/max cả tháng và mẫu đầu tệp không đại diện đầy đủ. Giữ observation `[2019-10-01 00:00:00 UTC, 2020-02-01 00:00:00 UTC)` và recent 30d `[2020-01-02 00:00:00 UTC, 2020-02-01 00:00:00 UTC)`. P2-T1 chưa lọc hoặc tạo observation chính thức.
+
+#### Điều kiện để tính năm đặc trưng và việc chuyển tiếp
+
+| Feature | Cột nguồn cần | Có sẵn/đọc được đến đâu? | Điều kiện chưa xác minh |
+|---|---|---|---|
+| recency_days | user_id, event_time, event_type, điều kiện purchase/price | Có trong ba CSV đã đọc và Parquet ứng viên; thời gian parse được trên mẫu | Buyer/purchase hợp lệ, timezone/biên toàn dữ liệu, rounding |
+| frequency | user_id, user_session, event_type, event_time, điều kiện mua | Có trong ba CSV; Parquet đổi tên session_id | Missing/token dùng lại, khóa ghép, dedup và phiên mua hợp lệ; không phải orders |
+| monetary | user_id, event_type, event_time, price | Price dạng số trên mẫu; schema Parquet DOUBLE | Giá 0/âm/thiếu, purchase hợp lệ, currency/refunds/rounding |
+| sessions_30d | user_id, user_session, event_time, điều kiện event | Có cột; định dạng đọc được trên mẫu | Toàn bộ khóa/session thiếu và điều kiện đếm trong W |
+| views_30d | user_id, event_type, event_time | Có cột và có view trong mẫu | Dedup, điều kiện event/thời gian hợp lệ; xử lý session thiếu không tự chốt |
+
+Với cả năm biến, raw tháng 12 vẫn chưa xác minh. **Có cột → đọc được kiểu trên mẫu → phép tính dự kiến có đầu vào** chưa đồng nghĩa **đã xác minh nghiệp vụ hoặc đã tính feature hợp lệ**.
+
+| Vấn đề | Bằng chứng hiện tại | Ảnh hưởng có thể có | Task xử lý |
+|---|---|---|---|
+| Tháng 12 chưa đọc được | PermissionError khi mở header; chỉ biết metadata file | Chưa đối chiếu đủ schema bốn tháng | Cần gỡ vướng đầu vào và kiểm tra lại P2-T1 |
+| Timezone raw/Parquet khác cách biểu diễn | Mẫu raw có UTC; footer Parquet isAdjustedToUTC=0 | Dễ cắt sai cửa sổ nếu đổi timezone không rõ | P2-T2 kiểm tra đầy đủ; P2-T3 thống nhất quy tắc |
+| Ô trống brand/category_code | Đã thấy trên cả ba mẫu; số đếm mẫu ở JSON | Có thể hạn chế diễn giải thuộc tính | P2-T2 đo đầy đủ, P2-T3 quyết định; chưa điền thiếu |
+| Loại event/giá/ID/session trên toàn bộ | Mẫu có bốn loại event, kiểu số và UUID đọc được; chưa quét toàn bộ | Chưa biết loại khác, lỗi định dạng, giá không hợp lệ hoặc thiếu khóa ở phần còn lại | P2-T2 |
+| Duplicates, buyer, giá, session, rounding | Các vấn đề P0-T1 vẫn mở | Có thể đổi tập buyers và giá trị RFM/Engagement | P2-T2 đo ảnh hưởng; P2-T3 chốt chính sách |
+| Artifact cũ và môi trường | Chỉ schema/footer mới được đọc; không rebuild hoặc import toàn bộ thư viện | Chưa chứng minh bảng/model/môi trường có thể tái lập đầy đủ | Theo task liên quan; không dùng model 7D cũ |
+
+**Kết luận P2-T1:** đã có bằng chứng schema và khả năng parse trong phạm vi trên, chưa xác minh đủ raw observation vì tháng 12 không đọc được. Trạng thái **BLOCKED**, chưa phải PASS hoặc READY cho nghiệm thu hoàn tất. Cần bản tháng 12 đọc được có nguồn rõ để kiểm tra bổ sung; không thay bằng giả định hoặc tự sửa bảo mật Windows. Các vấn đề chất lượng dữ liệu vẫn để P2-T2/P2-T3, chưa triển khai.
 
 ### Thiết kế cải tiến — P1-T4, chưa thực nghiệm
 

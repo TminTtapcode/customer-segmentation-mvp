@@ -1,7 +1,7 @@
 # Kế hoạch MVP — RFM + Engagement
 
 **Cập nhật:** 13/11/2026 (Asia/Bangkok). **Trạng thái thật:** xem `PROGRESS.md`.
-**Trạng thái hiện tại:** P1-T3 đã được hai sinh viên xác nhận PASS và PR #4 đã merge main. P1-T4 — thiết kế cải tiến — READY FOR STUDENT REVIEW. Chỉ cập nhật tài liệu, giữ RQ1–RQ3/F0/F1; chưa chạy mô hình và chưa bắt đầu Phase 2. Vấn đề dữ liệu vẫn chờ xử lý theo kế hoạch.
+**Trạng thái hiện tại:** P1-T4 PASS (Student Verified), PR #5 đã merge main; Phase 1 CLOSED. P2-T1 kiểm tra schema đã có bằng chứng một phần, **BLOCKED do raw tháng 12 chưa đọc được**. Chưa triển khai P2-T2 hoặc chốt cleaning policy; RQ1–RQ3/F0/F1/H1–H3 và thiết kế cải tiến giữ nguyên.
 
 ## 1. Mục tiêu, câu hỏi và phạm vi
 
@@ -51,8 +51,8 @@ Tất cả dependency bao gồm nghiệm thu task trước. Lịch chi tiết ch
 | P1-T1 | Vấn đề, mục tiêu và câu hỏi nghiên cứu | P0 được nhóm nghiệm thu; nền có đủ file P0 | PASS theo xác nhận người dùng; PR #2 đã merge main |
 | P1-T2 | RFM truyền thống tham khảo | P1-T1 PASS | PASS theo xác nhận hai sinh viên; PR #3 đã merge main |
 | P1-T3 | Đọc nghiên cứu RFM-B | P1-T2 PASS | PASS (Student Verified) theo yêu cầu P1-T4; PR #4 đã merge, nội dung nghiên cứu giữ nguyên |
-| P1-T4 | Thiết kế cải tiến và lý do chọn biến | P1-T3 PASS | Giữ năm biến/RQ; H1–H3, đối chứng, biểu đồ, hỗ trợ marketing; READY FOR STUDENT REVIEW |
-| P2-T1 | Schema | P1 | Kiểu dữ liệu/timezone/khóa được đọc và xác minh |
+| P1-T4 | Thiết kế cải tiến và lý do chọn biến | P1-T3 PASS | PASS (Student Verified); PR #5 đã merge, Phase 1 CLOSED; chưa chứng minh giả thuyết |
+| P2-T1 | Schema | P1 đã đóng/bàn giao main | BLOCKED: đã đọc mẫu ba raw observation và schema/footer sáu Parquet; raw tháng 12 PermissionError. Cần kiểm tra bổ sung đầu vào này trước nghiệm thu hoàn tất |
 | P2-T2 | Chất lượng dữ liệu | P2-T1 | Missing, duplicates, giá, biên thời gian và ảnh hưởng metric |
 | P2-T3 | Cleaning policies | P2-T2 | Chốt dedup 7/9 trường, buyer/price/session/rounding; chứng minh ảnh hưởng |
 | P2-T4 | Observation Parquet | P2-T3 | Artifact có manifest/hash/schema; không future; bảo toàn grain/cohort |
@@ -120,4 +120,4 @@ Chưa copy dữ liệu, chưa cấu hình hoặc chạy Colab ở P0-T1. Đề x
 
 ## 8. Hoàn thành Phase 0
 
-Nhóm đã nghiệm thu P0-T4/đóng Phase 0 và P1-T1/P1-T2/P1-T3 PASS. PR #1–#4 đã merge; kết quả kiểm tra và commit bàn giao nằm trong PROGRESS. Không làm lại P0 hoặc đổi kết quả cũ. Vấn đề dữ liệu tiếp tục xử lý ở Phase 2, không tự ghi đã giải quyết. P1-T4 chỉ thiết kế và đang chờ nghiệm thu; Phase 1 chưa tự đóng, Phase 2 chưa bắt đầu.
+Nhóm đã nghiệm thu P0-T4/đóng Phase 0 và P1-T1…P1-T4 PASS. PR #1–#5 đã merge; kết quả kiểm tra và commit bàn giao nằm trong PROGRESS. Phase 1 CLOSED về nghiên cứu/thiết kế, chưa có kết quả chứng minh cải tiến. Không làm lại P0/P1 hoặc đổi kết quả cũ. P2-T1 chỉ kiểm tra schema và còn BLOCKED do tháng 12; không tự chuyển P2-T2 hoặc ghi vấn đề dữ liệu đã giải quyết.

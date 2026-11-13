@@ -1,6 +1,6 @@
 # Sổ tay học tập — MVP RFM + Engagement
 
-**Cập nhật 13/11/2026.** Phần 1–9 về kiểm kê P0-T1, phần 10–12 về công cụ/cộng tác, phần 13–14 về câu hỏi nghiên cứu và RFM truyền thống, phần 15 về cách đọc bài RFM-B, phần 16 về thiết kế cải tiến. P1-T3 đã được nhóm xác nhận PASS; P1-T4 chờ nghiệm thu. Số liệu local cũ vẫn giữ riêng, không coi là số đo Colab mới.
+**Cập nhật 13/11/2026.** Phần 1–9 về kiểm kê P0-T1, phần 10–12 về công cụ/cộng tác, phần 13–16 về nghiên cứu và thiết kế; phần 17 về schema P2-T1. P1-T4 đã được nhóm xác nhận PASS, Phase 1 CLOSED. P2-T1 còn BLOCKED do CSV tháng 12 chưa đọc được. Số liệu local cũ vẫn giữ riêng, không coi là số đo Colab mới.
 
 ## 1. Tệp dữ liệu, cấu trúc bảng và nguồn gốc xử lý là gì?
 
@@ -561,3 +561,71 @@ Mỗi người trả lời trước khi đọc gợi ý:
 1. Bổ sung mức quay lại và xem gần cutoff, chưa có bảo đảm về nhãn cụm hay hành vi tương lai. Cần dữ liệu và thực nghiệm để kiểm tra H1.
 2. Cùng bộ cột, buyers, cửa sổ, cleaning policy, K, seed và cấu hình; giữ scaling, chỉ thay bước log trên cột đã ghi. Hai thay đổi đồng thời gây lẫn tác động; điểm cũng được tính trong hình học đã đổi.
 3. Chưa: cần ổn định, cỡ cụm, hồ sơ năm biến gốc, khác biệt hành vi, khả năng giải thích và chi phí; hiệu quả chiến dịch cần thử nghiệm riêng. Trước F1 phải lưu cấu hình/kết quả F0, hạn chế thực sự quan sát, bằng chứng, giả thuyết cải tiến và cách kiểm tra. Chấp nhận cả kết quả chưa ủng hộ giả thuyết.
+
+## 17. P2-T1 — Hiểu cấu trúc dữ liệu trước khi làm sạch
+
+### 17.1. Schema và data type là gì?
+
+Schema là danh sách cột và cách dữ liệu được tổ chức; data type là kiểu giá trị, như văn bản, số nguyên, số thực hoặc thời gian. Ví dụ `price DOUBLE` cho biết cách máy đọc số, chưa nói mọi giá đều hợp lệ để tính tiền mua.
+
+Cần tách ba điều: **kiểu lưu trong tệp**, **kiểu công cụ suy luận/đọc**, và **kiểu muốn dùng sau này**. CSV chứa văn bản, nên chuỗi `2019-10-01 00:00:00 UTC` chưa phải cột TIMESTAMP được lưu sẵn. Parquet có schema; INT64 là kiểu vật lý, còn TIMESTAMP_MICROS là cách diễn giải số thành thời gian. Script lưu cả kiểu vật lý/logical và kiểu DuckDB đọc, không gọi mọi kiểu là “kiểu gốc”.
+
+Trong mẫu thực tế, user_id ép được BIGINT, nhưng về ý nghĩa nó là **định danh**, không phải độ lớn khách hàng. Không đưa ID vào khoảng cách K-Means. Tương tự product_id không phải số sản phẩm đã mua; category_id chưa chắc là danh mục cấp cao. Kiểu mong muốn ở bước xử lý phải giữ đúng định danh, giá trị và timezone; P2-T1 chưa chuyển đổi tệp hoặc chốt chính sách.
+
+Một lỗi công cụ đã được kiểm thử phát hiện: DuckDB có thể ép `1.25` thành BIGINT bằng làm tròn. Nếu chỉ thấy ép kiểu thành công thì sẽ suy sai kiểu giá. Vì vậy script còn kiểm tra chuỗi có đúng dạng số nguyên trước khi chọn BIGINT. Một cột toàn ô trống trong mẫu phải ghi chưa suy luận được, không tự đoán kiểu từ tên.
+
+### 17.2. Event, session, customer và khóa
+
+Event là một hành động; session là một phiên có nhiều hành động; customer là khách có nhiều phiên. Ví dụ **giả định để học**: user_A xem ba lần rồi có hai purchase events trong session_X. Có năm dòng event, một phiên và một khách; Frequency dự kiến tăng một khi phiên mua hợp lệ. Không có order_id nên không kết luận hai purchase rows là hai đơn hàng.
+
+Primary key là khóa nhận diện duy nhất mỗi dòng. user_id không là khóa duy nhất cho bảng event vì một người có nhiều event. Composite key là khóa ghép từ nhiều trường; `(user_id, user_session)` nhận diện nhóm phiên theo người dùng, vẫn lặp trên nhiều dòng event. Không gọi khóa nhóm phiên là primary key của bảng event hoặc tự xóa các dòng cùng khóa.
+
+Header không có event_id, nên chưa biết một khóa event duy nhất chỉ bằng nhìn tên cột. UUID là dạng biểu diễn token phiên, không tự chứng minh phiên không thiếu hoặc không được dùng lại. Kiểm tra kiểu/định dạng là bước đầu; tính đầy đủ, uniqueness và dedup cần kiểm tra đúng grain ở task sau.
+
+### 17.3. Vì sao phải kiểm tra datetime và timezone?
+
+Datetime biểu diễn ngày giờ; timezone cho biết cách quy đổi thời điểm. Ví dụ minh họa `2020-02-01 00:30:00+07:00` tương ứng `2020-01-31 17:30:00 UTC`. Nếu chỉ nhìn ngày địa phương “tháng 2” rồi loại, có thể loại sai một event còn trước cutoff UTC.
+
+Ba mẫu thật có 3.000/3.000 thời gian parse được và chứa hậu tố UTC. Điều này xác nhận cách biểu diễn trong mẫu, không xác nhận toàn bộ bốn tháng. Parquet đang lưu TIMESTAMP không kèm timezone và isAdjustedToUTC=0, nên không tự lấy việc parse thành công hoặc cấu hình UTC của công cụ làm bằng chứng nguồn luôn là UTC. Giải thích kiểu tại [tài liệu DuckDB](https://duckdb.org/docs/2.0/sql/data_types/timestamp.html).
+
+Giữ cửa sổ observation `[01/10/2019, 01/02/2020)` và 30 ngày `[02/01/2020, 01/02/2020)` theo UTC: lấy đầu, không lấy cuối. Xét thời gian từng event, kể cả session qua cutoff. P2-T1 chỉ kiểm tra cách đọc, chưa lọc/tạo observation.
+
+### 17.4. Các bước thực hành đã dùng
+
+1. Đọc inventory/audit P0-T1 và cấu hình, code ETL cũ dưới dạng văn bản để tìm nguồn. Sau đó kiểm tra file thật có tồn tại/đọc được; danh sách cũ không thay thế kiểm tra mới.
+2. Đọc header và tối đa 1.000 dòng đầu mỗi raw observation; chỉ giữ mẫu trong RAM. Không đọc CSV February ngoài header. Suy luận kiểu trên mẫu, ghi parse/định dạng và các ô trống liên quan; không sửa giá trị.
+3. Với sáu Parquet ứng viên, dùng `parquet_schema`, `parquet_file_metadata` và DESCRIBE. Không tải toàn bảng, không tính lại feature hoặc đọc outcome February. [Metadata Parquet](https://duckdb.org/docs/2.0/data/parquet/metadata.html) cho biết schema/số dòng footer, không chứng minh nội dung đã làm sạch đúng.
+4. So tên/thứ tự cột giữa những tệp đọc được, nối với nhu cầu năm biến, rồi tách phần quan sát được khỏi phần cần kiểm tra ở P2-T2/P2-T3.
+5. Lưu JSON/CSV metadata nhỏ, không lưu raw user/session IDs. Tên user_A/session_X trong bài học chỉ là minh họa; không dùng dữ liệu kiểm thử làm số liệu nghiên cứu.
+
+Script được tạo là `scripts/inspect_schema.py`, không thêm notebook thứ hai hoặc sửa notebook Colab đã nghiệm thu. Lệnh thật đã chạy từ root MVP bằng Python/DuckDB sẵn có:
+
+```powershell
+& '..\customer-analytics-antigravity\.venv\Scripts\python.exe' -B scripts/inspect_schema.py --data-root ../customer-analytics-antigravity/data --sample-rows 1000 --output results/p2_t1
+```
+
+Input là root có raw/, cleaned/, features/. Output có [inspection.json](../results/p2_t1/inspection.json), [schema.csv](../results/p2_t1/schema.csv); [execution.json](../results/p2_t1/execution.json) ghi lần chạy/lệnh/exit code. Đây là kiểm tra local, chưa chạy script mới trên Colab.
+
+Để chạy lại, chọn thư mục output mới, ví dụ `results/p2_t1_recheck`, vì script từ chối ghi đè bằng chứng đã có. Có thể dùng `python -B scripts/inspect_schema.py ...` trong môi trường đã có DuckDB. `--data-root` hoặc `REES46_DATA_ROOT` đổi nơi dữ liệu; đường dẫn tương đối tính từ root MVP. Trên Colab, khi đến lần thực hành được nhóm thống nhất, trỏ tới root dữ liệu trên Drive và chạy script từ bản repo đã chấp nhận; task này chưa mount/copy dữ liệu hoặc xác nhận chạy Colab.
+
+### 17.5. Đọc kết quả và giới hạn
+
+Đã đọc header bốn CSV gồm ba tháng observation và February; chỉ ba CSV observation có mẫu, tổng 3.000 dòng. Tháng 12 có file theo metadata nhưng mở bị PermissionError. Không lấy schema Parquet đã xử lý hoặc các tháng khác để điền schema raw tháng 12.
+
+Trong ba mẫu có bốn event_type: view, cart, purchase, remove_from_cart. Điều đó bác bỏ việc mặc định chỉ có view/cart/purchase, nhưng chưa chứng minh không còn loại khác. Có ô trống brand/category_code; chưa biết tỷ lệ toàn bộ. Min/max được ghi là min/max mẫu đầu tệp, không phải cả tháng.
+
+Các cột cần cho năm biến có trong phần đọc được, nhưng còn phải kiểm tra buyer/giá/session/dedup/rounding và thời gian toàn dữ liệu. Kiểm tra schema trước giúp biết sẽ kiểm tra gì và tránh nhầm kiểu/đơn vị; không thay thế cleaning. Task hiện **BLOCKED** vì thiếu kiểm chứng raw tháng 12. Script trả exit 2 để biểu thị vướng này; exit 0 chỉ là sẵn sàng sinh viên xem, cũng chưa phải sinh viên xác nhận PASS.
+
+Kiểm thử công cụ dùng các tệp nhỏ tạm thời, tách khỏi nghiên cứu: giới hạn dòng đọc, không sửa nguồn, không xuất ID, phân biệt thời gian không timezone, chỉ đọc header future, đọc footer và từ chối ghi đè. Lệnh đã chạy:
+
+```powershell
+& '..\customer-analytics-antigravity\.venv\Scripts\python.exe' -B -m unittest discover -s tests -p test_inspect_schema.py -v
+```
+
+### 17.6. Ba câu hỏi tự kiểm tra
+
+1. Trong CSV, user_id đọc được BIGINT thì có nên đưa nó vào tính khoảng cách K-Means không? Có header đủ chín cột thì đã chứng minh năm feature hợp lệ chưa?
+2. Một phiên có ba view và hai purchase events cho bao nhiêu event/phiên? Vì sao không gọi `(user_id, user_session)` là khóa duy nhất của từng event hoặc kết luận có hai đơn?
+3. Parse được 3.000 timestamp có UTC và có schema ba tháng giống nhau thì đã xác nhận đủ bốn tháng chưa? Vì sao P2-T1 còn BLOCKED?
+
+**Gợi ý:** (1) Không: ID là định danh; có cột/kiểu mới chỉ đủ điều kiện kỹ thuật ban đầu, chính sách nghiệp vụ chưa chốt. (2) Năm event, một phiên, Frequency dự kiến tăng một nếu hợp lệ; khóa phiên lặp giữa event, không có order_id. (3) Chưa: chỉ kiểm tra mẫu ba tháng; tháng 12 chưa đọc được, Parquet không thay thế kiểm chứng raw. Cần đầu vào đọc được có nguồn rõ, không tự sửa bảo mật hoặc bịa kết quả.

@@ -10,8 +10,9 @@
 - **P1-T1: PASS (Student Verified).** Người dùng xác nhận trực tiếp “P1-T1 PASS”; không tự bổ sung bài trả lời hoặc log sinh viên chưa gửi.
 - **P1-T2: PASS (Student Verified).** Phần xác nhận sau trong tệp yêu cầu P1-T3 ghi hai sinh viên đã đọc REPORT mục 3, LEARNING_GUIDE phần 14, trả lời câu hỏi và xác nhận PASS; checklist được cung cấp ghi 5/5. Không tự bổ sung bài trả lời ngoài nội dung đã gửi.
 - **P1-T3: PASS (Student Verified).** Người dùng xác nhận hai sinh viên đã nghiệm thu trong yêu cầu P1-T4; không tự bổ sung bài trả lời hoặc checklist từng câu chưa gửi.
-- **P1-T4:** READY FOR STUDENT REVIEW — thiết kế cải tiến, chưa chạy mô hình. Phase 1 chờ nghiệm thu task này; Phase 2 chưa bắt đầu.
-- **GitHub:** PR #1–#4 đã merge sau nghiệm thu. Main có đủ 30 file P0/P1-T1/P1-T2/P1-T3; P1-T4 ở nhánh riêng, chưa merge.
+- **P1-T4: PASS (Student Verified).** Người dùng xác nhận hai sinh viên nghiệm thu trong yêu cầu P2-T1; không tự bổ sung bài trả lời từng câu. **Phase 1 CLOSED** sau khi đối chiếu/bàn giao main; H1–H3 chưa được chứng minh.
+- **P2-T1: BLOCKED.** Đã kiểm tra schema trong phạm vi đọc được, raw `2019-Dec.csv` vẫn PermissionError. Chưa đủ điều kiện nghiệm thu hoàn tất; chưa thực hiện P2-T2/P2-T3/P2-T4.
+- **GitHub:** PR #1–#5 đã merge sau nghiệm thu. Main có đủ 30 file P0–P1; thay đổi P2-T1 ở nhánh riêng.
 
 ## 1. P0-T1 — kiểm kê dữ liệu cũ
 
@@ -155,8 +156,9 @@ Kiểm tra `git var GIT_AUTHOR_IDENT` ban đầu chưa đạt vì local chưa c�
 | P1-T1 | PASS (Student Verified); PR #2 đã merge |
 | P1-T2 | PASS (Student Verified); PR #3 đã merge |
 | P1-T3 | PASS (Student Verified); PR #4 đã merge |
-| P1-T4 | READY FOR STUDENT REVIEW |
-| P2-T1…T4 | NOT STARTED |
+| P1-T4 | PASS (Student Verified); PR #5 đã merge; Phase 1 CLOSED |
+| P2-T1 | BLOCKED — raw tháng 12 chưa đọc được |
+| P2-T2…T4 | NOT STARTED |
 | P3-T1…T3 | NOT STARTED |
 | P4-T1…T4 | NOT STARTED |
 | P5-T1…T4 | NOT STARTED |
@@ -273,10 +275,63 @@ Chỉ sáu tài liệu đổi; 24 file còn lại, gồm notebook, code, tests, 
 
 **Những điều đã chốt và còn chờ:** chốt phạm vi năm biến, ba giả thuyết và cách kiểm chứng; không chốt giả thuyết đúng. Toàn bộ mục 4 giữ nguyên. Phase 2 còn schema/nguồn/cleaning/buyer/price/session/rounding; Phase 3–4 còn phân phối, outliers, tính đặc trưng và chọn biến đổi; Phase 5 mới có nhãn, K, metrics, thời gian/bộ nhớ và kết luận F0/F1 thật. Chưa chứng minh log/scaling tốt hơn, tên cụm hay hiệu quả marketing.
 
-**Hai sinh viên tự kiểm tra trước nghiệm thu:**
+**Nội dung tự kiểm tra P1-T4 đã giao khi bàn giao:**
 
 - [ ] Đọc REPORT phần thiết kế A–G, giải thích được mỗi hạn chế đang là giả thuyết hay đã có bằng chứng.
 - [ ] Tự trả lời ba câu phần 16 của LEARNING_GUIDE: thông tin F1 thêm, cách tách tác động log/Engagement, bằng chứng cần trước khi kết luận cải tiến/marketing.
 - [ ] Thống nhất năm biến, điều kiện so sánh và sản phẩm Phase 5–6; không coi thiết kế là kết quả chạy.
 
-**P1-T4: READY FOR STUDENT REVIEW.** Dừng chờ nghiệm thu; chưa tự đóng Phase 1 và không triển khai Phase 2.
+Tại thời điểm bàn giao, P1-T4 là READY FOR STUDENT REVIEW. Yêu cầu P2-T1 sau đó xác nhận **P1-T4 PASS (Student Verified)**. Không tự đánh dấu kết quả từng câu chưa được gửi. Phase 1 được đóng sau đối chiếu main ở mục 12; nội dung thiết kế giữ nguyên.
+
+## 12. Đóng Phase 1 và P2-T1 — kiểm tra schema
+
+### Bàn giao và đóng Phase 1
+
+Người dùng xác nhận hai sinh viên đã nghiệm thu P1-T4 PASS và thông báo PR #5 đã merge. Đối chiếu trực tiếp đầu lượt vẫn thấy PR #5 Open/Draft, head `ca07aca0567936afa6572520ab44321489c36d11`. Working tree sạch; diff đúng sáu tài liệu được nghiệm thu, không có thay đổi người khác. Đã đưa PR khỏi Draft rồi merge bằng merge commit `e941a906f8502d793a278927b18f8d26ae70827b`. Cây file main khớp head được chấp nhận. Có 0 commit statuses/0 check runs; không gọi thiếu CI là tests PASS. GitHub REST/GraphQL dùng thông tin Git Credential Manager sẵn có, không lưu token.
+
+Chạy `git fetch origin main` và `git switch -c p2-t1-schema-inspection origin/main` từ đúng main này. Không force-push/reset hoặc viết lại nội dung đã nghiệm thu.
+
+- [x] P1-T1…P1-T4 được người dùng xác nhận sinh viên nghiệm thu PASS.
+- [x] PR #2–#5 đã vào main; giữ RQ1–RQ3, F0/F1, H1–H3, thiết kế thực nghiệm và hỗ trợ marketing.
+- [x] Tách nghiệm thu thiết kế khỏi kết quả thực nghiệm; chưa khẳng định Engagement/log/scaling có hiệu quả.
+- [x] Giữ nguyên vấn đề dữ liệu ở mục 4 để xử lý đúng task Phase 2.
+
+**Phase 1: CLOSED** về nghiên cứu và thiết kế, theo xác nhận của nhóm và bằng chứng bàn giao GitHub.
+
+### P2-T1 đã thực hiện trong phạm vi đọc được
+
+- Đọc metadata/inventory/audit P0-T1; cấu hình nguồn và code ETL/feature cũ chỉ dưới dạng văn bản để hiểu quan hệ raw → Parquet sự kiện → bảng khách. Không chạy pipeline cũ.
+- Tạo `scripts/inspect_schema.py`, dùng thư viện chuẩn + DuckDB có sẵn. Nhận root dữ liệu bằng tham số/biến môi trường, chỉ đọc CSV header/mẫu giới hạn và footer/schema Parquet; từ chối ghi đè output hoặc ghi vào cây dữ liệu nguồn. Không sửa notebook đã nghiệm thu, không thêm dependency.
+- Kiểm tra 12 file thật: ba CSV observation có mẫu, tháng 12 không mở được, February chỉ header; sáu Parquet chỉ footer/schema; buyer_clusters chỉ metadata và bị loại khỏi đầu vào MVP.
+- Tổng 3.000 dòng đầu của tháng 10/11/01; ba header có cùng chín cột và thứ tự. Các mẫu có view/cart/purchase/remove_from_cart; 3.000/3.000 thời gian parse được và có UTC; định dạng user/session đọc được trong mẫu. Không suy tỷ lệ hoặc min/max toàn bộ từ mẫu này.
+- Ba Parquet sự kiện cùng 21 cột; ba bảng feature cùng 23 cột. Tất cả số dòng Parquet trong kết quả mới lấy từ footer; không đếm lại hoặc đọc dữ liệu dòng. event_time Parquet có isAdjustedToUTC=0, không đủ để xác nhận timezone gốc toàn bộ.
+- REPORT có phần Data Understanding, từ điển cột/kiểu, grain/khóa/timezone, khả năng tính năm biến và việc chuyển tiếp. LEARNING_GUIDE phần 17 giải thích từng bước và ba câu hỏi. README/AGENTS/PROJECT_PLAN đồng bộ trạng thái.
+
+### Lệnh, kết quả và bằng chứng
+
+Lệnh thật, chạy từ root MVP bằng Python 3.14.7 / DuckDB 2.0.0 hiện có:
+
+```powershell
+& '..\customer-analytics-antigravity\.venv\Scripts\python.exe' -B -m unittest discover -s tests -p test_inspect_schema.py -v
+& '..\customer-analytics-antigravity\.venv\Scripts\python.exe' -B scripts/inspect_schema.py --data-root ../customer-analytics-antigravity/data --sample-rows 1000 --output results/p2_t1
+```
+
+Lần kiểm thử đầu có 6/7 đạt: TRY_CAST số thập phân sang BIGINT vẫn thành công do làm tròn, khiến suy kiểu sai. Đã thêm kiểm tra dạng chữ số nguyên; chạy lại **7/7 tests đạt, exit 0**. Fixtures chỉ phục vụ kiểm thử phần mềm, không dùng làm dữ liệu nghiên cứu. Kết quả chạy thử trước sửa được giữ tạm trong `.tmp/` đã ignore; bằng chứng công khai của task là lần chạy sau sửa, có hash code đi kèm.
+
+Lần đọc dữ liệu sau sửa: **script exit 2**, trạng thái BLOCKED do `raw/2019-Dec.csv` PermissionError (errno 13). Không coi đây là audit đầy đủ thành công. Thời gian 1,794 giây chỉ cho kiểm tra schema này, chưa đo RSS, không phải benchmark pipeline/mô hình. [inspection.json](../results/p2_t1/inspection.json) giữ schema/phạm vi/mẫu/giới hạn/môi trường; [schema.csv](../results/p2_t1/schema.csv) theo từng file/cột; [execution.json](../results/p2_t1/execution.json) giữ lệnh, thời điểm và exit code thật. Không có raw user/session IDs hoặc toàn bộ mẫu trong bằng chứng public.
+
+Kiểm tra độc lập bằng `..\customer-analytics-antigravity\.venv\Scripts\python.exe -B .tmp/p2t1-verify.py`, exit 0: **24 điều kiện QA đạt**, 36 liên kết local hợp lệ. Đọc lại đúng ba mẫu giới hạn bằng Python để đối chiếu fingerprint, tên/kiểu cột, loại sự kiện và thời gian; kiểm tra không có giá trị user/session trong phần công khai. REPORT mục 1–4 và thiết kế P1-T4 A–G, nội dung sổ tay 1–16, RQ, các bảng cũ, hợp đồng nghiên cứu và danh sách vấn đề mở được giữ nguyên. Chỉ sáu tài liệu cũ đổi; 24 file khác cùng 13 bằng chứng cũ không đổi SHA256. Có năm file mới: script, tests và ba bằng chứng P2-T1; toàn bộ dự án có 35 file. Code, notebook, tests đường dẫn và requirements đã có đều không đổi.
+
+Source cũ giữ metadata của 153 file, SHA256 của 138 file nhỏ và Git status; không kiểm tra lại mọi byte của raw lớn. `git diff --stat`, `git status --short` dùng để xem phạm vi; kiểm tra whitespace bằng `git -c core.whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol diff --check` với commit nền, exit 0. QA tạm được ignore. Kiểm tra lại riêng việc mở header tháng 12 ở cuối lượt vẫn PermissionError/errno 13, không tự ghi đã hết lỗi. Các kiểm tra phần mềm/tài liệu đạt không đổi trạng thái BLOCKED của task dữ liệu.
+
+Chưa chạy P2-T2, cleaning, observation mới, bảng RFM/Engagement, K-Means hoặc Streamlit. Chưa chạy script mới trên Colab hoặc xác nhận toàn môi trường MVP; không bổ sung số đo Colab.
+
+### Vấn đề còn mở và nội dung nghiệm thu
+
+Toàn bộ mục 4 vẫn giữ nguyên, không đánh dấu resolved. Tháng 12 hiện chỉ xác nhận file tồn tại theo metadata; chưa biết schema raw, chưa đọc header/hash hoặc suy kiểu. Không khẳng định nguyên nhân PermissionError là khóa tiến trình cụ thể; không kết thúc tiến trình hay đổi bảo mật Windows. Cần file tháng 12 đọc được hoặc bản sao cùng nguồn có thể đối chiếu để hoàn tất P2-T1. Không dùng Parquet cũ thay cho bằng chứng raw còn thiếu.
+
+- [ ] Hai bạn giải thích được CSV text/kiểu suy luận trên mẫu/kiểu Parquet, ID số và giá trị số, event/session/customer và khóa ghép.
+- [ ] Trả lời ba câu phần 17 của LEARNING_GUIDE, chỉ ra vì sao parse mẫu thành công chưa chứng minh dữ liệu toàn bộ hợp lệ.
+- [ ] Khi có tháng 12 đọc được: chạy kiểm tra bổ sung vào output mới, đối chiếu đủ raw observation rồi mới đề nghị nghiệm thu hoàn tất P2-T1.
+
+**P2-T1: BLOCKED — thiếu kiểm chứng raw tháng 12.** Bản công việc một phần sẽ bàn giao bằng PR nháp; không gọi READY FOR STUDENT REVIEW cho hoàn tất task khi còn thiếu đầu vào thiết yếu. Dừng, không tự triển khai P2-T2.

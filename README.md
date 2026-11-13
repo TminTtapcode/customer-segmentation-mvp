@@ -2,7 +2,7 @@
 
 Dự án nghiên cứu độc lập trên **REES46 Cosmetics**, cho nhóm hai sinh viên. Mục tiêu là cải thiện khả năng phân khúc bằng lựa chọn đặc trưng và tiền xử lý có kiểm chứng, giữ K-Means đơn giản. F0 (RFM) là cơ sở; F1 thêm sessions_30d, views_30d là đề xuất cần kiểm tra, sau đó hỗ trợ diễn giải marketing. Không có model hoặc dashboard MVP ở bước hiện tại.
 
-**P1-T3 đã được hai sinh viên xác nhận PASS.** **P1-T4 — thiết kế cải tiến: READY FOR STUDENT REVIEW.** Đọc phần thiết kế A–G trong mục 5–11 của [báo cáo](docs/REPORT.md) và phần 16 của [sổ tay](docs/LEARNING_GUIDE.md), rồi đối chiếu [tiến độ](docs/PROGRESS.md) và [kế hoạch](docs/PROJECT_PLAN.md). Giữ nguyên RQ1–RQ3 và F0/F1 ba/năm chiều. Task chỉ thiết kế giả thuyết, thực nghiệm và biểu đồ; chưa chạy REES46, chưa sang Phase 2.
+**P1-T4 PASS (Student Verified), Phase 1 CLOSED.** **P2-T1 — kiểm tra schema: BLOCKED** vì CSV tháng 12 chưa đọc được. Đã kiểm tra header/mẫu giới hạn của ba raw observation và footer/schema Parquet; chưa làm sạch hoặc tạo feature/model. Đọc phần Data Understanding trong [báo cáo](docs/REPORT.md), phần 17 của [sổ tay](docs/LEARNING_GUIDE.md), [tiến độ](docs/PROGRESS.md) và [kế hoạch](docs/PROJECT_PLAN.md). RQ1–RQ3/F0/F1 giữ nguyên; chưa triển khai P2-T2.
 
 ## Hai thành viên cùng làm việc
 
@@ -21,7 +21,17 @@ GitHub `main` là mã nguồn chính thức đã được chấp nhận. Drive g
 5. Khi notebook được chấp nhận, người sửa chính tải bản cuối về; giữ code đã được duyệt, bỏ output và thông tin riêng trước khi đưa lên nhánh task. Lưu kết quả tổng hợp cần thiết dưới `results/`; giữ dataset và bản thực hành trên Drive. Xem diff và danh sách file trước commit, không thêm dữ liệu lớn, credentials hoặc user IDs. Người còn lại kiểm tra PR trước khi nhóm đưa vào `main`; không ghi đè thay đổi mới trên GitHub.
 6. Sau mỗi task: thực hiện → giải thích kiến thức → kiểm tra → cập nhật REPORT/LEARNING_GUIDE/PROGRESS khi phù hợp → dừng nghiệm thu. Code hoặc dữ liệu thay đổi sau khi được duyệt thì kiểm tra lại.
 
-**Bàn giao GitHub:** PR #1/#2/#3 và [PR #4 — P1-T3](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/4) đã merge sau nghiệm thu. Main có đủ file P0/P1-T1/P1-T2/P1-T3. Nhánh `p1-t4-improvement-design` bắt đầu từ main tại `b137750`; P1-T4 chờ nhóm nghiệm thu riêng. Notebook, code, dependency và bằng chứng cũ giữ nguyên.
+**Bàn giao GitHub:** PR #1–#5 đã merge sau nghiệm thu; [PR #5 — P1-T4](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/5) vào main tại `e941a90`. Nhánh `p2-t1-schema-inspection` bắt đầu từ main này. Nội dung P0–P1 và notebook đã nghiệm thu được bảo toàn; schema inspection dùng script riêng, không tạo notebook thứ hai.
+
+## Kiểm tra schema P2-T1
+
+Trong môi trường đã có DuckDB, chạy từ root MVP; thay root bằng nơi có raw/, cleaned/, features/:
+
+```text
+python -B scripts/inspect_schema.py --data-root ../customer-analytics-antigravity/data --sample-rows 1000 --output results/p2_t1_recheck
+```
+
+Hoặc dùng `REES46_DATA_ROOT` và bỏ `--data-root`. Đường dẫn tương đối tính từ repo; output phải là thư mục mới trong MVP, ngoài cây dữ liệu nguồn, để tránh ghi đè bằng chứng. Script chỉ đọc tối đa 1.000 dòng đầu mỗi CSV observation; February chỉ header, sáu Parquet ứng viên chỉ footer/schema. Mẫu đầu tệp không đại diện cả tháng. Exit 2 là thiếu schema raw thiết yếu, exit 0 là sẵn sàng sinh viên xem, chưa phải PASS. Không thay đổi dữ liệu hoặc cài dependency mới. [Kết quả local](results/p2_t1/inspection.json) và [lệnh/exit code thật](results/p2_t1/execution.json) giữ rõ lỗi tháng 12.
 
 ## Mở và chạy notebook P0-T3
 
@@ -59,7 +69,8 @@ customer-segmentation-mvp/
 ├── results/
 │   ├── p0_t1/                      # bằng chứng audit giữ nguyên
 │   ├── p0_t2/                      # baseline, logs và kiểm chứng cấu trúc
-│   └── p0_t3/                      # kiểm tra notebook bằng Python local
+│   ├── p0_t3/                      # kiểm tra notebook bằng Python local
+│   └── p2_t1/                      # schema/mẫu giới hạn, còn vướng tháng 12
 ├── docs/
 │   ├── PROJECT_PLAN.md
 │   ├── REPORT.md
@@ -69,8 +80,9 @@ customer-segmentation-mvp/
 │   ├── audit_existing_artifacts.py
 │   ├── verify_audit.py
 │   ├── data_paths.py
-│   └── verify_colab_notebook.py
-└── tests/test_data_paths.py
+│   ├── verify_colab_notebook.py
+│   └── inspect_schema.py
+└── tests/                          # helper đường dẫn và công cụ đọc schema
 ```
 
 `model/` tạo khi cần lưu model ở P5; `app.py` chỉ tạo ở Phase 6. Chưa tạo file/thư mục rỗng. Các README của data/notebooks là hướng dẫn sử dụng ngắn; hai báo cáo tích lũy vẫn nằm trong `docs/`.
