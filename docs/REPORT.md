@@ -103,6 +103,62 @@ Các nhận xét dưới đây chỉ dựa trên ba file đã đọc và output 
 
 Nhóm có thể học cách gom từ dòng giao dịch lên một khách hàng, xem phân phối trước khi biến đổi và đọc đặc điểm cụm trước khi đặt tên. Nhóm không sao chép K=4, quy tắc xử lý giá âm, dictionary tên cụm, đường dẫn xuất model hay Flask. Không so trực tiếp điểm Silhouette hoặc tên cụm giữa hai dự án có dữ liệu, định nghĩa và không gian đặc trưng khác nhau. P1-T2 chỉ giúp hiểu phương pháp; không thay đổi chính sách dữ liệu hoặc hoàn thành thí nghiệm REES46.
 
+### 3.5. Bài nghiên cứu RFM-B — P1-T3
+
+Nhóm đọc *Behavioral Intelligence in Digital Retail: An Extended RFM Framework for Customer Segmentation and Resource Allocation* của Iman Squalli Houssaini và Miloud Daoud, [Preprints.org, bản v1 ngày 13/04/2026](https://www.preprints.org/manuscript/202604.0852/v1), DOI `10.20944/preprints202604.0852.v1`. Trang nguồn ghi bản này chưa qua bình duyệt. Những kết quả bên dưới là tác giả công bố, nhóm chưa tái tạo bằng dữ liệu hoặc code.
+
+Vấn đề nhóm tìm hiểu là cách bổ sung góc nhìn hành vi bên cạnh thời điểm mua, tần suất và tổng chi tiêu. Phạm vi đọc gồm Abstract, Introduction, mục 3, Bảng 2, mục 5–6, mục 8 và Conclusion. Các ví dụ và nhận xét áp dụng dưới đây do nhóm dùng để học, tách riêng với số liệu của bài báo.
+
+### 3.6. Bốn đặc trưng bổ sung và điều cần kiểm tra
+
+Bảng này diễn giải định nghĩa tại **Bảng 2 của bài báo**. Các số trong cột ví dụ chỉ là minh họa, không lấy từ nghiên cứu hoặc REES46 Cosmetics. Các phép đếm đều cần cùng khách, cửa sổ thời gian và điều kiện sự kiện phù hợp; P1-T3 chưa thực hiện phép tính trên dữ liệu thật.
+
+| Đặc trưng và ý nghĩa | Công thức theo Bảng 2 | Dữ liệu cần khi xem xét Cosmetics | Ví dụ minh họa và giới hạn |
+|---|---|---|---|
+| Conversion Rate (CVR) — mức mua so với mức xem | Số purchase events / số view events của user | user_id, event_type, event_time; kiểm tra điều kiện event và mẫu số | 3/10=0,3; không có nghĩa 30% phiên có mua. Mẫu số 0 thì chưa xác định; tỷ số event không tự bị chặn ở 1 |
+| Category Breadth — độ rộng danh mục mua | Số danh mục **cấp cao nhất** khác nhau đã mua | User, purchase, category_id và bản đồ cấp danh mục/category_code đã được xác minh | Ba category_id có thể chỉ thuộc hai nhóm cấp cao. Chưa thể thay định nghĩa này bằng đếm category_id khi chưa biết cấp và missing |
+| Average Order Value (AOV) — cách bài đặt tên mức chi bình quân | Monetary / Frequency; F là số phiên có mua riêng biệt | Purchase hợp lệ, price, user, thời gian và khóa user-session; quy tắc M/F đã chốt | 300/2=150 đơn vị giá/**phiên mua**. Không có order_id nên nhóm gọi là Average Spend per Purchase Session — mức chi trung bình mỗi phiên mua, không phải giá trị đơn hàng thật |
+| Brand Diversity — độ đa dạng thương hiệu mua | Số thương hiệu khác nhau đã mua | User, purchase, brand, thời gian; kiểm tra missing và cách biểu diễn tên | A, A, B cho hai thương hiệu được quan sát. Brand thiếu không tự trở thành thương hiệu thứ ba; số ít thương hiệu chưa chứng minh lòng trung thành |
+
+**Nhận xét của nhóm:** mục 3.2 có diễn giải CVR bằng ngôn ngữ về phiên, còn Bảng 2 dùng tỷ số event. Hai cách đo không tương đương. Nếu muốn nói tỷ lệ phiên có mua thì phải định nghĩa tử số/mẫu số theo phiên riêng, không đổi tên cho tỷ số event. Tương tự, tên AOV không làm purchase session trở thành order_id. Các cột hiện có chỉ cho phép xem xét khả năng tính; chưa xác minh chất lượng, cấp danh mục hoặc tỷ lệ thiếu brand. Không tạo giá trị giả để hoàn thành công thức.
+
+### 3.7. Phương pháp và kết quả tác giả công bố
+
+Theo mục 3.3, tác giả chuẩn hóa bảy biến, thử K=2–10 và chọn K=5. Mục 5 gọi năm nhóm là Champions, Loyal Customers, Potential Loyalists, At-Risk và Lost. Đây là tên diễn giải của tác giả, không phải tên cụm mặc định của MVP.
+
+| Kết quả được đọc | Giá trị tác giả công bố | Vị trí nguồn và cách hiểu |
+|---|---|---|
+| Chỉ số của phương án K=5 | Silhouette 0,261; Davies–Bouldin 1,249; Calinski–Harabász 27.863 | Mục 3.3, phần lựa chọn cụm ở 5.1; không phải chỉ số nhóm đã chạy trên Cosmetics |
+| Random Forest gán lại nhãn cụm | Held-out accuracy 96,99% | Mục 6.1; Bảng 4 ghi giá trị làm tròn 0,970. Mục tiêu là nhãn do K-Means tạo, không phải nhãn mua hàng tương lai |
+
+Random Forest học lại cách gán nhãn trên các đặc trưng của khách hàng. Nhóm hiểu đây là kiểm tra khả năng phục hồi nhãn cụm, không phải kiểm chứng độc lập rằng cụm đúng nghiệp vụ. Accuracy cao không chứng minh dự đoán mua tốt hoặc marketing hiệu quả. Tương tự, feature importance — mức quan trọng của biến trong bộ phân loại — giúp giải thích việc phân biệt **nhãn cụm**, không phải tác động nhân quả tới mua hàng/lợi nhuận. MVP không triển khai bước Random Forest này.
+
+### 3.8. Giới hạn và cách nhóm đọc kết luận
+
+Tác giả nêu tại mục 8 các giới hạn về cửa sổ 61 ngày, ảnh hưởng mùa vụ, chưa mô tả diễn biến bên trong phiên và phạm vi một nền tảng. Nhóm cũng giữ rõ trạng thái preprint chưa bình duyệt; không mặc định kết quả của REES46 multi-category áp dụng nguyên sang Cosmetics.
+
+**Nhận xét của nhóm sau khi đọc:**
+
+- Trong phương pháp/kết quả đã đọc và Bảng 2–4, chưa tìm thấy đối chứng trực tiếp RFM 3D với RFM-B 7D trên cùng khách và cùng quy trình. Vì vậy nhóm chưa coi bài báo là bằng chứng đối chứng rằng 7D vượt 3D; nhận định của tác giả về phần bổ sung vẫn cần được phân biệt với phép so sánh này.
+- AOV=M/F là tỷ số suy ra từ hai đại lượng đã có. Nó có thể làm cách biểu diễn hoặc khoảng cách thay đổi, nhưng không tự trở thành một nguồn thông tin độc lập. Cần kiểm tra giá trị bổ sung thay vì chỉ đếm thêm số chiều.
+- Tên như Potential Loyalists hay Lost là diễn giải trong cửa sổ quan sát, chưa xác nhận tương lai trung thành hoặc rời bỏ. Các gợi ý marketing chưa thay thế thử nghiệm chiến dịch.
+- Định nghĩa event/session, phiên mua/đơn hàng, cấp danh mục và missing brand cần làm rõ trước khi áp dụng. Nhóm chưa nhận hoặc chạy code nghiên cứu, chưa kiểm chứng khả năng tái lập.
+
+### 3.9. Liên hệ với MVP đơn giản
+
+| Tiêu chí | RFM truyền thống — ví dụ ở P1-T2 | Bài RFM-B | MVP của nhóm |
+|---|---|---|---|
+| Mục tiêu | Mô tả lịch sử mua | Mở rộng mô tả hành vi | Kiểm tra thông tin bổ sung từ tương tác website |
+| Đặc trưng | R, F, M | RFM + CVR, Category Breadth, AOV, Brand Diversity | F0=R/F/M; F1 thêm sessions_30d, views_30d |
+| Dataset | Online Retail có hóa đơn/mặt hàng | REES46 multi-category, 10–11/2019 | REES46 Cosmetics, cửa sổ và policy riêng theo kế hoạch |
+| Phân cụm | Repo tham khảo đặt K=4 | Tác giả chọn K=5 | Dự kiến thử K=2–6; chưa chạy |
+| Đánh giá | Elbow, mô tả/biểu đồ cụm | Chỉ số cụm và RF phục hồi nhãn | Dự kiến nhiều tiêu chí và đặc điểm cụm; chưa có metrics MVP |
+| Giới hạn cần giữ | Hủy/hoàn trả, biến đổi, tên cụm | Cửa sổ ngắn, một nền tảng, định nghĩa và đối chứng nêu trên | Chính sách dữ liệu còn mở; chưa chứng minh hai biến thêm vào tốt hơn |
+
+Bài học là nối từng biến với một câu hỏi hành vi và nêu rõ dữ liệu cần để đo. Nhận xét ban đầu của nhóm: sessions_30d và views_30d mô tả số lần quay lại và lượng xem gần cutoff, nên là hướng nghiên cứu phù hợp với event logs và phạm vi học của hai sinh viên. Điều này chưa chứng minh chúng là hai biến tốt nhất; phần lập luận lựa chọn sẽ tiếp tục ở P1-T4 sau nghiệm thu P1-T3.
+
+MVP vẫn giữ **F0 ba chiều và F1 năm chiều**. Không thêm bốn biến của bài báo, không dùng K=5 hoặc metrics của tác giả làm kết quả nhóm. Bảy biến RFM-B cũng không phải bộ bảy biến của model cũ đã bị loại khỏi MVP; không tái sử dụng model/scaler/labels 7D. Khả năng dùng các biến mới chỉ là câu hỏi cần xem xét, chưa là quyết định thay đổi mô hình.
+
 ## 4. Tìm hiểu dữ liệu và chuẩn bị dự án
 
 ### 4.1. Mục đích kiểm kê dữ liệu cũ
