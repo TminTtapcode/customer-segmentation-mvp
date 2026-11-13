@@ -326,6 +326,8 @@ Source cũ giữ metadata của 153 file, SHA256 của 138 file nhỏ và Git st
 
 Chưa chạy P2-T2, cleaning, observation mới, bảng RFM/Engagement, K-Means hoặc Streamlit. Chưa chạy script mới trên Colab hoặc xác nhận toàn môi trường MVP; không bổ sung số đo Colab.
 
+**Bàn giao phần P2-T1 đã thực hiện:** [PR nháp #6](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/6), nhánh `p2-t1-schema-inspection`, base main, chưa merge. Commit nội dung `dcba28c`; PR ghi rõ BLOCKED do tháng 12, không đề nghị chuyển task. Đã stage đúng 11 file bằng `git -c core.autocrlf=false add -- ...` với danh sách tường minh gồm sáu tài liệu, script, tests và ba bằng chứng; đối chiếu Git blob khớp bytes local, không có dataset/model trong staging. Kiểm tra `git diff --cached --check` với cấu hình whitespace phía trên exit 0. Commit dùng danh tính theo riêng lệnh; `git -c credential.interactive=never push -u origin p2-t1-schema-inspection` thành công; PR tạo draft=true bằng REST/Git Credential Manager sẵn có, không lưu token.
+
 ### Vấn đề còn mở và nội dung nghiệm thu
 
 Toàn bộ mục 4 vẫn giữ nguyên, không đánh dấu resolved. Tháng 12 hiện chỉ xác nhận file tồn tại theo metadata; chưa biết schema raw, chưa đọc header/hash hoặc suy kiểu. Không khẳng định nguyên nhân PermissionError là khóa tiến trình cụ thể; không kết thúc tiến trình hay đổi bảo mật Windows. Cần file tháng 12 đọc được hoặc bản sao cùng nguồn có thể đối chiếu để hoàn tất P2-T1. Không dùng Parquet cũ thay cho bằng chứng raw còn thiếu.
