@@ -1,6 +1,6 @@
 # Báo cáo bài tập lớn — Phân khúc khách hàng bằng RFM và Engagement
 
-**Cập nhật 13/11/2026. P2-T2: READY FOR STUDENT REVIEW.** Đây là bản trình bày chính gồm năm phần, hướng tới khoảng năm trang Word ở Phase 7; chưa xuất Word. Chi tiết nghiên cứu đã nghiệm thu được giữ nguyên trong mục thu gọn cuối tệp. Chưa có kết quả mô hình hoặc chiến dịch.
+**Cập nhật 13/11/2026. P2-T2 PASS; P2-T3 READY FOR STUDENT REVIEW.** Đây là bản trình bày chính gồm năm phần, hướng tới khoảng năm trang Word ở Phase 7; chưa xuất Word. Chi tiết nghiên cứu đã nghiệm thu được giữ nguyên trong mục thu gọn cuối tệp. Chưa có kết quả mô hình hoặc chiến dịch.
 
 ## 1. Bài toán, mục tiêu và dữ liệu
 
@@ -14,7 +14,7 @@ Giữ ba câu hỏi đã nghiệm thu:
 
 P2-T2 dùng bốn CSV REES46 Cosmetics tháng 10/11/12/2019 và 01/2020: **16.536.158 sự kiện**, mỗi dòng là một event. Toàn bộ thời gian parse được, có UTC và nằm trong `[2019-10-01,2020-02-01)`; không có dòng sai tháng nguồn. February không được đọc. Nguồn Kaggle được cấu hình dự án cũ khai báo; nguồn tải, currency và quyền chia sẻ chưa xác minh đầy đủ.
 
-## 2. Chất lượng dữ liệu — kết quả P2-T2
+## 2. Chất lượng dữ liệu và chính sách chuẩn bị
 
 Nhóm đọc toàn bộ bốn tệp bằng DuckDB, giữ trường nguồn dạng văn bản và kiểm tra giá/thời gian bằng biểu thức chẩn đoán. Không bỏ hàng parse lỗi; không điền thiếu hoặc tạo dữ liệu sạch. Missing là NULL hoặc chuỗi chỉ có khoảng trắng. Bảng chi tiết có mẫu số theo cột, tháng và loại event; cách đọc CSV theo [tài liệu DuckDB](https://duckdb.org/docs/2.0/data/csv/overview.html).
 
@@ -42,7 +42,20 @@ Các dòng dư gồm 470 view và 793 purchase; tổng price dương trên phầ
 
 Toàn bộ có 94 giá âm và 32.903 giá bằng 0; riêng purchase là 91 giá âm và 1 giá 0. Không thấy giá thiếu/không parse được/không hữu hạn hoặc user_id thiếu/sai định dạng. Giá hữu hạn từ −79,37 đến 327,78. Trên purchase dương, Q1=1,59, Q3=5,40; ngưỡng tham khảo Q3+3IQR=16,83 gắn cờ 36.107 event (3,4555%). Giá cao chưa phải lỗi và không tự loại. Phân phối price cùng biểu đồ loại event được trình bày trong notebook, không đưa mọi hình vào bản chính.
 
-Hash SHA256 toàn tháng 12 giống nhau trước/sau lần chạy, metadata bốn tệp không đổi. Điều này xác nhận ổn định bản local, chưa xác thực nhà cung cấp. **P2-T3 mới quyết định** dedup, buyer, price, session và rounding.
+Hash SHA256 toàn tháng 12 giống nhau trước/sau lần chạy, metadata bốn tệp không đổi. Điều này xác nhận ổn định bản local, chưa xác thực nhà cung cấp. P2-T2 đã được sinh viên nghiệm thu; P2-T3 đề nghị chính sách sau:
+
+| Chính sách | Lý do và tác động |
+|---|---|
+| Dedup đủ chín giá trị văn bản trước ép kiểu | Giữ product/category trong khóa; một dòng/nhóm. Giảm giá mua và view bị lặp, giữ số phiên riêng biệt. Thiếu event_id nên đây là giả định nghiên cứu. |
+| Bỏ brand/category_code; product/category chỉ bỏ ở bước cuối | Năm biến không cần chúng. Không bỏ event vì thiếu brand/category; không DISTINCT lại trên năm cột. |
+| User hợp lệ, timestamp có timezone trong observation UTC | Không gán khách/thời gian giả; biên event xác định R và cửa sổ Engagement. |
+| Purchase hợp lệ: giá dương và có phiên | Dùng chung cho R/F/M. Giữ event giá không hợp lệ để xét tương tác; không tự cắt giá cao hoặc suy giá âm là hoàn tiền. |
+| Session thiếu/sai dạng thành NULL | Không tạo phiên giả; vẫn giữ view hợp lệ. Phiên dùng khóa user-session, không chỉ token. |
+| Price DECIMAL(18,2), R giữ phần lẻ | Guard giá nguồn trước cast; không round sớm. Số đếm giữ nguyên, chỉ làm tròn khi hiển thị. |
+
+Lần kiểm chứng toàn dữ liệu trong database tạm còn **15.667.350 event**, loại **868.808 bản dư**; không có hàng bị loại bởi user/time/loại event. Output dự kiến chỉ có event_time, event_type, user_id, user_session, price. Nếu DISTINCT lần nữa sau projection sẽ mất thêm **363.403 dòng khác nhau trên khóa nguồn**, nên không làm bước đó.
+
+Sau dedup còn 88 purchase giá không dương và 3.179 event thiếu session; giữ các event này nhưng áp điều kiện riêng khi tính. Tổng price mua hợp lệ giảm từ 5.144.461,71 xuống 5.141.266,90; Views 30d từ 1.997.977 xuống 1.997.872, gồm tám view thiếu session vẫn giữ. Số buyers hợp lệ 92.652, phiên mua 126.503 và phiên 30d trên toàn users 947.209 không đổi bởi dedup. Điều kiện purchase hợp lệ không làm đổi lần mua cuối hoặc loại toàn bộ lịch sử mua của user nào trong lần kiểm tra này; không suy luôn đúng cho mọi dữ liệu. Đây là đối chiếu chính sách, chưa phải bảng feature theo từng khách hoặc Parquet chính thức.
 
 ## 3. Đặc trưng và phương pháp dự kiến
 
@@ -50,7 +63,7 @@ Chưa tính lại bảng đặc trưng. Với cutoff T=01/02/2020 UTC, dự ki�
 
 | Biến | Định nghĩa | Giới hạn |
 |---|---|---|
-| Recency | Số ngày từ purchase hợp lệ cuối đến T | Chỉ buyers; điều kiện hợp lệ chờ P2-T3 |
+| Recency | Số ngày từ purchase hợp lệ cuối đến T | Chỉ buyers theo điều kiện purchase đề nghị ở P2-T3 |
 | Frequency | Số khóa user-session khác nhau có purchase hợp lệ | Proxy phiên mua, không phải số đơn |
 | Monetary | Tổng price purchase hợp lệ | Không phải net GMV; currency/refunds chưa xác minh |
 | Sessions 30d | Số phiên trong `[02/01/2020,T)` | Phụ thuộc session và điều kiện event |
@@ -68,9 +81,9 @@ Giữ H1: Engagement có thể phân biệt hành vi khi lịch sử mua tương
 
 Phase 6 trình bày **Cụm → đặc điểm quan sát → mục tiêu → hành động gợi ý → căn cứ → KPI → hạn chế**, ghi Research Demo / REES46. Chưa đặt tên cụm hoặc chứng minh gợi ý tăng doanh thu/chuyển đổi; không gửi chiến dịch tự động.
 
-P2-T2 xác định các vấn đề cần ra quyết định, chưa giải quyết chúng. Trùng giá trị không tự là lỗi; giá âm/cao cần hiểu bối cảnh, session thiếu cần chính sách, hash local không chứng minh nguồn. February đã được xem ở dự án cũ, không phải untouched holdout và không dùng chọn mô hình. Chưa xác nhận lần chạy mới trên Colab hoặc toàn bộ môi trường. Dừng chờ nghiệm thu P2-T2, chưa làm P2-T3.
+Chính sách P2-T3 còn chờ sinh viên nghiệm thu. Trùng giá trị không tự là lỗi; price dương chưa chứng minh giao dịch hoàn tất, price âm/cao chưa rõ bối cảnh; hash local không chứng minh nguồn. Giữ giới hạn nguồn tải/currency/quantity/refunds và các vấn đề môi trường. February đã được xem ở dự án cũ, không phải untouched holdout và không dùng chọn mô hình. Chưa xác nhận lần chạy mới trên Colab hoặc toàn bộ môi trường. Dừng READY FOR STUDENT REVIEW của P2-T3; chưa tạo observation Parquet P2-T4.
 
-**Nguồn và kết quả:** [REES46 Cosmetics được cấu hình cũ khai báo](https://www.kaggle.com/datasets/mkechinov/ecommerce-events-history-in-cosmetics-shop); [bảng tổng hợp](../results/p2_t2/quality_summary.csv), [chi tiết theo nhóm](../results/p2_t2/quality_details.csv); giải thích và giới hạn trong LEARNING_GUIDE phần 18. Tài liệu RFM/RFM-B và thiết kế đã nghiệm thu được giữ bên dưới.
+**Nguồn và kết quả:** [REES46 Cosmetics được cấu hình cũ khai báo](https://www.kaggle.com/datasets/mkechinov/ecommerce-events-history-in-cosmetics-shop); [bảng tổng hợp](../results/p2_t2/quality_summary.csv), [chi tiết theo nhóm](../results/p2_t2/quality_details.csv); [đối chiếu chính sách](../results/p2_t3/stage_summary.csv), [số dòng và lý do](../results/p2_t3/policy_counts.csv); giải thích và giới hạn trong LEARNING_GUIDE phần 18–19. Kiểu DECIMAL và projection theo [DuckDB Numeric](https://duckdb.org/docs/2.0/sql/data_types/numeric.html) và [Parquet](https://duckdb.org/docs/2.0/data/parquet/overview.html). Tài liệu RFM/RFM-B và thiết kế đã nghiệm thu được giữ bên dưới.
 
 <details>
 <summary>Chi tiết nghiên cứu đã nghiệm thu trước P2-T2 — giữ nguyên nội dung để tham khảo</summary>

@@ -1,7 +1,7 @@
 # Kế hoạch MVP — RFM + Engagement
 
 **Cập nhật:** 13/11/2026 (Asia/Bangkok). **Trạng thái thật:** xem `PROGRESS.md`.
-**Trạng thái hiện tại:** P2-T1 PASS, PR #6 đã merge main; P2-T2 **READY FOR STUDENT REVIEW** sau khi quét đủ bốn CSV. Từ task này ưu tiên notebook, CSV tổng hợp và hình đơn giản, giữ kiểm tra quan trọng; chưa làm sạch hoặc triển khai P2-T3. RQ/F0/F1/H1–H3 và thiết kế cải tiến giữ nguyên.
+**Trạng thái hiện tại:** P2-T2 PASS theo xác nhận người dùng; PR #7 đã merge main tại b282e490. P2-T3 **READY FOR STUDENT REVIEW**: đề nghị chính sách và kiểm chứng bằng dữ liệu đầy đủ, output năm cột. Chưa tạo Parquet chính thức của P2-T4. RQ/F0/F1/H1–H3 giữ nguyên.
 
 ## 1. Mục tiêu, câu hỏi và phạm vi
 
@@ -53,8 +53,8 @@ Tất cả dependency bao gồm nghiệm thu task trước. Lịch chi tiết ch
 | P1-T3 | Đọc nghiên cứu RFM-B | P1-T2 PASS | PASS (Student Verified) theo yêu cầu P1-T4; PR #4 đã merge, nội dung nghiên cứu giữ nguyên |
 | P1-T4 | Thiết kế cải tiến và lý do chọn biến | P1-T3 PASS | PASS (Student Verified); PR #5 đã merge, Phase 1 CLOSED; chưa chứng minh giả thuyết |
 | P2-T1 | Schema | P1 đã đóng/bàn giao main | PASS (Student Verified): người dùng xác nhận sau review; header/mẫu đủ bốn tháng, 4.000 dòng, exit 0. Chưa kiểm tra chất lượng toàn bộ hoặc tính hash toàn raw tháng 12 |
-| P2-T2 | Chất lượng dữ liệu | P2-T1 PASS | READY FOR STUDENT REVIEW: 16.536.158 event, missing theo cột/tháng/loại, so khóa 7/9, giá/ID/session/time và hash tháng 12; hai CSV/bốn hình/một manifest, chưa chọn policy |
-| P2-T3 | Cleaning policies | P2-T2 | Chốt dedup 7/9 trường, buyer/price/session/rounding; chứng minh ảnh hưởng |
+| P2-T2 | Chất lượng dữ liệu | P2-T1 PASS | PASS (Student Verified), PR #7 đã merge; kết quả cũ giữ nguyên |
+| P2-T3 | Cleaning policies | P2-T2 PASS | READY FOR STUDENT REVIEW: dedup 9 trường trước projection, chính sách buyer/price/session/time/rounding; kiểm chứng số dòng và ảnh hưởng, notebook 02 |
 | P2-T4 | Observation Parquet | P2-T3 | Artifact có manifest/hash/schema; không future; bảo toàn grain/cohort |
 | P3-T1 | EDA event/customer | P2 | Bảng/biểu đồ có câu hỏi và mẫu số rõ |
 | P3-T2 | Phân phối hành vi | P3-T1 | Phân phối, outliers và mô tả buyers/non-buyers |
@@ -84,7 +84,7 @@ Thiết kế P1-T4 nằm ở REPORT phần 5–11, mục A–G: lý do năm bi�
 
 `REES46 observation → DuckDB → bảng khách hàng → F0/F1 + scikit-learn → profiles/metrics → Streamlit`.
 
-- `notebooks/`: 01 hiện có phần P0-T3 và P2-T2. Hướng tới 01_data_exploration, 02_data_preparation, 03_feature_engineering, 04_clustering; không tạo trước file chưa cần. Hồ sơ/demo có thể học trong notebook hiện hữu khi đến phase.
+- `notebooks/`: 01 giữ P0-T3/P2-T2; 02_data_preparation dành cho chính sách P2-T3. Chỉ tạo 03_feature_engineering và 04_clustering khi đến task. Hồ sơ/demo có thể học trong notebook hiện hữu khi đến phase.
 - `data/`: chỉ hướng dẫn/manifest được Git theo dõi; dữ liệu lớn để cục bộ/Drive riêng.
 - `results/`: audit, metrics, profiles, figures; bảng cá nhân không công khai.
 - `model/` tạo khi cần lưu artifact ở P5; `app.py` chỉ tạo ở Phase 6. `tests/` hiện có kiểm tra helper đường dẫn bằng thư viện chuẩn.
@@ -121,4 +121,4 @@ Chưa copy dữ liệu, chưa cấu hình hoặc chạy Colab ở P0-T1. Đề x
 
 ## 8. Hoàn thành Phase 0
 
-Nhóm đã nghiệm thu Phase 0/Phase 1/P2-T1; PR #1–#6 đã merge. P2-T2 chỉ đo chất lượng và đang chờ nghiệm thu, chưa giải quyết cleaning policy hoặc chứng minh cải tiến mô hình. Không làm lại task cũ, tự chuyển P2-T3 hoặc đóng Phase 2.
+Nhóm đã nghiệm thu Phase 0/Phase 1/P2-T1/P2-T2; PR #1–#7 đã merge. P2-T3 đề nghị chính sách để sinh viên duyệt, chưa chứng minh cải tiến mô hình. Không tự chuyển P2-T4 hoặc đóng Phase 2.

@@ -2,7 +2,19 @@
 
 Dự án nghiên cứu độc lập trên **REES46 Cosmetics**, cho nhóm hai sinh viên. Mục tiêu là cải thiện khả năng phân khúc bằng lựa chọn đặc trưng và tiền xử lý có kiểm chứng, giữ K-Means đơn giản. F0 (RFM) là cơ sở; F1 thêm sessions_30d, views_30d là đề xuất cần kiểm tra, sau đó hỗ trợ diễn giải marketing. Không có model hoặc dashboard MVP ở bước hiện tại.
 
-**P2-T1 PASS; P2-T2 — Data Quality Assessment: READY FOR STUDENT REVIEW.** Đã quét đủ 16.536.158 event của bốn CSV observation và tính hash toàn tháng 12 trước/sau. Chưa làm sạch hoặc chốt policy; không tự chuyển P2-T3. Bắt đầu học ở **phần 7** của [notebook 01](notebooks/01_data_exploration.ipynb), [bảng tổng hợp](results/p2_t2/quality_summary.csv), [báo cáo chính](docs/REPORT.md) và [sổ tay phần 18](docs/LEARNING_GUIDE.md).
+**P2-T2 PASS; P2-T3: READY FOR STUDENT REVIEW.** Đề nghị làm sạch theo mục đích RFM + Engagement, giữ raw, rút output còn năm cột sau loại trùng. Học ở [notebook 02](notebooks/02_data_preparation.ipynb), [kết quả đối chiếu](results/p2_t3/stage_summary.csv) và [sổ tay phần 19](docs/LEARNING_GUIDE.md). Chưa xuất observation Parquet chính thức, chưa P2-T4.
+
+## P2-T3 — thực hành chính sách
+
+Mở notebook 02 từ bản repo đầy đủ, chạy từ đầu để đọc bảng kết quả đã lưu; không cần raw nếu chỉ học kết quả. Trên Colab, clone đúng nhánh/commit được nhóm chọn, chuyển thư mục vào repo rồi mở notebook; không dùng file notebook tải riêng để thay thế results/scripts. Bản thực hành và dữ liệu vẫn ở Drive riêng.
+
+```text
+python -B -m unittest discover -s tests -p test_cleaning_policy.py -v
+python -B scripts/check_cleaning_policy.py --data-root ../customer-analytics-antigravity/data --output results/p2_t3_recheck
+```
+
+Chỉ lệnh thứ hai cần bốn CSV raw; có thể đặt REES46_DATA_ROOT thay --data-root. Output phải là thư mục mới trong repo. Script dùng DuckDB, không pandas/PyArrow, không ghi nguồn hoặc Parquet chính thức; xuất hai CSV và một manifest. Notebook mặc định không quét lại raw. Các số đếm Sessions/Views trong bảng kiểm tra là toàn users, chưa phải bảng năm features của buyers. Không thêm hình vì biểu đồ duplicate P2-T2 đã minh họa thay đổi quan trọng.
+
 
 ## P2-T2 — thực hành ngắn gọn
 
@@ -23,6 +35,7 @@ GitHub `main` là mã nguồn chính thức đã được chấp nhận. Drive g
 | Notebook hiện có | Người sửa chính | Người chạy kiểm tra |
 |---|---|---|
 | `01_data_exploration.ipynb` | Thành viên 1 | Thành viên 2; cả hai tự chạy từ đầu |
+| `02_data_preparation.ipynb` | Thành viên 2 | Thành viên 1; cả hai tự chạy từ đầu |
 
 “Thành viên 1/2” là vai trò phân công, chưa phải tên cá nhân. Hai bạn thống nhất ai giữ mỗi vai trò trước khi làm; nếu đổi người, sửa dòng phân công này. Khi tạo notebook mới mới thêm một dòng cho notebook đó.
 
@@ -33,7 +46,7 @@ GitHub `main` là mã nguồn chính thức đã được chấp nhận. Drive g
 5. Khi notebook được chấp nhận, người sửa chính tải bản cuối về; giữ code đã được duyệt, bỏ output và thông tin riêng trước khi đưa lên nhánh task. Lưu kết quả tổng hợp cần thiết dưới `results/`; giữ dataset và bản thực hành trên Drive. Xem diff và danh sách file trước commit, không thêm dữ liệu lớn, credentials hoặc user IDs. Người còn lại kiểm tra PR trước khi nhóm đưa vào `main`; không ghi đè thay đổi mới trên GitHub.
 6. Sau mỗi task: thực hiện → giải thích kiến thức → kiểm tra → cập nhật REPORT/LEARNING_GUIDE/PROGRESS khi phù hợp → dừng nghiệm thu. Code hoặc dữ liệu thay đổi sau khi được duyệt thì kiểm tra lại.
 
-**Bàn giao GitHub:** PR #1–#6 đã merge sau nghiệm thu; [PR #6 — P2-T1](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/6) vào main tại `be5186c5`. P2-T2 làm trên nhánh `p2-t2-data-quality`; 20 ô notebook P0-T3 được giữ nguyên, phần mới chỉ nối thêm để học chất lượng dữ liệu.
+**Bàn giao GitHub:** PR #1–#7 đã merge sau nghiệm thu; [PR #7 — P2-T2](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/7) vào main tại `b282e490`. P2-T3 ở nhánh `p2-t3-cleaning-policy`. Notebook 01 và bằng chứng đã nghiệm thu giữ nguyên; notebook 02 là phần thực hành mới.
 
 ## Kiểm tra schema P2-T1
 
@@ -77,13 +90,15 @@ customer-segmentation-mvp/
 ├── data/README.md                  # chỉ hướng dẫn, chưa có dataset
 ├── notebooks/
 │   ├── README.md
-│   └── 01_data_exploration.ipynb    # hiện chỉ có thiết lập và đọc thử dữ liệu
+│   ├── 01_data_exploration.ipynb    # P0-T3 và chất lượng dữ liệu P2-T2
+│   └── 02_data_preparation.ipynb    # chính sách P2-T3
 ├── results/
 │   ├── p0_t1/                      # bằng chứng audit giữ nguyên
 │   ├── p0_t2/                      # baseline, logs và kiểm chứng cấu trúc
 │   ├── p0_t3/                      # kiểm tra notebook bằng Python local
 │   ├── p2_t1/                      # lần đầu bị chặn; recheck_01/ đọc đủ bốn tháng
-│   └── p2_t2/                      # hai CSV, bốn hình và một manifest
+│   ├── p2_t2/                      # hai CSV, bốn hình và một manifest
+│   └── p2_t3/                      # hai CSV và một manifest, không lưu event
 ├── docs/
 │   ├── PROJECT_PLAN.md
 │   ├── REPORT.md
@@ -95,7 +110,8 @@ customer-segmentation-mvp/
 │   ├── data_paths.py
 │   ├── verify_colab_notebook.py
 │   ├── inspect_schema.py
-│   └── assess_quality.py
+│   ├── assess_quality.py
+│   └── check_cleaning_policy.py
 └── tests/                          # helper đường dẫn và công cụ đọc schema
 ```
 

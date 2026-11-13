@@ -1,0 +1,3 @@
+stage,event_rows,view_events,purchase_events,eligible_purchase_events,invalid_price_purchase_events,events_without_session,eligible_buyers,all_purchase_sessions,purchase_sessions,all_purchase_price_sum,purchase_price_sum,sessions_30d_all_users,views_30d_all_users,views_30d_without_session
+before_dedup_valid_keys,16536158,7704235,1045014,1044922,92,3543,92652,126503,126503,5141715.66,5144461.71,947209,1997977,8
+after_policy,15667350,7703765,1044221,1044133,88,3179,92652,126503,126503,5138624.02,5141266.90,947209,1997872,8

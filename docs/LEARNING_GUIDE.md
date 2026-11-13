@@ -700,3 +700,108 @@ P2-T3 mới quyết định điều kiện buyer/purchase, giá, session thiếu
 3. Hash tháng 12 trước/sau giống nhau chứng minh điều gì và chưa chứng minh điều gì? Tại sao cờ giá cao chưa phải lỗi?
 
 **Gợi ý:** (1) Một khách có nhiều event; tỷ lệ purchase dùng số purchase events, không dùng số đơn. (2) Hai dòng dư; bỏ brand/category_code có thể gộp khác biệt, và thiếu event_id nên chưa phân biệt lỗi kỹ thuật với hành vi lặp. (3) Xác nhận ổn định bytes local trong lần chạy, chưa xác thực nguồn; giá cao có thể là mua hợp lệ, cần xem bối cảnh ở P2-T3.
+
+## 19. P2-T3 — làm sạch theo mục đích RFM + Engagement
+
+### 19.1. Giữ cột vì cần tính gì?
+
+P2-T2 đã được người dùng nghiệm thu PASS. P2-T3 đề nghị chính sách dưới đây và chạy thử trên toàn bộ bốn CSV; vẫn chờ sinh viên duyệt trước khi tạo observation Parquet chính thức ở P2-T4. Raw được giữ nguyên. “Chạy thử” ở đây dùng dữ liệu thật trong database tạm, không phải lấy mẫu hoặc tạo dữ liệu thay thế.
+
+Năm đặc trưng chỉ cần biết ai, lúc nào, hành động gì, phiên nào và giá mua. Vì vậy output đề nghị có:
+
+| Cột | Kiểu DuckDB dự kiến trong Parquet | Dùng cho |
+|---|---|---|
+| event_time | TIMESTAMP WITH TIME ZONE, UTC | R và giới hạn observation/30 ngày |
+| event_type | VARCHAR | Phân biệt purchase/view; mọi loại event đều có thể xác nhận phiên |
+| user_id | BIGINT | Gom theo khách, không dùng ID làm biến khoảng cách |
+| user_session | VARCHAR, có thể NULL | F và Sessions; ghép với user_id |
+| price | DECIMAL(18,2), có thể NULL | M của purchase hợp lệ |
+
+Brand và category_code không phục vụ năm biến nên bỏ khỏi output; không điền thiếu và **không xóa event vì thiếu chúng**. Product_id/category_id vẫn cần để phân biệt hai event khác sản phẩm/danh mục khi loại trùng; chỉ bỏ ở projection cuối. Raw vẫn cho phép nghiên cứu lại sản phẩm về sau, không cần giữ mọi cột trong bảng làm việc của MVP.
+
+### 19.2. Thứ tự xử lý và chính sách đề nghị
+
+1. Đọc đúng bốn CSV observation, chín cột dạng văn bản, strict_mode; lỗi cấu trúc CSV phải dừng. Không đọc events February. Không chạy pipeline cũ.
+2. Loại bản dư theo **đủ chín giá trị gốc**, trước trim/ép kiểu/làm tròn. Một nhóm n dòng giữ một, loại n−1; NULL gom cùng NULL. Không đưa tên file/tháng vào khóa. P2-T2 cho khóa 7/9 cùng số dòng dư, nhưng chín trường giữ thông tin đầy đủ và tránh gộp khác biệt brand/category khi dữ liệu đổi. Không có event_id nên đây là giả định nghiên cứu, không phải chứng minh mọi dòng trùng đều là lỗi kỹ thuật.
+3. Kiểm tra timestamp: phải parse được, hữu hạn, có timezone rõ; quy về UTC và giữ `[2019-10-01,2020-02-01)`. Không tự gắn UTC cho chuỗi thiếu múi giờ, không cắt về ngày trước khi lọc. Lọc theo thời điểm event, kể cả phiên vắt cutoff.
+4. User phải là chuỗi chữ số đọc được BIGINT dương. Không tạo ID thay thế hoặc nối khách theo session. Event thiếu/sai user không dùng cho cả năm biến.
+5. Giữ bốn loại view/cart/remove_from_cart/purchase; loại khác cần xem lại nguồn. Bảng lý do loại ưu tiên: timestamp sai → ngoài observation → user sai → loại event lạ. Mỗi event sau dedup chỉ thuộc một lý do; price/session được kiểm tra riêng, không cộng thành số hàng xóa.
+6. Session thiếu/trống hoặc sai hình thức UUID chuyển NULL trong bản làm việc; giữ event. Token hợp lệ giữ nguyên chữ hoa/thường, không tự sửa/điền session. Khóa phiên là `(user_id,user_session)` vì P2-T2 thấy 191 token dùng chung nhiều user. UUID chỉ là kiểm tra hình thức trong dữ liệu này, không chứng minh danh tính/đơn hàng. Nếu nguồn tương lai dùng định dạng khác, phải xem lại chính sách; không suy token sai dạng chắc chắn là event giả.
+7. Price thiếu/không parse được/không hữu hạn thành NULL; âm và 0 giữ nguyên để truy nguyên ý nghĩa. Không biến âm thành trị tuyệt đối, không điền median, không winsorize/cắt đuôi giá cao. Tất cả vẫn là event tương tác nếu user/time hợp lệ. Dữ liệu hiện tại không có giá thiếu/parse lỗi/không hữu hạn. Guard dừng nếu giá hữu hạn không vừa DECIMAL(18,2) hoặc có biểu diễn cần thêm chính sách độ chính xác; không âm thầm làm tròn.
+8. Purchase hợp lệ cho **cả R/F/M** là `event_type='purchase' AND price>0 AND user_session IS NOT NULL`, sau các kiểm tra trên. Buyer có ít nhất một purchase hợp lệ. Purchase giá âm/0/NULL hoặc không có phiên không đóng góp R/F/M, nhưng event vẫn có thể xác nhận một phiên tương tác. “Không có purchase hợp lệ” không chứng minh khách chưa từng mua thật; nhóm này tách khỏi mô hình RFM.
+9. Cuối cùng chỉ chọn năm cột; **không DISTINCT thêm trên năm cột**. Hai dòng cùng lúc, user, session, price nhưng khác product_id có thể là hai sản phẩm mua hợp lệ. Sau projection chúng giống nhau nhưng vẫn phải được giữ để M/Views không mất.
+
+Ví dụ minh họa: cùng user/phiên có hai purchase giá 10 cho hai sản phẩm khác nhau. Kết quả đúng theo chính sách là F=1, M=20. Nếu bỏ product_id trước loại trùng, có thể còn M=10. Nếu một purchase giá −2 xảy ra sau đó, không lấy thời điểm này làm lần mua hợp lệ cuối và không trừ −2 như hoàn tiền vì chưa biết ý nghĩa refunds.
+
+### 19.3. Tác động đến từng biến
+
+| Chính sách | R | F | M | Sessions 30d | Views 30d |
+|---|---|---|---|---|---|
+| Bỏ brand/category_code, rồi product/category sau dedup | Không đổi | Không đổi | Không đổi | Không đổi | Không đổi |
+| Giữ một/chín trường gốc | Không đổi max thời điểm của cùng bản trùng | Không đổi số phiên riêng biệt | Giảm tổng price dương bị lặp | Không đổi phiên riêng biệt | Giảm view lặp trong cửa sổ |
+| Purchase hợp lệ có giá dương và phiên | Có thể lùi lần mua cuối; không gán R cho người mất toàn bộ purchase hợp lệ | Bỏ phiên chỉ có purchase không hợp lệ; phiên còn mua hợp lệ vẫn tính | Chỉ cộng giá mua dương hợp lệ; giữ giá cao | Event mua không hợp lệ vẫn có thể xác nhận phiên tương tác | Không loại view vì giá |
+| Session NULL/sai dạng | Purchase đó không xác định R | Không tạo phiên giả | Không cộng purchase đó | Không đếm NULL thành một phiên | Vẫn đếm view có user/time hợp lệ |
+| User sai | Không tính cho khách chưa xác định | Không tính | Không tính | Không tính | Không tính |
+| Time sai/ngoài observation | Không lấy làm lần mua cuối | Không tính mua ngoài kỳ | Không cộng ngoài kỳ | Kiểm tra cửa sổ riêng | Kiểm tra cửa sổ riêng |
+| Rounding | Giữ độ phân giải thời gian khi tính R | Số nguyên | Cộng DECIMAL chính xác; không cắt giá cao | Số nguyên | Số nguyên |
+
+Đây là tác động theo định nghĩa, không có nghĩa mọi trường hợp đều xuất hiện. Kết quả thật nằm trong hai CSV P2-T3. Bảng stage_summary đếm trên **toàn bộ users** để kiểm tra chính sách, chưa phải bảng feature theo từng buyer hoặc kết quả phân khúc. Khi đến Phase 4, F0/F1 vẫn phải cùng tập buyers.
+
+### 19.4. Rounding — làm tròn lúc nào?
+
+R dự kiến là `(T − last_valid_purchase_timestamp) / 86.400 giây`, giữ phần lẻ và độ phân giải nguồn; không floor sang ngày, không round trước fit. Ví dụ lần mua cuối cách T 36 giờ thì R=1,5 ngày. Khi hiển thị có thể dùng hai chữ số sau dấu phẩy. F/Sessions/Views là số đếm nguyên. M cộng price bằng DECIMAL(18,2), không cộng DOUBLE rồi làm tròn từng nhóm; display hai chữ số không đổi giá trị gốc đã kiểm tra. Rounding không phải log transform hoặc scaling; chưa quyết định tiền xử lý mô hình ở task này.
+
+DuckDB DECIMAL lưu số thập phân cố định, phép cộng chính xác trong giới hạn kiểu; scale thấp hơn nguồn có thể làm tròn. Vì vậy script kiểm tra **toàn bộ giá hữu hạn trước khi cast**: chỉ chấp nhận biểu diễn số thông thường tối đa hai chữ số thập phân và vừa kiểu; gặp `0.005` thì dừng, không đổi thành `0.01`. Phép chia tính R sẽ dùng số thực; display và tính toán tách nhau. Xem [kiểu số DuckDB](https://duckdb.org/docs/2.0/sql/data_types/numeric.html).
+
+### 19.5. Column projection và output Parquet dự kiến
+
+Projection nghĩa là chỉ chọn những cột cần đọc. Khi tới P2-T4 mới xuất observation năm cột; không chạy lệnh xuất chính thức trong task này. Sau đó, bước chỉ kiểm tra view có thể dùng:
+
+```python
+# Ví dụ cho bước sau, chưa chạy với observation chính thức.
+con.execute("""SELECT count(*) FROM read_parquet(?)
+               WHERE event_type='view' AND event_time>=TIMESTAMPTZ '2020-01-02 00:00:00+00'
+                 AND event_time<TIMESTAMPTZ '2020-02-01 00:00:00+00'""", [parquet_path])
+```
+
+DuckDB hỗ trợ projection/filter pushdown cho Parquet; không cần load toàn bộ bằng pandas hoặc `SELECT *`. Đọc CSV vẫn phải xử lý dòng văn bản; không tuyên bố bỏ cột có cùng lợi ích I/O như Parquet. Kiểm thử riêng ghi/đọc một Parquet nhỏ trong thư mục tạm để đối chiếu kiểu năm cột, UTC, số dòng và kế hoạch chỉ đọc hai cột; đó là fixture phần mềm, không phải observation nghiên cứu. Xem [đọc/ghi Parquet bằng DuckDB](https://duckdb.org/docs/2.0/data/parquet/overview.html).
+
+### 19.6. Chạy lại, giới hạn và câu hỏi nghiệm thu
+
+Mở notebook 02 ở bản repo đầy đủ. Mặc định chỉ đọc bảng tổng hợp công khai, không cần raw. Chạy lại toàn dữ liệu bằng lệnh README với output mới; một database riêng dưới .tmp được dọn khi kết thúc. Bảng counts phải bảo toàn:
+
+`raw = duplicate_extras + invalid_time + outside_window + invalid_user + unknown_event + retained`.
+
+Các số price/session/cohort là lý do loại khỏi **phép tính tương ứng**, không phải hàng xóa khỏi retained. Hai CSV và một manifest là đủ cho lần chạy; không thêm hình vì biểu đồ trùng P2-T2 đã giải thích thay đổi lớn. So metadata cả bốn raw và SHA256 tháng 12 trước/sau; hash local ổn định chưa xác thực nguồn tải. Không khẳng định mọi bytes của ba tệp khác đã được hash. Không đọc events February hoặc Parquet cũ; không xuất features, K-Means hoặc official Parquet. Colab mới và môi trường cài mới chưa được xác nhận, không thay bảo mật Windows.
+
+Ba câu tự kiểm tra:
+
+1. Vì sao phải giữ product/category tới sau dedup, dù output không cần chúng? Nếu DISTINCT lần nữa trên năm cột, M có thể sai thế nào?
+2. Một purchase giá âm có session hợp lệ đóng góp vào R/F/M và Sessions ra sao? Một view thiếu session có còn đóng góp Views không?
+3. Vì sao giữ price cao và R phần lẻ? Nếu dữ liệu xuất hiện giá `0.005`, script phải làm gì thay vì tự làm tròn?
+
+Gợi ý: (1) Phân biệt event khác sản phẩm; có thể làm mất giá mua/lượt xem hợp lệ. (2) Không vào RFM, vẫn xác nhận phiên tương tác; view vẫn tính nếu user/time hợp lệ. (3) Chưa có bằng chứng giá cao sai, làm tròn sớm mất thông tin; dừng và xem lại độ chính xác/chính sách.
+
+### 19.7. Kết quả kiểm chứng trên dữ liệu thật
+
+Lần hoàn tất dùng Python 3.14.7, DuckDB 2.0.0, hai threads, memory_limit=768MB. Guard độ chính xác giá đạt trên toàn nguồn; không cần làm tròn price hoặc thêm PyArrow. Đây là kiểm tra chính sách, không phải benchmark mô hình; chưa đo sampled RSS hoặc chạy Colab mới.
+
+| Chỉ tiêu | Trước dedup, cùng điều kiện hợp lệ | Sau chính sách |
+|---|---:|---:|
+| Event | 16.536.158 | 15.667.350 |
+| View toàn observation | 7.704.235 | 7.703.765 |
+| Purchase events | 1.045.014 | 1.044.221 |
+| Purchase đủ điều kiện RFM | 1.044.922 | 1.044.133 |
+| Purchase giá không dương, giữ trong event | 92 | 88 |
+| Event thiếu session, giữ trong event | 3.543 | 3.179 |
+| Buyers đủ điều kiện | 92.652 | 92.652 |
+| Phiên mua hợp lệ | 126.503 | 126.503 |
+| Tổng price mua hợp lệ, đơn vị dataset | 5.144.461,71 | 5.141.266,90 |
+| Sessions 30d, toàn users | 947.209 | 947.209 |
+| Views 30d, toàn users | 1.997.977 | 1.997.872 |
+
+Loại đúng 868.808 bản dư; bốn lý do user/time/ngoài cửa sổ/event lạ đều 0. Không bỏ hàng vì brand/category_code, price hoặc session. Còn 363.403 dòng khác nhau trên khóa nguồn nhưng trùng giá trị năm cột sau projection, vẫn giữ. Bốn raw không đổi metadata; SHA256 tháng 12 trước/sau cùng ebf98f504e238109efa406d26a26a90e0d467faa938bf96b68e3fea663d2008e, khớp P2-T2 nhưng chưa xác thực nhà cung cấp.
+
+Sau dedup, tổng price của mọi purchase là 5.138.624,02. Chỉ cộng purchase hợp lệ cho M được 5.141.266,90, cao hơn 2.642,88 do không trừ giá âm; không gọi chênh lệch này là doanh thu tăng hay tiền hoàn. Mọi phiên có purchase trong dữ liệu này đều còn ít nhất một purchase hợp lệ, nên F không giảm bởi điều kiện giá. Không user mất toàn bộ purchase hợp lệ hoặc đổi thời điểm mua cuối: tác động thực tế lên R/cohort bằng 0. Tám view 30d thiếu phiên vẫn được giữ, không tạo phiên NULL.
+
+Đọc [stage_summary.csv](../results/p2_t3/stage_summary.csv), [policy_counts.csv](../results/p2_t3/policy_counts.csv) và [manifest](../results/p2_t3/run_manifest.json). `nullable` trong manifest là metadata của view DuckDB (có thể ghi YES cho cả cột đã được lọc); không phải DDL ràng buộc NOT NULL của artifact P2-T4. Theo chính sách, event_time/event_type/user_id bắt buộc hợp lệ; session/price có thể NULL. Dừng READY FOR STUDENT REVIEW.
