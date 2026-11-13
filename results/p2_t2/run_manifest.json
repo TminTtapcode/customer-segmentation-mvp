@@ -1,0 +1,85 @@
+{
+  "task": "P2-T2",
+  "status": "READY FOR STUDENT REVIEW",
+  "checked_at_utc": "2026-11-13T07:54:42.535770+00:00",
+  "command": [
+    "python",
+    "-B",
+    "scripts/assess_quality.py",
+    "--data-root",
+    "../customer-analytics-antigravity/data",
+    "--output",
+    "results/p2_t2"
+  ],
+  "code_sha256": "bc361ac11168e7ed2feadd3dc49207668b7cc595ac3b9d225c8652819de57d56",
+  "environment": {
+    "python": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+    "duckdb": "2.0.0",
+    "os": "Windows-11-10.0.26200-SP0",
+    "threads": 2,
+    "memory_limit": "768MB"
+  },
+  "inputs": [
+    {
+      "path": "raw/2019-Oct.csv",
+      "month": "2019-10",
+      "bytes": 482542278,
+      "mtime_ns": 1584335220000000000
+    },
+    {
+      "path": "raw/2019-Nov.csv",
+      "month": "2019-11",
+      "bytes": 545839412,
+      "mtime_ns": 1584335176000000000
+    },
+    {
+      "path": "raw/2019-Dec.csv",
+      "month": "2019-12",
+      "bytes": 415302972,
+      "mtime_ns": 1584335142000000000
+    },
+    {
+      "path": "raw/2020-Jan.csv",
+      "month": "2020-01",
+      "bytes": 501792804,
+      "mtime_ns": 1584335296000000000
+    }
+  ],
+  "december_sha256_before": "ebf98f504e238109efa406d26a26a90e0d467faa938bf96b68e3fea663d2008e",
+  "december_sha256_after": "ebf98f504e238109efa406d26a26a90e0d467faa938bf96b68e3fea663d2008e",
+  "input_metadata_unchanged": true,
+  "total_rows": 16536158,
+  "rows_in_observation": 16536158,
+  "duplicate_key9": [
+    "event_time",
+    "event_type",
+    "product_id",
+    "category_id",
+    "category_code",
+    "brand",
+    "price",
+    "user_id",
+    "user_session"
+  ],
+  "duplicate_key7": [
+    "event_time",
+    "event_type",
+    "product_id",
+    "category_id",
+    "price",
+    "user_id",
+    "user_session"
+  ],
+  "duplicate_equality": "Original CSV text; empty CSV fields read as NULL; no trimming/case/numeric/time normalization; source_month not a key.",
+  "counts_checked": true,
+  "csv_errors_ignored": false,
+  "elapsed_seconds": 92.43279130000155,
+  "limits": [
+    "Four source CSVs fully scanned; no February or legacy Parquet event data read.",
+    "All rows in these files stay in diagnostic denominators; invalid/outside timestamps reported separately.",
+    "Duplicate rows are repeated key values, not proof of technical errors; typed-key equivalence with old ETL is not assumed.",
+    "Positive-price subset and 3-IQR flag are diagnostic comparisons, not accepted cleaning policies.",
+    "Local SHA256 stability does not authenticate the publisher or acquisition history.",
+    "Elapsed time is for this assessment, not a model benchmark; RSS not measured; engine memory_limit is not a hard RSS cap."
+  ]
+}

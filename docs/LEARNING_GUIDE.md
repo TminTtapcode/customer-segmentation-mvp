@@ -1,6 +1,6 @@
 # Sổ tay học tập — MVP RFM + Engagement
 
-**Cập nhật 13/11/2026.** Phần 1–9 về kiểm kê P0-T1, phần 10–12 về công cụ/cộng tác, phần 13–16 về nghiên cứu và thiết kế; phần 17 về schema P2-T1. P1-T4 đã được nhóm xác nhận PASS, Phase 1 CLOSED. P2-T1 được người dùng xác nhận PASS (Student Verified) sau review. Số liệu local cũ vẫn giữ riêng, không coi là số đo Colab mới.
+**Cập nhật 13/11/2026.** Phần 1–17 giữ kiến thức/diễn biến đã nghiệm thu; phần 18 học P2-T2 theo cách gọn hơn: notebook, bảng chính và hình đơn giản. P2-T1 PASS; P2-T2 READY FOR STUDENT REVIEW. Kết quả mới là chạy local trên bốn CSV, chưa có xác nhận Colab mới.
 
 ## 1. Tệp dữ liệu, cấu trúc bảng và nguồn gốc xử lý là gì?
 
@@ -629,3 +629,74 @@ Kiểm thử công cụ dùng các tệp nhỏ tạm thời, tách khỏi nghiê
 3. Header đủ bốn tháng giống nhau và parse được 4.000 timestamp có UTC thì đã xác nhận toàn dữ liệu sạch chưa? Vì sao P2-T1 mới READY FOR STUDENT REVIEW, chưa phải PASS?
 
 **Gợi ý:** (1) Không: ID là định danh; có cột/kiểu mới chỉ đủ điều kiện kỹ thuật ban đầu, chính sách nghiệp vụ chưa chốt. (2) Năm event, một phiên, Frequency dự kiến tăng một nếu hợp lệ; khóa phiên lặp giữa event, không có order_id. (3) Chưa: chỉ đọc header/mẫu giới hạn; missing, duplicates, giá, khóa và thời gian toàn bộ chưa kiểm tra đầy đủ. READY ghi nhận công việc chờ hai sinh viên xem và nghiệm thu; không tự thay bằng PASS hoặc triển khai P2-T2.
+
+## 18. P2-T2 — Đánh giá chất lượng trên toàn bộ bốn CSV
+
+### 18.1. Học từ notebook và bảng chính
+
+Từ task này, nhóm đi theo mục tiêu → phương pháp → code → kết quả → giải thích → kiểm tra → nghiệm thu. Mở phần 7 của notebook 01 để xem bảng tổng hợp và bốn biểu đồ; REPORT trình bày ngắn phương pháp/kết quả, phần này giải thích sâu hơn. Không cần đọc nhiều JSON để hiểu phát hiện chính. Bản Word khoảng năm trang và 3–5 hình được hoàn thiện ở Phase 7; hiện chưa xuất Word hoặc làm các phase sau.
+
+P2-T1 chỉ kiểm tra 4.000 dòng mẫu. P2-T2 đọc **mọi dòng của bốn CSV tháng 10/11/12/2019 và 01/2020**, chưa đọc sự kiện February hoặc lấy Parquet đã làm sạch làm đầu vào. Mỗi dòng vẫn là một event, không phải một đơn hàng.
+
+### 18.2. Missing và mẫu số
+
+Nhóm định nghĩa ô thiếu cho phép đo là NULL hoặc chuỗi chỉ có khoảng trắng: `x IS NULL OR trim(x)=''`. Hàm trim chỉ dùng để nhận diện, không ghi giá trị mới vào nguồn. Khi đọc CSV, trường rỗng được DuckDB biểu diễn là NULL; xem [tham số CSV](https://duckdb.org/docs/2.0/data/csv/overview.html). Một chuỗi chữ “NULL” không tự được coi là thiếu theo định nghĩa này.
+
+`Tỷ lệ thiếu = số event thiếu cột / số event trong nhóm × 100%`. “Nhóm” có thể là tất cả dữ liệu, một tháng, một loại event hoặc giao tháng–loại event. Ví dụ minh họa: 2 ô thiếu session trên 10 event cho 20%; đây không phải tỷ lệ khách thiếu hoặc kết quả REES46. Bảng quality_details có scope, month, event_type và denominator để kiểm tra mẫu số.
+
+Missing brand/category_code có thể cản trở diễn giải danh mục/thương hiệu, nhưng không trực tiếp làm thiếu năm biến đã chọn. Missing user_id ảnh hưởng việc gom theo khách; thiếu session ảnh hưởng Frequency/Sessions 30d. Không vì thiếu session mà tự bỏ view hợp lệ; quyết định ở P2-T3.
+
+Trong lần chạy thật, 3.543 event thiếu session nhưng không có purchase thiếu session. Vì vậy cần xem ảnh hưởng tới Sessions 30d và các event tương tác, không nói 3.543 lượt mua hoặc khách bị mất. Brand thiếu 41,9155% và category_code thiếu 98,3285% dùng mẫu số 16.536.158 event.
+
+### 18.3. Hai định nghĩa trùng 7 và 9 trường
+
+Chín trường là toàn bộ cột raw. Bảy trường bỏ brand và category_code, còn event_time, event_type, product_id, category_id, user_id, user_session, price. So sánh hiện tại dùng **giá trị văn bản đã đọc từ CSV**, NULL gom cùng NULL; không trim, đổi hoa/thường, chuẩn hóa số hoặc timestamp trước khi nhóm. Vì vậy, `1.0` và `1.00` chưa tự bằng nhau. Đây là đối chiếu hai bộ khóa trên cùng dữ liệu, chưa khẳng định tương đương việc ETL cũ suy kiểu rồi loại trùng.
+
+Với một khóa xuất hiện n lần: số dòng trong nhóm là n; số dòng dư nếu chỉ giữ một là `n−1`. Ví dụ minh họa một khóa xuất hiện ba lần: có ba dòng trong nhóm nhưng chỉ hai dòng dư. Trong test tính tay, thêm thay đổi brand làm số dòng dư theo 7 trường lớn hơn 9 trường. Tổng tần số các nhóm phải bằng tổng event đã đọc; số dòng dư 7 trường không được nhỏ hơn 9 trường.
+
+Không có event_id nên giá trị trùng chưa chứng minh đó là lỗi kỹ thuật. Việc lặp purchase có thể tăng tổng price, view lặp có thể tăng Views; còn Frequency đếm phiên riêng biệt không tự tăng theo số purchase rows. Bảng chi tiết có số dòng view/purchase dư và tổng price dương tương ứng **nếu chỉ giữ một dòng/khóa**. Đây là phân tích giả định để xem ảnh hưởng, chưa thực hiện xóa hoặc chọn quy tắc.
+
+### 18.4. Giá, định danh và thời gian
+
+Price được kiểm tra thành sáu nhóm không giao nhau: thiếu, không parse được, không hữu hạn (NaN/Infinity), âm, bằng 0, dương. Tổng sáu nhóm phải bằng tổng event. Purchase có giá thiếu/lỗi/không dương được đọc với mẫu số là số purchase events, không phải số đơn. Chưa xác nhận currency/refunds/quantity nên không gọi tổng price là doanh thu ròng.
+
+Giá cao được gắn cờ tham khảo bằng `Q3 + 3×IQR`, với `IQR=Q3−Q1`, tính trên purchase có giá dương hữu hạn. Đây là lựa chọn để xem đuôi phân phối, chưa phải ngưỡng lỗi hoặc điều kiện xóa. Biểu đồ price dùng cùng 60 khoảng cho tất cả giá hữu hạn và nhóm giá dương, trục số lượng dùng log; “nhóm giá dương” chỉ là đối chiếu, không phải file đã làm sạch.
+
+Kết quả thật: 91 purchase giá âm và 1 giá 0 trên 1.045.014 purchase events; chưa tự loại. Trên 1.044.922 purchase dương, Q1=1,59, Q3=5,40 nên ngưỡng xem xét là 16,83; 36.107 event vượt ngưỡng. Không được gọi 36.107 event này là dữ liệu sai khi chưa hiểu bối cảnh.
+
+user_id được kiểm tra dạng chữ số và khả năng đọc BIGINT, session kiểm tra hình thức UUID. Dạng hợp lệ không chứng minh danh tính thật hoặc order_id. Nếu một token được dùng bởi nhiều user, phải xem khóa ghép user-session; nhiều event cùng khóa phiên là bình thường.
+
+Timestamp được parse trên toàn bộ dòng, kiểm tra hậu tố UTC/thông tin timezone, tháng nguồn và observation `[2019-10-01,2020-02-01)` theo UTC. Giá trị thiếu, không parse được, không hữu hạn, ngoài cửa sổ và trong cửa sổ được đếm riêng, không âm thầm bỏ hàng lỗi khỏi mẫu số. Cấu hình UTC của công cụ không thay cho bằng chứng timezone trong chuỗi.
+
+### 18.5. Chạy lại và kiểm tra kết quả quan trọng
+
+Chạy từ root repo trong Python có DuckDB và Matplotlib:
+
+```text
+python -B scripts/assess_quality.py --data-root ../customer-analytics-antigravity/data --output results/p2_t2
+```
+
+Hoặc đặt REES46_DATA_ROOT rồi bỏ --data-root. Mỗi lần chạy lại chọn output mới, ví dụ results/p2_t2_recheck, để giữ kết quả cũ. Dữ liệu lớn ở local/Drive; bảng tạm để đếm nằm trong thư mục riêng đã ignore và được dọn sau khi chạy, không phải observation sạch. Không cần chuyển Parquet thành CSV cho mô hình tương lai.
+
+Mở [quality_summary.csv](../results/p2_t2/quality_summary.csv) trước; [quality_details.csv](../results/p2_t2/quality_details.csv) lưu chi tiết theo tháng/loại và mẫu số. Một [run_manifest.json](../results/p2_t2/run_manifest.json) giữ cấu hình, input, hash code, hash tháng 12 và giới hạn để tái lập, không tạo log riêng cho từng phép kiểm.
+
+Script kiểm tra tổng số dòng theo tháng và loại, tổng tần số khóa trùng, các nhóm giá/thời gian và tổng histogram. Test phần mềm dùng ví dụ nhỏ riêng để đối chiếu n−1, missing, giá, timezone/cutoff và toàn luồng xuất bảng/hình; không lấy ví dụ test làm dữ liệu nghiên cứu.
+
+SHA256 là dấu vân tay bytes. Hash tháng 12 giống nhau trước/sau cho biết bản local ổn định trong lần kiểm tra; chưa có hash từ nhà cung cấp hoặc biên nhận tải thì không chứng minh nguồn gốc. Điều này khác với việc chỉ đọc được header ở P2-T1.
+
+### 18.6. Đọc biểu đồ và dừng ở đâu?
+
+- Missing: so tỷ lệ theo cột trên cùng tổng event; cột đậm chỉ để nhấn phần thiếu nhiều, không phải tiêu chí loại cột.
+- Event type: đọc số sự kiện, không diễn giải thành funnel chuyển đổi hoặc số đơn.
+- Price: so hai phạm vi được ghi rõ, cùng khoảng giá và thang log số lượng; không gọi ảnh sau là đã làm sạch.
+- Duplicate: so dòng dư theo hai định nghĩa, kết hợp thông tin bị bỏ khỏi khóa; không mặc định cột thấp hơn là chính sách đúng.
+
+P2-T3 mới quyết định điều kiện buyer/purchase, giá, session thiếu, loại trùng và rounding. P2-T2 chưa tạo feature hoặc chứng minh Engagement giúp mô hình tốt hơn. Không tự bổ sung RobustScaler/MiniBatchKMeans hoặc chạy các phase khác theo danh sách biểu đồ gợi ý.
+
+**Ba câu tự kiểm tra:**
+
+1. Vì sao số event thiếu session không bằng số khách thiếu session? Mẫu số của tỷ lệ purchase có giá không dương là gì?
+2. Một khóa xuất hiện ba lần có bao nhiêu dòng dư? Vì sao trùng theo 7 trường có thể nhiều hơn 9 trường nhưng vẫn chưa được tự xóa?
+3. Hash tháng 12 trước/sau giống nhau chứng minh điều gì và chưa chứng minh điều gì? Tại sao cờ giá cao chưa phải lỗi?
+
+**Gợi ý:** (1) Một khách có nhiều event; tỷ lệ purchase dùng số purchase events, không dùng số đơn. (2) Hai dòng dư; bỏ brand/category_code có thể gộp khác biệt, và thiếu event_id nên chưa phân biệt lỗi kỹ thuật với hành vi lặp. (3) Xác nhận ổn định bytes local trong lần chạy, chưa xác thực nguồn; giá cao có thể là mua hợp lệ, cần xem bối cảnh ở P2-T3.

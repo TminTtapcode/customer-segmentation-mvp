@@ -1,0 +1,21 @@
+issue,count,denominator,pct,impact,next_step
+Thiếu brand,6931209,16536158,41.91547395713079,Diễn giải thương hiệu; không phải đầu vào 5D,P2-T3: chưa tự điền thiếu
+Thiếu category_code,16259749,16536158,98.32845694870598,Chưa xác minh phân cấp danh mục,P2-T3: không suy nhóm cấp cao từ ID
+Thiếu user_id,0,16536158,0.0,Không gom đúng khách cho cả năm biến,P2-T3: quy tắc định danh
+Thiếu user_session,3543,16536158,0.021425774959334568,Frequency và Sessions 30d; chưa mặc định loại Views,P2-T3: quy tắc phiên
+user_id sai dạng số nguyên hoặc vượt BIGINT,0,16536158,0.0,Khóa khách; không đưa ID vào khoảng cách,"P2-T3: xác minh ID, chưa sửa"
+Session không đúng dạng UUID,0,16536158,0.0,"Rủi ro định dạng token, chưa phải bằng chứng event sai",P2-T3: không tự xóa
+Event dùng token session chung nhiều user,1389,16536158,0.008399774603024475,Phải ghép user_id với session,P2-T3: không lấy riêng token làm khóa
+Giá âm,94,16536158,0.000568451269031174,Monetary và cách hiểu event,P2-T3: kiểm tra theo loại event
+Giá bằng 0,32903,16536158,0.19897608622268848,Monetary và cách hiểu event,P2-T3: kiểm tra theo loại event
+Thiếu giá,0,16536158,0.0,Monetary và cách hiểu event,P2-T3: kiểm tra theo loại event
+Giá không parse được,0,16536158,0.0,Monetary và cách hiểu event,P2-T3: kiểm tra theo loại event
+Giá không hữu hạn,0,16536158,0.0,Monetary và cách hiểu event,P2-T3: kiểm tra theo loại event
+Purchase có giá thiếu/lỗi/không dương,92,1045014,0.00880370980675857,"Buyer, Recency, Frequency và Monetary có thể đổi",P2-T3: chốt điều kiện mua hợp lệ
+Purchase dương vượt Q3 + 3 IQR,36107,1044922,3.455473231494791,Giá trị cực đoan có thể chi phối Monetary,"Chỉ dấu xem xét, không tự coi là lỗi"
+Dòng dư theo 9 trường,868808,16536158,5.253989469621662,Views và Monetary có thể tăng khi lặp event,"P2-T3: cân nhắc giả định trùng, chưa xóa"
+Dòng dư theo 7 trường,868808,16536158,5.253989469621662,Views và Monetary có thể tăng khi lặp event,"P2-T3: cân nhắc giả định trùng, chưa xóa"
+Timestamp không parse được,0,16536158,0.0,Recency và cửa sổ Sessions/Views 30d,"P2-T3: kiểm tra thời gian, chưa lọc"
+Timestamp thiếu thông tin timezone,0,16536158,0.0,Recency và cửa sổ Sessions/Views 30d,"P2-T3: kiểm tra thời gian, chưa lọc"
+Timestamp ngoài observation,0,16536158,0.0,Recency và cửa sổ Sessions/Views 30d,"P2-T3: kiểm tra thời gian, chưa lọc"
+Timestamp không khớp tháng tệp,0,16536158,0.0,Recency và cửa sổ Sessions/Views 30d,"P2-T3: kiểm tra thời gian, chưa lọc"
