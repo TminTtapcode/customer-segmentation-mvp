@@ -11,8 +11,9 @@
 - **P1-T2: PASS (Student Verified).** Phần xác nhận sau trong tệp yêu cầu P1-T3 ghi hai sinh viên đã đọc REPORT mục 3, LEARNING_GUIDE phần 14, trả lời câu hỏi và xác nhận PASS; checklist được cung cấp ghi 5/5. Không tự bổ sung bài trả lời ngoài nội dung đã gửi.
 - **P1-T3: PASS (Student Verified).** Người dùng xác nhận hai sinh viên đã nghiệm thu trong yêu cầu P1-T4; không tự bổ sung bài trả lời hoặc checklist từng câu chưa gửi.
 - **P1-T4: PASS (Student Verified).** Người dùng xác nhận hai sinh viên nghiệm thu trong yêu cầu P2-T1; không tự bổ sung bài trả lời từng câu. **Phase 1 CLOSED** sau khi đối chiếu/bàn giao main; H1–H3 chưa được chứng minh.
-- **P2-T1: PASS (Student Verified).** Sau phần review, người dùng xác nhận trực tiếp “pass”. Nghiệm thu phạm vi schema/header/mẫu bốn tháng, tổng 4.000 dòng; không tự bổ sung câu trả lời sinh viên. P2-T2/P2-T3/P2-T4 chưa thực hiện; các lần kiểm tra trước được giữ làm lịch sử ở mục 12–13.
-- **GitHub:** PR #1–#5 đã merge sau nghiệm thu. Bản P2-T1 được chấp nhận và bàn giao qua PR #6; các mốc kiểm tra và lịch sử ở mục 12–14 cùng liên kết PR.
+- **P2-T1: PASS (Student Verified).** Người dùng xác nhận trực tiếp “pass”; PR #6 đã merge main tại be5186c5. Không tự bổ sung câu trả lời sinh viên; các lần kiểm tra trước giữ làm lịch sử ở mục 12–14.
+- **P2-T2: READY FOR STUDENT REVIEW.** Đã quét toàn bộ bốn CSV, chưa xóa dữ liệu hoặc chốt policy. P2-T3/P2-T4 chưa bắt đầu.
+- **GitHub:** P2-T2 trên nhánh p2-t2-data-quality từ main be5186c5; không làm lại P0/P1/P2-T1.
 
 ## 1. P0-T1 — kiểm kê dữ liệu cũ
 
@@ -90,8 +91,8 @@ Lần kiểm tra ignore đầu gặp khác biệt CRLF khi truyền tên file qu
 
 ## 4. Các vấn đề chưa giải quyết
 
-1. Ở P0-T1, CSV `2019-Dec.csv` chưa đọc được header/hash. P2-T1 chạy lại sau khi người dùng gỡ chặn đã đọc được header/mẫu; **SHA256 toàn tệp chưa tính**, phần đối chiếu hash/nguồn gốc vẫn mở. Không sửa bằng chứng P0-T1 hoặc tự coi toàn bộ vấn đề đã resolved.
-2. Cách loại trùng theo 7/9 trường chưa thống nhất.
+1. P0-T1 chưa đọc được header/hash tháng 12, P2-T1 đã đọc header/mẫu. P2-T2 đã tính **SHA256 toàn tệp local trước/sau, giống nhau**; chưa có hash từ nhà cung cấp hoặc biên nhận để xác thực nguồn. Giữ nguyên bằng chứng P0/P2-T1, không sửa lịch sử thành thành công.
+2. Chưa chọn policy trùng 7/9 trường. P2-T2 cho cùng 868.808 dòng dư trên bốn raw CSV khi so văn bản; chưa suy tương đương sau ép kiểu hoặc tự xóa trùng. Chốt ở P2-T3.
 3. Quy tắc buyer, price, session và rounding chưa chốt.
 4. Bảng đặc trưng cũ chỉ là ứng viên tái sử dụng, chưa phải đầu vào đã được chấp nhận vô điều kiện.
 5. Không dùng model/scaler/labels/metrics 7D cũ cho MVP 5D.
@@ -158,7 +159,8 @@ Kiểm tra `git var GIT_AUTHOR_IDENT` ban đầu chưa đạt vì local chưa c�
 | P1-T3 | PASS (Student Verified); PR #4 đã merge |
 | P1-T4 | PASS (Student Verified); PR #5 đã merge; Phase 1 CLOSED |
 | P2-T1 | PASS (Student Verified) — xác nhận trực tiếp của người dùng sau review |
-| P2-T2…T4 | NOT STARTED |
+| P2-T2 | READY FOR STUDENT REVIEW |
+| P2-T3…T4 | NOT STARTED |
 | P3-T1…T3 | NOT STARTED |
 | P4-T1…T4 | NOT STARTED |
 | P5-T1…T4 | NOT STARTED |
@@ -369,3 +371,26 @@ Sau nhận xét đủ điều kiện nghiệm thu, người dùng xác nhận tr
 Giữ nguyên toàn bộ vấn đề mở ở mục 4, gồm hash toàn raw tháng 12, missing/duplicates/giá/session/timestamp toàn dữ liệu, cleaning policy và môi trường. **Dừng sau bàn giao P2-T1; chưa triển khai P2-T2 hoặc đóng Phase 2.**
 
 Kiểm tra trạng thái bằng `..\customer-analytics-antigravity\.venv\Scripts\python.exe -B .tmp/p2t1-accept-verify.py`, exit 0: 13 điều kiện tài liệu/bảo toàn đạt, 39 liên kết local hợp lệ; 32 file khác và 19 bằng chứng giữ nguyên SHA256. Các bảng, code minh họa, số liệu trong nội dung hai báo cáo, hợp đồng nghiên cứu và vấn đề mở không đổi. Phép dò số ban đầu nhận cả mã task, tháng trong dòng trạng thái và dấu câu; đã điều chỉnh kiểm tra đúng phần nội dung, không sửa số liệu/evidence để vượt kiểm tra. Không chạy lại unit tests, dữ liệu hoặc mô hình.
+
+## 15. P2-T2 — chất lượng dữ liệu, cách thực hành gọn
+
+**Đã làm:** theo yêu cầu mới, dùng một script assess_quality.py, phần 7 nối thêm notebook 01, hai bảng CSV, bốn PNG và một manifest cần cho tái lập. REPORT có năm phần trình bày chính, hướng tới năm trang Word/3–5 hình khi hoàn tất; toàn bộ bản đã nghiệm thu trước P2-T2 giữ trong mục thu gọn. Sổ tay thêm phần 18. Chưa xuất Word hoặc tạo notebook/thuật toán/scaler của phase sau.
+
+**Kết quả chính:** quét đủ 16.536.158 dòng raw (tháng 10: 4.102.283; 11: 4.635.837; 12: 3.533.286; 01: 4.264.752). Missing brand 6.931.209 (41,9155%), category_code 16.259.749 (98,3285%), session 3.543 (0,0214%); không có purchase thiếu session. Có 94 giá âm/32.903 giá 0; riêng purchase 91 âm/1 bằng 0 trên 1.045.014 purchase events. Hai khóa 7/9 có cùng 868.808 dòng dư (5,2540%) và 826.259 nhóm lặp; chỉ so văn bản CSV, chưa chọn cleaning policy. Cả 16.536.158 timestamp parse được, có UTC, đúng observation/tháng; 191 token session dùng bởi nhiều user (1.389 event). Giá cao theo Q3+3IQR chỉ là cờ tham khảo, chưa tự loại.
+
+Hash tháng 12 trước/sau: ebf98f504e238109efa406d26a26a90e0d467faa938bf96b68e3fea663d2008e. Metadata bốn raw không đổi; hash local không chứng minh nguồn tải. Không đọc events February hoặc dữ liệu dòng Parquet cũ. Các vấn đề buyer/price/session/dedup/rounding vẫn chờ P2-T3.
+
+**Lệnh thật:**
+
+```text
+python -B -m unittest discover -s tests -p test_assess_quality.py -v
+python -B scripts/assess_quality.py --data-root ../customer-analytics-antigravity/data --output results/p2_t2
+```
+
+Năm test công thức/khóa/giá/thời gian và xuất bảng/hình đạt, exit 0; fixtures riêng, không thay dữ liệu nghiên cứu. Lần chạy dữ liệu đầu dừng khi chuyển timestamp sang Python do thiếu pytz. Đã đổi xuất mốc thời gian sang VARCHAR trong SQL, kiểm tra toàn luồng rồi chạy lại đầy đủ thành công, exit 0. Không cài dependency hoặc thay bảo mật. Pandas trong venv cũ còn lỗi DLL; task dùng Python/DuckDB/Matplotlib sẵn có, không xác nhận toàn bộ môi trường đã tái lập.
+
+Thời gian lần hoàn tất khoảng 92,43 giây, threads=2, DuckDB memory_limit=768MB; chỉ là thời gian task, chưa đo RSS/benchmark mô hình. Các kiểm tra đối chiếu dòng/tháng/loại, tần số nhóm trùng, phân nhóm giá/thời gian, tổng histogram và metadata/hash nguồn đã chạy trong script. Xem [bảng chính](../results/p2_t2/quality_summary.csv), [chi tiết](../results/p2_t2/quality_details.csv), [manifest](../results/p2_t2/run_manifest.json). Đã mở xem trực tiếp bốn PNG; tiêu đề/trục/đơn vị đọc được. Ba ô code mới trong notebook được chạy bằng Python local; 20 ô P0 giữ nguyên, chưa chạy lại toàn notebook hoặc P2-T2 trên Colab.
+
+**Nghiệm thu:** hai bạn mở phần 7 notebook và sổ tay phần 18, giải thích mẫu số, n−1 so với dòng trong nhóm trùng, giá âm/cao và ý nghĩa hash. Bằng chứng cũ giữ nguyên; không tự dọn hoặc lưu trữ lại file đã nghiệm thu. P2-T2 = **READY FOR STUDENT REVIEW**, dừng chờ PASS, không tự P2-T3.
+
+Kiểm tra bàn giao: đọc lại CSV tổng hợp để đối chiếu tổng dòng theo tháng/loại với manifest, kiểm tra hash code và metadata input; nội dung REPORT cũ còn nguyên trong mục thu gọn, 20 ô notebook cũ không đổi. nbformat hiện có validate notebook thành công; các link local hợp lệ. Git đối chiếu xác nhận 30 file cũ khác cùng 19 bằng chứng không đổi bytes. Không tạo thêm script QA/JSON verification cho các kiểm tra nhỏ này.

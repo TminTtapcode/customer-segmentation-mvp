@@ -2,7 +2,19 @@
 
 Dự án nghiên cứu độc lập trên **REES46 Cosmetics**, cho nhóm hai sinh viên. Mục tiêu là cải thiện khả năng phân khúc bằng lựa chọn đặc trưng và tiền xử lý có kiểm chứng, giữ K-Means đơn giản. F0 (RFM) là cơ sở; F1 thêm sessions_30d, views_30d là đề xuất cần kiểm tra, sau đó hỗ trợ diễn giải marketing. Không có model hoặc dashboard MVP ở bước hiện tại.
 
-**P1-T4 PASS (Student Verified), Phase 1 CLOSED.** **P2-T1 — kiểm tra schema: PASS (Student Verified)** theo xác nhận trực tiếp của người dùng. Đã đọc header/mẫu giới hạn đủ bốn raw observation, tổng 4.000 dòng; chưa xác minh chất lượng toàn bộ hoặc hash toàn raw tháng 12. Đọc phần Data Understanding trong [báo cáo](docs/REPORT.md), phần 17 của [sổ tay](docs/LEARNING_GUIDE.md), [tiến độ](docs/PROGRESS.md) và [kế hoạch](docs/PROJECT_PLAN.md). RQ1–RQ3/F0/F1 giữ nguyên; chưa triển khai P2-T2.
+**P2-T1 PASS; P2-T2 — Data Quality Assessment: READY FOR STUDENT REVIEW.** Đã quét đủ 16.536.158 event của bốn CSV observation và tính hash toàn tháng 12 trước/sau. Chưa làm sạch hoặc chốt policy; không tự chuyển P2-T3. Bắt đầu học ở **phần 7** của [notebook 01](notebooks/01_data_exploration.ipynb), [bảng tổng hợp](results/p2_t2/quality_summary.csv), [báo cáo chính](docs/REPORT.md) và [sổ tay phần 18](docs/LEARNING_GUIDE.md).
+
+## P2-T2 — thực hành ngắn gọn
+
+Mỗi task: mục tiêu → phương pháp/lý do → code → kết quả → giải thích → kiểm tra phù hợp → cập nhật tài liệu → dừng nghiệm thu. Notebook giữ code, output tổng hợp và biểu đồ; script tách logic dùng lại. Không tạo thêm audit/log cho từng phép kiểm nhỏ hoặc xóa bằng chứng cũ.
+
+```text
+python -B scripts/assess_quality.py --data-root ../customer-analytics-antigravity/data --output results/p2_t2
+```
+
+Input là bốn CSV dưới raw/; có thể dùng REES46_DATA_ROOT thay --data-root. Python cần DuckDB và Matplotlib đã khai báo trong requirements, không cần pandas cho script này. Chạy lại chọn output mới, ví dụ results/p2_t2_recheck. Script không đọc sự kiện February, không sửa raw, không tạo Parquet sạch hay tính feature/model.
+
+Output gọn: quality_summary.csv để đọc trước; quality_details.csv cho missing/giá/thời gian theo tháng và loại; bốn PNG về missing, loại event, price, duplicate; một run_manifest.json để giữ cấu hình và dấu vân tay. Chưa có kết quả P2-T2 trên Colab. Bản nộp Word dự kiến khoảng năm trang/3–5 hình ở Phase 7; không đưa mọi hình hoặc lịch sử debug vào báo cáo chính.
 
 ## Hai thành viên cùng làm việc
 
@@ -21,7 +33,7 @@ GitHub `main` là mã nguồn chính thức đã được chấp nhận. Drive g
 5. Khi notebook được chấp nhận, người sửa chính tải bản cuối về; giữ code đã được duyệt, bỏ output và thông tin riêng trước khi đưa lên nhánh task. Lưu kết quả tổng hợp cần thiết dưới `results/`; giữ dataset và bản thực hành trên Drive. Xem diff và danh sách file trước commit, không thêm dữ liệu lớn, credentials hoặc user IDs. Người còn lại kiểm tra PR trước khi nhóm đưa vào `main`; không ghi đè thay đổi mới trên GitHub.
 6. Sau mỗi task: thực hiện → giải thích kiến thức → kiểm tra → cập nhật REPORT/LEARNING_GUIDE/PROGRESS khi phù hợp → dừng nghiệm thu. Code hoặc dữ liệu thay đổi sau khi được duyệt thì kiểm tra lại.
 
-**Bàn giao GitHub:** PR #1–#5 đã merge sau nghiệm thu; [PR #5 — P1-T4](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/5) vào main tại `e941a90`. Nhánh `p2-t1-schema-inspection` bắt đầu từ main này. Nội dung P0–P1 và notebook đã nghiệm thu được bảo toàn; schema inspection dùng script riêng, không tạo notebook thứ hai.
+**Bàn giao GitHub:** PR #1–#6 đã merge sau nghiệm thu; [PR #6 — P2-T1](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/6) vào main tại `be5186c5`. P2-T2 làm trên nhánh `p2-t2-data-quality`; 20 ô notebook P0-T3 được giữ nguyên, phần mới chỉ nối thêm để học chất lượng dữ liệu.
 
 ## Kiểm tra schema P2-T1
 
@@ -70,7 +82,8 @@ customer-segmentation-mvp/
 │   ├── p0_t1/                      # bằng chứng audit giữ nguyên
 │   ├── p0_t2/                      # baseline, logs và kiểm chứng cấu trúc
 │   ├── p0_t3/                      # kiểm tra notebook bằng Python local
-│   └── p2_t1/                      # lần đầu bị chặn; recheck_01/ đọc đủ bốn tháng
+│   ├── p2_t1/                      # lần đầu bị chặn; recheck_01/ đọc đủ bốn tháng
+│   └── p2_t2/                      # hai CSV, bốn hình và một manifest
 ├── docs/
 │   ├── PROJECT_PLAN.md
 │   ├── REPORT.md
@@ -81,7 +94,8 @@ customer-segmentation-mvp/
 │   ├── verify_audit.py
 │   ├── data_paths.py
 │   ├── verify_colab_notebook.py
-│   └── inspect_schema.py
+│   ├── inspect_schema.py
+│   └── assess_quality.py
 └── tests/                          # helper đường dẫn và công cụ đọc schema
 ```
 

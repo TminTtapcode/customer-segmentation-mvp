@@ -1,5 +1,82 @@
 # Báo cáo bài tập lớn — Phân khúc khách hàng bằng RFM và Engagement
 
+**Cập nhật 13/11/2026. P2-T2: READY FOR STUDENT REVIEW.** Đây là bản trình bày chính gồm năm phần, hướng tới khoảng năm trang Word ở Phase 7; chưa xuất Word. Chi tiết nghiên cứu đã nghiệm thu được giữ nguyên trong mục thu gọn cuối tệp. Chưa có kết quả mô hình hoặc chiến dịch.
+
+## 1. Bài toán, mục tiêu và dữ liệu
+
+Nhóm nghiên cứu cải thiện phân khúc khách hàng mỹ phẩm bằng K-Means thông qua đặc trưng mua hàng và tương tác website. Trình tự là xây F0 cơ sở → ghi hạn chế có bằng chứng → đề xuất → kiểm chứng F1 → đánh giá → hỗ trợ marketing. Chưa mặc định F1 tốt hơn.
+
+Giữ ba câu hỏi đã nghiệm thu:
+
+- RQ1: Dữ liệu REES46 cho thấy những đặc điểm gì về hành vi mua hàng và tương tác website?
+- RQ2: Bổ sung Engagement vào RFM có giúp phân biệt những hành vi khách hàng mà RFM truyền thống chưa thể hiện rõ không?
+- RQ3: Các phân khúc khách hàng có đặc điểm gì và có thể gợi ý những định hướng marketing nào?
+
+P2-T2 dùng bốn CSV REES46 Cosmetics tháng 10/11/12/2019 và 01/2020: **16.536.158 sự kiện**, mỗi dòng là một event. Toàn bộ thời gian parse được, có UTC và nằm trong `[2019-10-01,2020-02-01)`; không có dòng sai tháng nguồn. February không được đọc. Nguồn Kaggle được cấu hình dự án cũ khai báo; nguồn tải, currency và quyền chia sẻ chưa xác minh đầy đủ.
+
+## 2. Chất lượng dữ liệu — kết quả P2-T2
+
+Nhóm đọc toàn bộ bốn tệp bằng DuckDB, giữ trường nguồn dạng văn bản và kiểm tra giá/thời gian bằng biểu thức chẩn đoán. Không bỏ hàng parse lỗi; không điền thiếu hoặc tạo dữ liệu sạch. Missing là NULL hoặc chuỗi chỉ có khoảng trắng. Bảng chi tiết có mẫu số theo cột, tháng và loại event; cách đọc CSV theo [tài liệu DuckDB](https://duckdb.org/docs/2.0/data/csv/overview.html).
+
+| Vấn đề | Số event/dòng | Tỷ lệ trong nhóm | Ảnh hưởng cần xem xét |
+|---|---:|---:|---|
+| Thiếu brand | 6.931.209 | 41,9155% | Diễn giải thương hiệu; không phải đầu vào 5D |
+| Thiếu category_code | 16.259.749 | 98,3285% | Chưa xác minh phân cấp danh mục |
+| Thiếu user_session | 3.543 | 0,0214% | Frequency và Sessions 30d; chưa mặc định loại Views |
+| Purchase có giá thiếu/lỗi/không dương | 92 | 0,0088% | Buyer, Recency, Frequency và Monetary có thể đổi |
+| Dòng dư theo 9 trường | 868.808 | 5,2540% | Views và Monetary có thể tăng khi lặp event |
+| Dòng dư theo 7 trường | 868.808 | 5,2540% | Views và Monetary có thể tăng khi lặp event |
+| Timestamp ngoài observation | 0 | 0,0000% | Recency và cửa sổ Sessions/Views 30d |
+
+Mẫu số là toàn bộ 16.536.158 event, riêng dòng purchase dùng 1.045.014 purchase events. Đây không phải số đơn hàng. Có 7.704.235 view, 4.619.639 cart và 3.167.270 remove_from_cart; không diễn giải các số này thành funnel hoặc tỷ lệ chuyển đổi.
+
+![Tỷ lệ thiếu theo cột](../results/p2_t2/figures/missing.png)
+
+Category_code thiếu 98,33%, brand thiếu 41,92%, cản trở diễn giải danh mục/thương hiệu nhưng không trực tiếp là hai biến đầu vào MVP. Thiếu session chỉ 0,0214% vẫn cần chú ý; không có purchase thiếu session trong bộ raw này, nên không suy ra 3.543 lượt mua hoặc khách bị mất.
+
+![So sánh hai khóa trùng](../results/p2_t2/figures/duplicates.png)
+
+Hai khóa đều có 826.259 nhóm lặp, 1.695.067 dòng nằm trong nhóm và 868.808 dòng dư nếu chỉ giữ một. Khóa 7 bỏ brand/category_code, các trường còn lại giống khóa 9. Kết quả bằng nhau **trên bốn CSV và phép so văn bản hiện tại**, chưa tự chốt chính sách hoặc suy tương đương ETL cũ sau ép kiểu. Không có event_id nên chưa biết mọi trường hợp lặp có phải lỗi kỹ thuật.
+
+Các dòng dư gồm 470 view và 793 purchase; tổng price dương trên phần purchase dư khoảng 3.194,81 đơn vị giá nếu giữ một dòng/khóa. Đây là kịch bản đo ảnh hưởng, chưa xóa dữ liệu. Cả 191 token session được nhiều user dùng chung ảnh hưởng 1.389 event, nên cần khóa user-session.
+
+Toàn bộ có 94 giá âm và 32.903 giá bằng 0; riêng purchase là 91 giá âm và 1 giá 0. Không thấy giá thiếu/không parse được/không hữu hạn hoặc user_id thiếu/sai định dạng. Giá hữu hạn từ −79,37 đến 327,78. Trên purchase dương, Q1=1,59, Q3=5,40; ngưỡng tham khảo Q3+3IQR=16,83 gắn cờ 36.107 event (3,4555%). Giá cao chưa phải lỗi và không tự loại. Phân phối price cùng biểu đồ loại event được trình bày trong notebook, không đưa mọi hình vào bản chính.
+
+Hash SHA256 toàn tháng 12 giống nhau trước/sau lần chạy, metadata bốn tệp không đổi. Điều này xác nhận ổn định bản local, chưa xác thực nhà cung cấp. **P2-T3 mới quyết định** dedup, buyer, price, session và rounding.
+
+## 3. Đặc trưng và phương pháp dự kiến
+
+Chưa tính lại bảng đặc trưng. Với cutoff T=01/02/2020 UTC, dự kiến:
+
+| Biến | Định nghĩa | Giới hạn |
+|---|---|---|
+| Recency | Số ngày từ purchase hợp lệ cuối đến T | Chỉ buyers; điều kiện hợp lệ chờ P2-T3 |
+| Frequency | Số khóa user-session khác nhau có purchase hợp lệ | Proxy phiên mua, không phải số đơn |
+| Monetary | Tổng price purchase hợp lệ | Không phải net GMV; currency/refunds chưa xác minh |
+| Sessions 30d | Số phiên trong `[02/01/2020,T)` | Phụ thuộc session và điều kiện event |
+| Views 30d | Số view events trong cùng cửa sổ | Không phải số sản phẩm duy nhất hoặc ý định mua |
+
+F0 dùng R/F/M; F1 thêm Sessions/Views. Non-buyers mô tả riêng, không gán Recency giả. Phase 3 xem phân phối, Phase 4 chốt cách tính/biến đổi theo dữ liệu; chưa khẳng định log/scaling có lợi hoặc thêm biến/thuật toán ngoài phạm vi.
+
+## 4. Kiểm chứng cải tiến — chưa thực nghiệm
+
+Giữ H1: Engagement có thể phân biệt hành vi khi lịch sử mua tương tự; H2: tiền xử lý phù hợp có thể giúp trong cùng bộ biến; H3: hồ sơ rõ có thể hỗ trợ gợi ý marketing. Phase 5 phải ghi hạn chế F0 trước F1, giữ cùng buyers/cutoff/policy, thử K=2–6 và nhiều seed. Khi đo tác động log/scaling, chỉ đổi bước cần kiểm tra trong cùng bộ biến. Scaler fit riêng F0/F1, cùng quy tắc cho RFM chung.
+
+Đánh giá Silhouette, DBI, ổn định, cỡ cụm, hồ sơ cả năm biến ở đơn vị gốc, thông tin hành vi và tài nguyên. Không dùng riêng Silhouette giữa hai không gian để kết luận F1 thắng; chấp nhận giữ F0 nếu chưa có lợi ích rõ. Chưa có K cuối, nhãn, chỉ số hoặc biểu đồ so sánh mô hình mới.
+
+## 5. Ứng dụng dự kiến và hạn chế
+
+Phase 6 trình bày **Cụm → đặc điểm quan sát → mục tiêu → hành động gợi ý → căn cứ → KPI → hạn chế**, ghi Research Demo / REES46. Chưa đặt tên cụm hoặc chứng minh gợi ý tăng doanh thu/chuyển đổi; không gửi chiến dịch tự động.
+
+P2-T2 xác định các vấn đề cần ra quyết định, chưa giải quyết chúng. Trùng giá trị không tự là lỗi; giá âm/cao cần hiểu bối cảnh, session thiếu cần chính sách, hash local không chứng minh nguồn. February đã được xem ở dự án cũ, không phải untouched holdout và không dùng chọn mô hình. Chưa xác nhận lần chạy mới trên Colab hoặc toàn bộ môi trường. Dừng chờ nghiệm thu P2-T2, chưa làm P2-T3.
+
+**Nguồn và kết quả:** [REES46 Cosmetics được cấu hình cũ khai báo](https://www.kaggle.com/datasets/mkechinov/ecommerce-events-history-in-cosmetics-shop); [bảng tổng hợp](../results/p2_t2/quality_summary.csv), [chi tiết theo nhóm](../results/p2_t2/quality_details.csv); giải thích và giới hạn trong LEARNING_GUIDE phần 18. Tài liệu RFM/RFM-B và thiết kế đã nghiệm thu được giữ bên dưới.
+
+<details>
+<summary>Chi tiết nghiên cứu đã nghiệm thu trước P2-T2 — giữ nguyên nội dung để tham khảo</summary>
+
+# Báo cáo bài tập lớn — Phân khúc khách hàng bằng RFM và Engagement
+
 **Cập nhật:** 13/11/2026. Phase 1 và P2-T1 đã được nhóm nghiệm thu; P2-T1 chỉ kiểm tra header/mẫu giới hạn đủ bốn tháng. Chưa có thí nghiệm F0/F1. Nhật ký thực hiện và nghiệm thu được ghi riêng trong `PROGRESS.md`.
 
 ## 1. Giới thiệu và thiết kế nghiên cứu — P1-T1
@@ -486,3 +563,5 @@ Nhóm chưa có cơ sở nói việc thêm Engagement tạo ra mô hình tốt h
 - [`TminTtapcode/customer-segmentation-mvp`](https://github.com/TminTtapcode/customer-segmentation-mvp): nơi lưu mã nguồn, tài liệu và bằng chứng kiểm tra của MVP.
 - Nguồn local cũ: `PROJECT_STATUS.md`; `configs/project.yaml`; `configs/kpi_dictionary.yaml`; `scripts/phase2_etl.py`; `scripts/phase3_feature_engineering.py`; `reports/DATA_ANALYTICS_REPORT.md` mục 12.3; `reports/TECHNICAL_LEARNING_NOTES.md` phần X. Hash/version nguồn trong `audit.json`.
 - Bằng chứng mới: `results/p0_t1/{audit.json,inventory.csv,independent_verification.json,audit_stdout.txt,verification_stdout.txt,execution.json}`.
+
+</details>

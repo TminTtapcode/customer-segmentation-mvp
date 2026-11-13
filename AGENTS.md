@@ -4,11 +4,14 @@
 
 - Trao đổi và tài liệu bằng tiếng Việt; thuật ngữ Anh đi kèm giải thích.
 - Dự án độc lập, đơn giản cho nhóm hai sinh viên. Đọc `docs/PROJECT_PLAN.md`, `docs/PROGRESS.md`, hai tài liệu tích lũy và file liên quan trước khi sửa.
-- Chỉ làm **một task mỗi lần**: mục tiêu → đầu vào → thiết kế → mã nguồn → chạy → kiểm chứng độc lập → cập nhật tài liệu → nghiệm thu. Dừng chờ sinh viên, không tự chuyển task/phase.
+- Chỉ làm **một task mỗi lần**: mục tiêu → phương pháp/lý do → code → kết quả → giải thích → kiểm tra phù hợp → cập nhật ngắn → nghiệm thu. Đi thẳng vào kế hoạch đã chấp nhận, không lập lại nhiều vòng audit/kế hoạch. Dừng chờ sinh viên, không tự chuyển task/phase.
 - Sau mỗi task: thực hiện → giải thích kiến thức → chạy kiểm tra phù hợp → cập nhật REPORT, LEARNING_GUIDE và PROGRESS khi có nội dung liên quan → dừng để sinh viên nghiệm thu. Không chạy lại phân tích chỉ vì sửa tài liệu.
 - Trạng thái hiện hành nằm tại `docs/PROGRESS.md`. Không kế thừa phase hoặc PASS của dự án cũ.
 - Không xóa, ghi đè hoặc sửa `customer-analytics-antigravity`, `CustomerSegmentation`, IVRE hay FashionStore. Nguồn cũ chỉ đọc; kết quả audit ghi trong repo MVP.
 - Hai báo cáo văn xuôi tích lũy duy nhất: `docs/REPORT.md` và `docs/LEARNING_GUIDE.md`. Số liệu/log lưu CSV/JSON dưới `results/`.
+- Notebook là nơi học chính: code dễ đọc, bảng/hình tổng hợp thật và nhận xét. Script chỉ tách logic cần chạy lại; hàm có một trách nhiệm, không lặp code hoặc thêm tầng xử lý không cần thiết. Không viết comment diễn giải lại từng dòng.
+- Kết quả mới ưu tiên CSV nhỏ, PNG cần dùng và Parquet cho dữ liệu lớn ngoài GitHub. JSON chỉ khi cần cấu hình/manifest máy đọc. Không tạo verification/log riêng cho từng phép kiểm nhỏ; giữ đối chiếu số dòng, missing, duplicate, khóa và công thức quan trọng. Không xóa/chuyển lưu trữ bằng chứng cũ nếu nhóm chưa đồng ý.
+- Dùng Matplotlib đơn giản, màu xám/xanh trung tính; chỉ nhấn màu khi có ý nghĩa. Mỗi hình trả lời một câu hỏi, có tiêu đề/trục/đơn vị và 1–3 câu nhận xét. Không mặc định phương án tốt nhất trước thực nghiệm; không thêm thuật toán/scaler/thí nghiệm chỉ vì chúng có trong danh sách biểu đồ gợi ý.
 - Phân biệt kết quả đã kiểm tra, giả định, lựa chọn của nhóm, ví dụ minh họa và phần chưa kiểm tra xong. Dùng tiếng Việt tự nhiên để thể hiện sự khác nhau này; không bắt buộc gắn nhãn tiếng Anh vào từng đoạn.
 - Không bịa số liệu, không lấy kết quả 7D làm kết quả 5D, không ghi PASS nếu chưa chạy và đọc log. Thiếu đầu vào thì báo rõ, không thay bằng dữ liệu giả.
 
@@ -34,8 +37,8 @@
 - Sau mỗi phase, khởi động lại phiên chạy và chạy notebook từ ô đầu tới ô cuối để phát hiện biến còn sót từ phiên trước. Chỉ ghi đã chạy Colab khi có lần chạy thật trên Colab; kiểm tra local không thay thế xác nhận của hai sinh viên.
 - Sổ tay giải thích khái niệm, lý do sử dụng, cách hoạt động/công thức, ví dụ tính tay, code, cách đọc/kiểm tra kết quả và lỗi thường gặp. Nêu lựa chọn khác và giới hạn khi cần; có 2–3 câu hỏi tự kiểm tra.
 - Sau mỗi task, tóm tắt việc đã làm, kết quả thực tế, tài liệu đã sửa và vấn đề còn lại. Dùng mẫu chi tiết khi người dùng yêu cầu; không áp một mẫu dài cho mọi chỉnh sửa nhỏ.
-- Người dùng đã xác nhận P0-T3 PASS (Student Verified), nghiệm thu P0-T4/đóng Phase 0, P1-T1…P1-T4 và P2-T1 PASS. PR #5 đã được đối chiếu/merge main; Phase 1 CLOSED về nghiên cứu và thiết kế, không có nghĩa H1–H3 đã được chứng minh. P2-T1 chỉ nghiệm thu schema/header/mẫu giới hạn, không xác nhận chất lượng toàn bộ hoặc hash toàn raw tháng 12. Chưa giao triển khai P2-T2. Không biến số liệu local thành chỉ số Colab hoặc tự điền câu trả lời sinh viên chưa gửi. Lịch sử bàn giao nằm trong PROGRESS.
-- Lượt hiện tại **chỉ làm P2-T1 — kiểm tra schema**: đọc header CSV, tối đa mẫu giới hạn, metadata/schema Parquet; giải thích cột, kiểu, event/session/customer, khóa, timezone và điều kiện năm biến. Giữ RQ1–RQ3/F0/F1 và thiết kế cải tiến đã nghiệm thu; trước F1 ở Phase 5 vẫn phải ghi hạn chế thực tế của F0, tách tác động tiền xử lý và Engagement. Không sửa raw, xử lý missing/dedup/giá, chốt policy, tạo observation/feature/model, làm EDA sâu hoặc Streamlit. Không đọc event February. Dùng script nhỏ hiện có để chạy lại, không tạo notebook thứ hai hoặc thêm dependency. Bằng chứng mới không có raw IDs; mẫu không đại diện toàn bộ. Nếu raw thiết yếu chưa đọc được thì ghi BLOCKED cùng lý do; khi đủ bằng chứng mới ghi READY FOR STUDENT REVIEW. Tạo PR nháp rồi dừng, không tự P2-T2. `app.py` chỉ tạo tại Phase 6.
+- Người dùng đã xác nhận P0-T3 PASS (Student Verified), nghiệm thu P0-T4/đóng Phase 0, P1-T1…P1-T4 và P2-T1 PASS; PR #6 đã merge main. Phase 1 CLOSED về nghiên cứu/thiết kế, không có nghĩa H1–H3 đã được chứng minh. Không biến số liệu local thành chỉ số Colab hoặc tự điền câu trả lời sinh viên chưa gửi. Lịch sử bàn giao nằm trong PROGRESS.
+- Lượt hiện tại **chỉ làm P2-T2 — Data Quality Assessment**: quét bốn CSV observation, đếm event/missing theo tháng và loại, so khóa trùng 7/9, kiểm tra price/user/session/timezone/biên thời gian, SHA256 tháng 12 nếu đọc được. Chỉ đo và giải thích ảnh hưởng tới năm biến; không xóa/điền dữ liệu, chốt policy, tạo observation sạch/feature/model hoặc chạy Streamlit. Không đọc event February. Ưu tiên một script dùng lại, phần thực hành trong notebook 01 và bảng/hình cần thiết; không thêm dependency. Giữ RQ/F0/F1 và thiết kế cải tiến. Tạo PR nháp, READY FOR STUDENT REVIEW rồi dừng, không tự P2-T3. `app.py` chỉ tạo tại Phase 6.
 
 ## Cộng tác giữa hai thành viên
 
@@ -43,7 +46,7 @@
 - Mỗi notebook chỉ có một người sửa chính. Phân công notebook đang có nằm trong README; chỉ đổi vai trò sau khi hai bạn thống nhất và cập nhật dòng đó. Người kiểm tra chạy trên bản sao riêng, không sửa đè bản làm việc của người phụ trách.
 - Bắt đầu từ cùng một phiên bản GitHub, ghi commit gốc và người đang phụ trách trong nhật ký task. Trước đồng bộ, xem Git status; không reset/force-push hoặc xóa bản chưa lưu để vượt xung đột.
 - Sau khi chạy lại từ đầu, lưu bản thực hành có output an toàn trên Drive trước. Giữ kết quả tổng hợp cần đối chiếu trong results; không đưa user IDs, đường dẫn cá nhân hoặc credentials vào bản public.
-- Sau khi sinh viên chấp nhận, người phụ trách tải notebook về, giữ nguyên code đã được duyệt, bỏ output/thông tin riêng trước khi đưa lên nhánh GitHub. Người còn lại xem diff và kiểm tra trước khi đưa vào main. Nếu code hoặc input đổi sau nghiệm thu, phải kiểm tra và nghiệm thu lại.
+- Sau khi sinh viên chấp nhận, người phụ trách tải notebook về, giữ nguyên code đã duyệt; có thể giữ bảng/hình tổng hợp an toàn, phải bỏ output chứa IDs, credentials hoặc thông tin riêng trước khi đưa lên nhánh GitHub. Người còn lại xem diff và kiểm tra trước main. Code hoặc input đổi sau nghiệm thu phải kiểm tra và nghiệm thu lại.
 - Ghi nhận xác nhận của sinh viên riêng với bằng chứng Codex. Không tự điền tên người, link Drive, phiên bản runtime, thời gian chạy hoặc chỉ số chưa được cung cấp.
 
 ## Văn phong báo cáo phù hợp với nhóm sinh viên
@@ -54,6 +57,7 @@
 - Giữ thuật ngữ cần học như RFM, Feature Engineering, EDA, StandardScaler, K-Means, Silhouette, Davies–Bouldin và Data Leakage; giải thích bằng tiếng Việt khi xuất hiện lần đầu. Không bỏ kiến thức chuyên môn chỉ để viết ngắn hơn.
 - Không dùng “hoàn hảo”, “chính xác tuyệt đối”, “tối ưu nhất” hoặc “100% thành công” nếu chưa có bằng chứng. Không bịa số liệu; ví dụ minh họa phải được phân biệt với kết quả từ dữ liệu thật.
 - **REPORT.md:** viết theo mục đích → dữ liệu sử dụng → cách thực hiện và lý do → kết quả → nhận xét → hạn chế. Chỉ giữ nội dung có ích cho báo cáo môn học. SHA256, danh sách file sửa, lệnh/log và kiểm tra phần mềm chi tiết đặt ở PROGRESS/results, trừ khi trực tiếp hỗ trợ kết luận nghiên cứu.
+- Bản trình bày chính REPORT hướng tới năm phần/khoảng 5 trang Word A4 ở Phase 7, 3–5 hình quan trọng; Times New Roman 12, giãn dòng 1,15, lề 2–2,5 cm khi xuất Word. Không xuất Word ngay hoặc xóa nội dung đã nghiệm thu để ép số trang. Phần giải thích sâu để LEARNING_GUIDE; chi tiết nghiên cứu cũ có thể giữ trong mục thu gọn để không mất nội dung. Chưa có kết quả thì ghi đang thực hiện, không tạo chỉ số giả.
 - **LEARNING_GUIDE.md:** giải thích gần gũi theo khái niệm → vì sao cần → cách hoạt động → ví dụ tính tay → code → đọc/kiểm tra kết quả → lỗi dễ mắc. Lý thuyết vừa đủ cho task, tránh lặp lại.
 - **PROGRESS.md:** nhật ký ngắn gồm đã làm gì, kết quả, cách kiểm tra, vấn đề còn lại và bước tiếp theo; dẫn tới bằng chứng kỹ thuật khi cần.
 - Khi sửa văn phong, giữ nguyên số liệu, bảng, nguồn dẫn, công thức, kết luận khoa học và vấn đề chưa giải quyết. Không sửa evidence trong results hoặc chạy lại ETL/features/model chỉ để đổi cách diễn đạt.
