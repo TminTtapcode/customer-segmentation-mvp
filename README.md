@@ -1,8 +1,8 @@
 # Simple RFM + Engagement Customer Segmentation MVP
 
-Dự án nghiên cứu độc lập trên **REES46 Cosmetics**, cho nhóm hai sinh viên. So sánh K-Means F0 (RFM) với F1 (RFM + sessions_30d, views_30d), sau đó diễn giải và trình diễn Streamlit khi đến task tương ứng. Không có model hoặc dashboard MVP ở bước hiện tại.
+Dự án nghiên cứu độc lập trên **REES46 Cosmetics**, cho nhóm hai sinh viên. Mục tiêu là cải thiện khả năng phân khúc bằng lựa chọn đặc trưng và tiền xử lý có kiểm chứng, giữ K-Means đơn giản. F0 (RFM) là cơ sở; F1 thêm sessions_30d, views_30d là đề xuất cần kiểm tra, sau đó hỗ trợ diễn giải marketing. Không có model hoặc dashboard MVP ở bước hiện tại.
 
-**P1-T2 đã được hai sinh viên xác nhận PASS.** **P1-T3 — đọc bài nghiên cứu RFM-B: READY FOR STUDENT REVIEW.** Đọc mục 3.5–3.9 của [báo cáo](docs/REPORT.md) và phần 15 của [sổ tay](docs/LEARNING_GUIDE.md), rồi đối chiếu [tiến độ](docs/PROGRESS.md) và [kế hoạch](docs/PROJECT_PLAN.md). Task chỉ đọc hiểu, không chạy REES46 hoặc thêm biến; F0/F1 vẫn ba/năm chiều. P1-T4 chưa bắt đầu.
+**P1-T3 đã được hai sinh viên xác nhận PASS.** **P1-T4 — thiết kế cải tiến: READY FOR STUDENT REVIEW.** Đọc phần thiết kế A–G trong mục 5–11 của [báo cáo](docs/REPORT.md) và phần 16 của [sổ tay](docs/LEARNING_GUIDE.md), rồi đối chiếu [tiến độ](docs/PROGRESS.md) và [kế hoạch](docs/PROJECT_PLAN.md). Giữ nguyên RQ1–RQ3 và F0/F1 ba/năm chiều. Task chỉ thiết kế giả thuyết, thực nghiệm và biểu đồ; chưa chạy REES46, chưa sang Phase 2.
 
 ## Hai thành viên cùng làm việc
 
@@ -21,7 +21,7 @@ GitHub `main` là mã nguồn chính thức đã được chấp nhận. Drive g
 5. Khi notebook được chấp nhận, người sửa chính tải bản cuối về; giữ code đã được duyệt, bỏ output và thông tin riêng trước khi đưa lên nhánh task. Lưu kết quả tổng hợp cần thiết dưới `results/`; giữ dataset và bản thực hành trên Drive. Xem diff và danh sách file trước commit, không thêm dữ liệu lớn, credentials hoặc user IDs. Người còn lại kiểm tra PR trước khi nhóm đưa vào `main`; không ghi đè thay đổi mới trên GitHub.
 6. Sau mỗi task: thực hiện → giải thích kiến thức → kiểm tra → cập nhật REPORT/LEARNING_GUIDE/PROGRESS khi phù hợp → dừng nghiệm thu. Code hoặc dữ liệu thay đổi sau khi được duyệt thì kiểm tra lại.
 
-**Bàn giao GitHub:** PR #1/#2 và [PR #3 — P1-T2](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/3) đã merge sau nghiệm thu. Main có đủ file P0/P1-T1/P1-T2. Nhánh `p1-t3-rfmb-paper` bắt đầu từ main tại `5995264`, giữ nguyên notebook, code và bằng chứng cũ; nội dung P1-T3 chờ nhóm nghiệm thu riêng.
+**Bàn giao GitHub:** PR #1/#2/#3 và [PR #4 — P1-T3](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/4) đã merge sau nghiệm thu. Main có đủ file P0/P1-T1/P1-T2/P1-T3. Nhánh `p1-t4-improvement-design` bắt đầu từ main tại `b137750`; P1-T4 chờ nhóm nghiệm thu riêng. Notebook, code, dependency và bằng chứng cũ giữ nguyên.
 
 ## Mở và chạy notebook P0-T3
 

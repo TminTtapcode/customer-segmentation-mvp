@@ -20,10 +20,11 @@ RFM chưa mô tả trực tiếp việc quay lại website mà chưa mua. Hai ng
 
 ### 1.3. Mục tiêu nghiên cứu
 
-Mục tiêu của nhóm là xem việc kết hợp RFM với Engagement có bổ sung cách mô tả khách hàng hữu ích hay không. Cụ thể:
+Mục tiêu của nhóm là nghiên cứu cải thiện khả năng phân khúc khách hàng bằng K-Means thông qua lựa chọn đặc trưng, tiền xử lý phù hợp và bổ sung thông tin tương tác website, từ đó hỗ trợ ra quyết định marketing. So sánh là cách kiểm chứng đề xuất cải tiến. Cụ thể:
 
 - Mô tả hành vi mua hàng và tương tác trong khoảng thời gian nghiên cứu.
-- So sánh F0 gồm R, F, M với F1 gồm R, F, M, sessions_30d, views_30d trên cùng tập buyers — khách mua đủ điều kiện.
+- Xây dựng F0 gồm R, F, M làm cơ sở; ghi hạn chế quan sát được, đề xuất thay đổi có lý do rồi kiểm chứng F1 thêm sessions_30d, views_30d trên cùng tập buyers — khách mua đủ điều kiện.
+- Kiểm tra tác động của một thay đổi tiền xử lý nếu có căn cứ, trong cùng bộ đặc trưng và giữ các điều kiện khác cố định.
 - Diễn giải đặc điểm các phân khúc và đề xuất hướng marketing có căn cứ mô tả, kèm giới hạn và nhu cầu thử nghiệm tiếp.
 
 ### 1.4. Câu hỏi nghiên cứu
@@ -46,7 +47,7 @@ P1-T1 chỉ xác định bài toán và cách kiểm chứng. Chưa EDA, xử l�
 
 Nhóm dự kiến kiểm tra chất lượng và chốt quy tắc dữ liệu ở Phase 2, mô tả hành vi ở Phase 3, tính năm đặc trưng ở Phase 4, so sánh F0/F1 ở Phase 5 rồi diễn giải ở Phase 6.
 
-Nhóm sẽ dùng K-Means để so sánh hai bộ đặc trưng trên cùng buyers và cửa sổ dữ liệu. F0 là baseline — phương án cơ sở để đối chiếu. Kết quả được xem xét bằng các tiêu chí phù hợp, kết hợp chất lượng phân cụm, đặc điểm khách hàng và khả năng giải thích; không mặc định F1 tốt hơn F0. Chi tiết thực nghiệm và cách đánh giá sẽ học ở Phase 5, theo kế hoạch bên dưới.
+Nhóm sẽ dùng K-Means theo trình tự: xây dựng F0 → ghi hạn chế → đề xuất cải tiến → thực nghiệm → đánh giá → hỗ trợ marketing. F0 là baseline — phương án cơ sở để đối chiếu. Kết quả được xem xét bằng chất lượng phân cụm, đặc điểm khách hàng và khả năng giải thích; không mặc định F1 tốt hơn F0. Thiết kế cải tiến P1-T4 nằm trong phần kế hoạch bên dưới, chưa phải kết quả Phase 5.
 
 ## 2. Kế hoạch kiểm chứng ba câu hỏi
 
@@ -284,13 +285,103 @@ Những phần này chưa được thực hiện trong MVP. EDA là phân tích 
 
 Hiện chưa có model F0/F1, chỉ số phân cụm, chiến dịch hoặc Streamlit mới. Các kết quả kiểm kê ở mục 4 không thay thế kết quả của P2–P6.
 
-### Kế hoạch đánh giá ở Phase 5 — chưa thực hiện
+### Thiết kế cải tiến — P1-T4, chưa thực nghiệm
 
-Hai phương án dùng cùng buyers và cửa sổ dữ liệu, cùng dải K=2–6 và cách ghi seed/cấu hình; bộ chuẩn hóa thang đo được học riêng cho mỗi bộ biến. Chi tiết thực nghiệm chỉ hoàn thiện khi đến task tương ứng.
+#### A. Vấn đề dự kiến và hướng kiểm tra
 
-Ở Phase 5, nhóm dự kiến dùng Silhouette để xem mức gần nhau trong cụm so với cụm lân cận và Davies–Bouldin để xem độ phân tán so với khoảng cách giữa cụm. Trong cùng điều kiện đánh giá, Silhouette cao hơn và Davies–Bouldin thấp hơn thường được ưu tiên về mặt hình học. Hai chỉ số không phải độ chính xác dự đoán hay hiệu quả kinh doanh. Xem định nghĩa tại [Silhouette](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.silhouette_score.html) và [Davies–Bouldin](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.davies_bouldin_score.html).
+Các hạn chế dưới đây là giả thuyết để nghiên cứu, chưa phải phát hiện trên REES46. Chất lượng đầu vào, chất lượng/độ ổn định phân cụm, khả năng phân biệt hành vi và hỗ trợ marketing là bốn khía cạnh cần xem xét. Làm sạch đúng là điều kiện đầu vào; riêng việc sửa dữ liệu không chứng minh mô hình đã cải thiện.
 
-F0 và F1 có số chiều và không gian khoảng cách khác nhau, nên không kết luận F1 tốt hơn chỉ vì một điểm số cao hơn. Nhóm sẽ đối chiếu cả hai cách chia trên cùng năm biến ở đơn vị gốc: kích thước cụm, trung vị và độ phân tán, khác biệt tương tác giữa các nhóm có RFM tương tự, mức ổn định qua seed, khả năng giải thích, thời gian và bộ nhớ. Việc F1 chia nhóm theo chính hai biến được thêm vào cũng chưa tự chứng minh lợi ích. Nếu nhóm không ổn định, chỉ tách vài điểm cực đoan hoặc không bổ sung cách diễn giải rõ ràng, nhóm cần báo cáo giới hạn thay vì mặc định đề xuất đã thành công.
+| Hạn chế giả định | Giải pháp đề xuất | Vì sao có thể hữu ích | Dữ liệu cần kiểm tra | Cách đánh giá |
+|---|---|---|---|---|
+| RFM chưa thể hiện việc quay lại và xem mà chưa mua | Thêm sessions_30d, views_30d trong F1 | Bổ sung hoạt động gần cutoff ngoài lịch sử mua | Năm biến của cùng buyers; các nhóm có RFM tương tự | Đối chiếu cách chia F0/F1, mức khác biệt tương tác và sự ổn định; không chỉ xem hình đẹp |
+| Phân phối có thể lệch, đơn vị ngày/số phiên/giá khác nhau | Xem phân phối, cân nhắc log1p và StandardScaler | Hạn chế một biến có thang lớn chi phối khoảng cách | Phân vị, giá trị cực đoan, miền hợp lệ và biến hằng | Kiểm tra trước/sau trong cùng bộ biến; xem cả chỉ số và hồ sơ cụm ở đơn vị gốc |
+| Cụm có thể quá nhỏ, không ổn định hoặc khó giải thích | Thử K=2–6, nhiều seed; kiểm tra cỡ cụm và hồ sơ | Phát hiện cách chia chỉ dựa vào vài điểm cực đoan hoặc khởi tạo | Nhãn mới, số khách/cụm, năm biến gốc | So độ ổn định, tỷ lệ cụm và đặc điểm qua seed; không ép các cụm bằng nhau |
+| Chỉ số hình học tốt chưa chắc tạo gợi ý hữu ích | Nối hồ sơ cụm với mục tiêu, hành động, bằng chứng và KPI | Giúp người đọc kiểm tra lý do đề xuất | Thống kê cụm và giới hạn dữ liệu | Kiểm tra gợi ý có khác nhau và có căn cứ; không suy ra hiệu quả chiến dịch |
+
+#### B. Năm đặc trưng và lý do lựa chọn
+
+Giữ **F0 = [recency_days, frequency, monetary]**; **F1 = F0 + [sessions_30d, views_30d]**. Gọi T=`2020-02-01 00:00:00 UTC`, O=`[2019-10-01, T)` và W=`[2020-01-02, T)`. Với khách u, P(u) là các purchase trong O thỏa chính sách hợp lệ sẽ chốt ở Phase 2; E(u,W) là các event hợp lệ cho tương tác trong W. Đây là công thức thiết kế, không tự chốt buyer/price/session/dedup/rounding còn mở.
+
+| Biến | Công thức dự kiến cho một khách | Dữ liệu cần | Ý nghĩa | Hạn chế và liên hệ RQ |
+|---|---|---|---|---|
+| recency_days | `(T − max(event_time trong P(u))) / 86.400 giây` | user, thời gian, loại event và điều kiện purchase hợp lệ | Số ngày từ lần mua gần nhất, nhỏ hơn là mua gần hơn | Chỉ xác định cho buyer hợp lệ; không nói khách sẽ mua lại. RQ1, RQ2; dùng trong hồ sơ RQ3 |
+| frequency | Số khóa `(user_id, session_id)` khác nhau có purchase hợp lệ trong O | User, session nguồn user_session, event_type, thời gian, điều kiện mua | Số phiên có mua, một phiên nhiều purchase vẫn đếm một | Là proxy — đại lượng thay thế cho tần suất, **không phải số đơn**; session thiếu chờ chính sách. RQ1–RQ3 |
+| monetary | `sum(price của P(u))` | User, event_type, thời gian, price hợp lệ | Tổng giá trị purchase được quan sát | Không có quantity/refunds đầy đủ; không phải net GMV, currency chưa xác minh. RQ1–RQ3 |
+| sessions_30d | Số khóa user-session khác nhau của E(u,W) có session hợp lệ | User, session, thời gian và điều kiện event | Mức quay lại trong 30 ngày gần nhất, gồm cả phiên có mua | Không phải số ngày hoạt động hay ý định mua; phụ thuộc chất lượng session. RQ1, trọng tâm RQ2, diễn giải RQ3 |
+| views_30d | Số event có event_type=`view` trong E(u,W) | User, thời gian, loại event; dedup đã chốt | Mức xem sản phẩm trong 30 ngày gần nhất | Không phải số sản phẩm duy nhất hoặc thời lượng; có thể lặp nhiều, không đồng nghĩa nhu cầu mua. RQ1–RQ3 |
+
+Chỉ buyers đủ RFM hợp lệ vào hai mô hình; non-buyers mô tả tương tác riêng. Cắt theo thời gian từng event, kể cả session qua T. Không tự bỏ view thiếu session hoặc coi session thiếu là một phiên mới; phải nêu quy tắc ở Phase 2. Không có event tương tác hợp lệ trong W có thể cho đếm 0; không đổi dữ liệu thiếu/chưa đọc thành 0. Cách làm tròn chưa chốt, không mặc định sao chép hai chữ số của bảng cũ.
+
+Nhóm chọn hai phép đếm vì chúng mô tả hai mặt dễ giải thích: quay lại bao nhiêu phiên và xem bao nhiêu lượt gần cutoff. Chúng dùng các trường nền tảng và gắn trực tiếp với RQ2. Hai biến vẫn có thể tương quan hoặc dư thừa; phải kiểm tra ở Phase 3–5, chưa gọi năm biến là tối ưu.
+
+| Biến chưa thêm | Lý do chưa dùng trong MVP chính |
+|---|---|
+| CVR | Tỷ số purchase events/view events khác tỷ lệ phiên mua; mẫu số 0 và định nghĩa cửa sổ cần xử lý. Chưa cần thêm một tỷ số để trả lời câu hỏi quay lại/xem gần đây |
+| AOV | M/F diễn giải mức chi mỗi phiên mua, suy từ RFM đã có; không có order_id để gọi là giá trị đơn thực. Chưa có lý do kiểm chứng để tăng chiều |
+| Category Breadth | Cần xác minh cấp danh mục, bản đồ phân cấp và phần thiếu; đếm category_id chưa bảo đảm đúng định nghĩa bài báo |
+| Brand Diversity | Cần kiểm tra missing và cách chuẩn hóa brand; số thương hiệu không tự đo lòng trung thành. Chưa cần mở rộng ngoài năm biến đã chọn |
+
+#### C. Ba giả thuyết cải tiến
+
+- **H1:** hai biến Engagement có thể giúp nhận diện khác biệt hành vi giữa khách có lịch sử mua tương tự. Kiểm tra bằng hồ sơ chung và các nhóm RFM tương tự được xác định trước khi xem F1; có thể không tìm được thông tin bổ sung rõ.
+- **H2:** biến đổi và chuẩn hóa phù hợp có thể cải thiện chất lượng phân cụm so với cách xử lý chưa phù hợp, khi đánh giá trong cùng bộ đặc trưng. Phải kiểm tra riêng thay đổi tiền xử lý, không đồng thời thêm Engagement rồi gán toàn bộ tác động cho log/scaling.
+- **H3:** các phân khúc có đặc điểm rõ ràng có thể hỗ trợ những gợi ý marketing khác nhau. Chỉ kiểm tra được căn cứ và khả năng giải thích của gợi ý trong MVP; chưa kiểm chứng tác động doanh thu hoặc chuyển đổi.
+
+Đây là giả thuyết nghiên cứu, không phải kết quả đã chứng minh. Kết quả không ủng hộ giả thuyết vẫn cần báo cáo.
+
+#### D. Quy trình thực nghiệm dự kiến tại Phase 5
+
+1. **Chốt đầu vào trước:** Phase 2 xác minh/chốt cleaning policy, Phase 3 xem phân phối, Phase 4 đối soát bảng năm biến. Giữ cùng danh sách buyers, thứ tự dòng, thời gian O/W, phiên bản dữ liệu và chính sách hợp lệ cho mọi phương án. Không thay tập khách theo điểm mô hình; nếu xử lý outlier làm đổi cohort thì phải tách ảnh hưởng này, không gọi đó là tác động riêng của biến đổi.
+2. **Chạy F0 và ghi hạn chế:** dùng R/F/M, thử K=2–6. Trước khi chạy F1, lưu cấu hình, kết quả F0 và bảng “hạn chế thực sự quan sát → bằng chứng → giả thuyết cải tiến → cách kiểm tra”. Nếu chưa thấy hạn chế, ghi đúng như vậy; lý do thử Engagement vẫn là giả thuyết, chưa là nhu cầu đã chứng minh.
+3. **Một kiểm tra tiền xử lý nếu cần:** chọn một thay đổi có căn cứ từ Phase 3–4. Ví dụ, F0 đã StandardScaler so với F0 thêm log1p trên các cột hợp lệ đã chọn rồi StandardScaler. Giữ cùng cột, buyers, K tham chiếu đã ghi từ F0, seed và n_init; chỉ thay bước log. Nếu muốn kiểm tra scaling thì giữ biến đổi khác cố định và chỉ đổi scaling; không mở đồng thời nhiều nhánh thử. Lưu trước/sau, kể cả kết quả xấu hơn. Chưa chốt cột lấy log ở P1-T4.
+4. **Khóa quy trình để so F0/F1:** cùng phép biến đổi cho ba cột RFM chung; quy tắc cho hai cột tương tác phải ghi trước lần chạy F1. Fit scaler riêng theo từng bộ cột, không dùng scaler 3D cho 5D. Nếu bước kiểm tra trên làm đổi quy trình F0, giữ cả kết quả F0 ban đầu và F0 sau điều chỉnh; dùng F0 có quy trình chung làm mốc đối chiếu F1.
+5. **Chạy F1:** thêm đúng sessions_30d/views_30d; cũng thử K=2–6 trên cùng buyers. Thiết kế ban đầu cho cả hai: `init='k-means++'`, `n_init=10`, `random_state` lần lượt `[0,21,42]`, `algorithm='lloyd'`, `max_iter=300`, `tol=1e-4`. Đây là lựa chọn để kiểm tra khởi tạo, không phải cấu hình đã tối ưu. Ghi phiên bản thư viện, biến đổi, scaler, thứ tự cột, cảnh báo hội tụ và mọi thay đổi cấu hình có lý do. Phân biệt n_init — số khởi tạo trong một lần fit — với ba seed để so các lần fit; xem [tài liệu KMeans](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html).
+6. **Đánh giá và lựa chọn:** so các cặp cùng K/seed để xem ảnh hưởng thêm biến; sau đó cân nhắc K phù hợp riêng cho mỗi phương án trên toàn bộ bằng chứng. Nếu so hai mô hình khác K, ghi rõ kết quả gồm cả thay đổi số cụm. Không ép F1 dùng K thắng của F0, không lấy K/model/scaler/nhãn/metrics 7D cũ. Không chọn seed đẹp nhất rồi bỏ các lần còn lại; không dùng February để chọn mô hình.
+
+Chưa có lệnh huấn luyện hoặc cấu hình thực thi trong task này. Các quyết định phụ thuộc dữ liệu phải được ghi và nghiệm thu ở task tương ứng trước khi chạy, tránh sửa tiêu chí sau khi đã xem F1.
+
+#### E. Bằng chứng đánh giá cần lưu
+
+| Tiêu chí | Cách kiểm tra dự kiến | Cách đọc và giới hạn |
+|---|---|---|
+| Chất lượng đầu vào | Đối chiếu cutoff, grain, cohort, missing/giá trị không hữu hạn, duplicates và chính sách giá/session; xem outliers có thật hay lỗi | Là điều kiện để chấp nhận đầu vào, không phải bằng chứng F1 tốt hơn; không xóa khách cực đoan chỉ để tăng điểm |
+| Silhouette | Tính trong không gian đã biến đổi của từng mô hình; lưu cách tính, seed và mẫu nếu dùng | Cao hơn thường thuận lợi về hình học trong điều kiện so được; không phải accuracy. Nếu lấy mẫu, cố định cùng danh sách khách và kích thước trước khi xem kết quả, ghi độ bao phủ cụm/giá trị không tính được |
+| Davies–Bouldin (DBI) | Đo độ phân tán trong cụm so với khoảng cách giữa cụm trong từng không gian | Thấp hơn thường thuận lợi về hình học; không phải thước đo hiệu quả marketing |
+| Ổn định | Với mỗi bộ biến/quy trình/K, so ba cặp nhãn giữa các seed trên cùng buyers bằng ARI — mức tương đồng hai cách chia có hiệu chỉnh ngẫu nhiên | Nhãn số đổi chỗ không làm ARI giảm; không cần nhãn đúng nghiệp vụ. Ba seed chỉ kiểm tra nhạy với khởi tạo, chưa chứng minh ổn định theo thời gian hoặc lấy mẫu |
+| Cỡ và tỷ lệ cụm | Số khách và phần trăm trên tổng buyers của mỗi lần chạy | Đọc cả cụm nhỏ/lớn và outliers; không mặc định cụm cân đối là tốt |
+| Hồ sơ trên cùng năm biến gốc | Cho cả F0 và F1: count/tỷ lệ, trung vị và Q1–Q3 của R/F/M/sessions_30d/views_30d | F0 không fit hai biến tương tác nhưng vẫn mô tả chúng sau khi gán nhãn; không diễn giải tâm chuẩn hóa thành ngày/giá; số nhãn F0/F1 không tự tương ứng |
+| Phân biệt hành vi — H1 | Đối chiếu phân bố tương tác trong các nhóm có RFM tương tự; quy tắc nhóm RFM được ghi từ F0 trước khi xem F1 và dùng chung | Phải có số khách, độ phân tán và sự lặp lại qua seed. F1 tách theo chính biến được thêm vào chưa đủ chứng minh giá trị; không chỉ chọn vài khách đẹp để kể chuyện |
+| Hỗ trợ marketing — H3 | Mỗi gợi ý có mục tiêu, đặc điểm cụm, căn cứ, KPI và giới hạn; xem thông tin mới có đổi cách diễn giải hợp lý không | Đánh giá khả năng hỗ trợ quyết định; không có nhãn “chiến dịch hiệu quả” để tính accuracy |
+| Thời gian và bộ nhớ | Cùng máy/runtime, input, threads, seed/config; đo riêng tiền xử lý, fit và đánh giá bằng time.perf_counter; sampled process RSS, ghi chu kỳ lấy mẫu | Ghi cả RSS nền và mức cao nhất quan sát; lấy mẫu có thể bỏ lỡ đỉnh. Không suy DuckDB memory_limit là giới hạn RSS; chưa cài công cụ đo trong P1-T4 |
+
+Định nghĩa: [Silhouette](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.silhouette_score.html), [Davies–Bouldin](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.davies_bouldin_score.html), [ARI](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.adjusted_rand_score.html). F0/F1 có không gian khoảng cách khác nhau; log/scaling cũng đổi khoảng cách ngay khi giữ cùng tên biến. Vì vậy, không lấy chênh lệch một điểm số làm bằng chứng duy nhất cho H1 hoặc H2. Cần đọc chung hồ sơ ở đơn vị gốc, ổn định, cỡ cụm, khả năng giải thích và chi phí.
+
+Ở P5-T3, bảng tổng hợp sẽ có cột F0, F1, bằng chứng và giới hạn cho các tiêu chí trên; chỉ điền kết quả thật sau khi chạy. Đúng dữ liệu/cutoff/cohort là điều kiện bắt buộc. Sau đó nhóm cân nhắc các mặt được/mất, không cộng điểm bằng trọng số tùy ý. Có thể giữ F0 nếu F1 chưa bổ sung rõ hoặc chi phí không phù hợp; không bắt buộc mọi chỉ số đều tốt hơn để ghi nhận một lợi ích có giới hạn.
+
+#### F. Kế hoạch biểu đồ và bảng trình bày
+
+Chỉ thiết kế cách đọc; chưa vẽ hoặc điền số liệu nghiên cứu.
+
+| Biểu đồ/bảng | So sánh | Trục X / Y hoặc cột bảng | Mục đích | Phase |
+|---|---|---|---|---|
+| Cột loại sự kiện | Các event_type trong O | X: loại event; Y: số events | Hiểu hoạt động, không coi purchase rows là đơn | 3 |
+| Đường hoạt động theo ngày/tuần | Cùng đơn vị đếm qua thời gian | X: ngày/tuần UTC; Y: số events hoặc sessions, tách biểu đồ | Thấy xu hướng và khoảng thiếu, chưa suy nhân quả | 3 |
+| Histogram/boxplot dữ liệu | Phân phối và giá trị cực đoan, buyers/non-buyers khi phù hợp | X: giá trị hoặc nhóm; Y: số khách hoặc giá trị đúng đơn vị | Nhận biết lệch, missing/outliers và phạm vi đại diện | 3 |
+| Phân phối năm biến trước/sau | Cùng khách/cột, trước và sau phép biến đổi được chọn | X: giá trị gốc/biến đổi, ghi rõ thang; Y: số khách | Giải thích biến đổi thay đổi phân phối thế nào; không chứng minh mô hình tốt hơn | 4 |
+| K–Silhouette và K–DBI, hai hình riêng | F0/F1, hiển thị các seed | X: K=2–6; Y: điểm tương ứng | Xem xu hướng và độ dao động, không chọn chỉ theo một điểm | 5 |
+| Trước/sau một thay đổi tiền xử lý nếu cần | Cùng bộ biến, cohort, K và seed; chỉ đổi một bước | X: trước/sau; Y: từng metric trong ô riêng, kèm bảng cấu hình và hồ sơ | Kiểm tra H2, phân biệt với tác động thêm Engagement | 5 |
+| Tỷ lệ cụm | Phân bố khách theo từng mô hình | X: cụm của từng mô hình; Y: % buyers | Đọc mất cân đối; nhãn số giữa F0/F1 không tự ghép cặp | 5 |
+| Hồ sơ F0/F1 trên năm biến | Các cách chia trên cùng chỉ số gốc | X: cụm; Y: trung vị và Q1–Q3, mỗi biến một ô/đơn vị | So mức mua và tương tác; tránh trộn ngày/giá/lượt trên một thang | 5 |
+| Giá trị bổ sung của Engagement | Cùng nhóm RFM tương tự, hai hình tô màu theo F0/F1 | X: sessions_30d; Y: views_30d; ghi cỡ nhóm, có thể dùng thang log nếu nêu rõ | Xem khác biệt tương tác và kiểm tra lại qua seed, không coi màu tách là bằng chứng độc lập | 5 |
+| Hồ sơ cụm và Marketing Decision Support | Cụm đã chọn → đặc điểm → đề xuất | Hồ sơ dùng năm biến gốc; bảng dùng bảy cột theo mục G | Giúp người đọc truy được lý do gợi ý và giới hạn | 6 |
+
+#### G. Marketing Decision Support — hỗ trợ quyết định marketing
+
+Luồng giữ ở P6-T2 và P6-T3: **Cluster → Đặc điểm quan sát → Mục tiêu marketing → Hành động gợi ý → Căn cứ → KPI → Hạn chế**. Cluster là nhóm do mô hình mới chia, tên chỉ đặt sau khi đọc hồ sơ. Căn cứ phải dẫn thống kê/biểu đồ, số khách, cửa sổ và phiên bản mô hình đã được chấp nhận.
+
+P6-T2 sẽ viết bảng theo luồng này; P6-T3 chỉ hiển thị hồ sơ và bảng trong Streamlit nhỏ, có nhãn `Research Demo / REES46`, không raw IDs. Ví dụ có điều kiện: **nếu** có nhóm mua đã lâu nhưng còn truy cập/xem, có thể đặt mục tiêu tìm hiểu trở ngại và gợi ý kiểm tra nội dung hỗ trợ chọn sản phẩm. Đây là minh họa cách lập luận, chưa phải tên cụm hoặc phát hiện thật; số lượt xem chưa cho biết nguyên nhân không mua.
+
+KPI — chỉ số theo dõi — phải có định nghĩa và mẫu số. Trong dữ liệu hiện tại chỉ mô tả được số phiên/lượt xem/giá trị purchase theo cửa sổ. Nếu đề xuất tỷ lệ phản hồi, tỷ lệ mua sau tiếp cận hoặc doanh thu tăng thêm, ghi đó là KPI cho thử nghiệm tương lai cần log chiến dịch, thời gian theo dõi và đối chứng phù hợp. MVP chưa có bằng chứng chiến dịch làm tăng doanh thu/CVR; không xây decision engine hoặc gửi marketing tự động.
 
 ## 12. Kết luận hiện tại và hạn chế
 

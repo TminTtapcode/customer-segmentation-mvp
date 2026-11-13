@@ -1,6 +1,6 @@
 # Sổ tay học tập — MVP RFM + Engagement
 
-**Cập nhật 13/11/2026.** Phần 1–9 về kiểm kê P0-T1, phần 10–12 về công cụ/cộng tác, phần 13–14 về câu hỏi nghiên cứu và RFM truyền thống, phần 15 về cách đọc bài RFM-B. P1-T2 đã được nhóm xác nhận PASS; P1-T3 chờ nghiệm thu. Số liệu local cũ vẫn giữ riêng, không coi là số đo Colab mới.
+**Cập nhật 13/11/2026.** Phần 1–9 về kiểm kê P0-T1, phần 10–12 về công cụ/cộng tác, phần 13–14 về câu hỏi nghiên cứu và RFM truyền thống, phần 15 về cách đọc bài RFM-B, phần 16 về thiết kế cải tiến. P1-T3 đã được nhóm xác nhận PASS; P1-T4 chờ nghiệm thu. Số liệu local cũ vẫn giữ riêng, không coi là số đo Colab mới.
 
 ## 1. Tệp dữ liệu, cấu trúc bảng và nguồn gốc xử lý là gì?
 
@@ -501,3 +501,63 @@ Hai bạn tự trả lời trước khi đọc gợi ý:
 **Gợi ý đối chiếu:** (1) Không: event và session khác đơn vị đếm; ví dụ 3/10=0,3 nhưng chỉ 1/2 phiên có mua. (2) 150 đơn vị giá/phiên mua; không có order_id để gọi là giá trị mỗi đơn. (3) Cần phù hợp dữ liệu, câu hỏi và phạm vi; giữ F0/F1 như kế hoạch. Muốn đánh giá phần thêm vào cần đối chứng cùng khách/cutoff, quy trình minh bạch và nhiều tiêu chí, không mặc định nhiều biến hơn là tốt hơn. P1-T3 chưa thực hiện đối chứng đó.
 
 Lỗi dễ mắc: gọi event ratio là xác suất phiên mua; coi purchase session là đơn hàng; đếm category_id thành danh mục cấp cao; đếm missing brand thành thương hiệu; gọi accuracy phục hồi nhãn là độ chính xác mua hàng; mang K=5/metrics hoặc model 7D cũ vào kết quả MVP.
+
+## 16. P1-T4 — Thiết kế cải tiến có kiểm chứng
+
+### 16.1. Baseline, cải tiến và giả thuyết
+
+Baseline là phương án cơ sở để biết trước khi thay đổi ta đang có gì. Trong dự án, F0 dùng R/F/M và K-Means. Cải tiến mô hình không nhất thiết đổi thuật toán; có thể sửa cách biểu diễn dữ liệu hoặc bổ sung thông tin có lý do. F1 vẫn K-Means, thêm sessions_30d và views_30d. Chưa chạy thì chỉ gọi F1 là **đề xuất cải tiến**.
+
+Giả thuyết là nhận định cần bằng chứng để kiểm tra. H1 nói Engagement có thể bổ sung khác biệt hành vi; H2 nói tiền xử lý phù hợp có thể giúp phân cụm trong cùng bộ biến; H3 nói hồ sơ rõ có thể giúp viết gợi ý marketing có căn cứ. Chúng không phải ba kết luận đã đạt.
+
+Cách làm: chạy F0 ở Phase 5 → ghi hạn chế thực sự thấy và bằng chứng → nêu thay đổi nào có thể giúp → giữ điều kiện so sánh → chạy và đọc cả kết quả thuận lợi lẫn bất lợi. Không viết trước rằng dữ liệu lệch hoặc F0 chia cụm xấu khi chưa quan sát. Làm sạch đúng giúp đầu vào đáng tin, nhưng chưa chứng minh mô hình tốt hơn.
+
+### 16.2. Vì sao F0/F1 khác nhau? Ví dụ minh họa
+
+Ví dụ sau do nhóm đặt để học, **không phải khách REES46 hoặc kết quả mô hình**. Cùng mốc T=01/02/2020, A và B đều có R=40 ngày, F=2 phiên mua, M=50 đơn vị giá; A có 0 phiên/0 lượt xem trong 30 ngày, B có 8 phiên/25 lượt xem và chưa mua thêm. Lần mua gần nhất trước cửa sổ 30 ngày nên tình huống này không mâu thuẫn với số phiên gần đây của A.
+
+F0 thấy hai vector giống nhau `[40,2,50]`. F1 thấy `[40,2,50,0,0]` và `[40,2,50,8,25]`. Hai biến mới cho biết B vẫn quay lại và xem. Điều đó không bảo đảm K-Means tách A/B thành hai cụm, không nói B sắp mua và không chứng minh gợi ý gửi cho B sẽ hiệu quả.
+
+F đếm hai **phiên có mua**, dù mỗi phiên có nhiều purchase events; M cộng price hợp lệ, chưa phải doanh thu ròng. Công thức đầy đủ năm biến, cửa sổ, dữ liệu cần và các quy tắc chờ Phase 2 ở REPORT phần thiết kế mục B. Không tự điền recency cho non-buyers.
+
+CVR cần rõ mẫu số event/phiên và xử lý mẫu số 0. AOV proxy M/F suy từ RFM, không phải giá trị mỗi order thật. Category Breadth cần biết cấp danh mục, Brand Diversity cần kiểm tra missing/chuẩn hóa brand. Hai phép đếm hiện tại đơn giản và sát RQ2; chưa có bằng chứng chúng tối ưu hoặc cần thêm tất cả biến trong bài báo.
+
+### 16.3. Log khác scaling; kiểm tra từng thay đổi
+
+Log1p là `ln(1+x)`, thường dùng để nén chênh lệch mức lớn khi miền dữ liệu phù hợp. Ví dụ x=0,9,99 cho khoảng 0; 2,3026; 4,6052. Đây là phép tính minh họa, chưa phải quyết định lấy log cột nào. Không thay giá âm/thiếu thành 0 chỉ để log chạy được.
+
+StandardScaler chuẩn hóa từng cột theo `z=(x−mean)/std`, học mean/std từ tập dùng để fit rồi dùng lại khi transform. Ví dụ cột [1,3] có mean=2, std=1 theo cách tính của scaler, trở thành [−1,1]. Nó đổi thang đo, không tự làm phân phối hết lệch hoặc loại ảnh hưởng outliers; xem [tài liệu StandardScaler](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html). Không chuẩn hóa chung các đơn vị ngày/giá/lượt bằng một mean/std duy nhất.
+
+Nếu vừa thêm hai biến vừa thêm log rồi thấy điểm đổi, chưa biết phần nào gây ra. Vì vậy H2 cần giữ F0, cùng buyers, K, seed và cấu hình; ví dụ so **StandardScaler** với **log1p trên các cột đã chọn rồi StandardScaler** để kiểm tra riêng bước log. Chỉ làm nếu dữ liệu gợi ý cần, không cố tạo một baseline xử lý sai để chứng minh thắng. Cột/rule được ghi trước ở Phase 4; P1-T4 không chạy biến đổi hoặc mô hình.
+
+Log/scaling cũng đổi hình học khoảng cách. Điểm Silhouette tăng sau biến đổi chưa đủ để nói tốt hơn về nghiệp vụ; phải xem hồ sơ gốc, cỡ cụm và ổn định. Khi so F0/F1, ba cột RFM chung dùng cùng quy tắc biến đổi, nhưng fit hai scaler riêng theo đúng ba/năm cột. Không nạp scaler/model 7D cũ.
+
+### 16.4. So sánh thế nào để có ích?
+
+Giữ cùng buyers, thời gian, cleaning policy đã chốt và K-Means. Kế hoạch thử K=2–6 với ba seed [0,21,42], n_init=10 cho cả F0/F1; đây là lựa chọn thiết kế, chưa có lần fit. `random_state` điều khiển ngẫu nhiên khởi tạo; `n_init` là số khởi tạo trong một lần fit, không phải số cụm. Cấu hình đầy đủ và quy trình lưu hạn chế F0 trước F1 ở REPORT mục D.
+
+So Silhouette, DBI, cỡ/tỷ lệ cụm, hồ sơ cùng năm biến gốc và chi phí. ARI so sự giống nhau giữa các cách chia qua seed: nếu chỉ đổi tên cụm 0↔1 thì cách chia vẫn như cũ; đây không phải accuracy so với nhãn mua hàng. Ba seed chỉ kiểm tra khởi tạo, không chứng minh ổn định theo mùa. Đọc các trường hợp cùng K để xem ảnh hưởng thêm biến; khi chọn mô hình cuối có thể chọn K khác nhau, nhưng phải nói rõ phần thay đổi đó.
+
+F0 chỉ fit ba biến nhưng vẫn dùng đủ năm biến để **mô tả cụm sau khi fit**. Quy tắc chọn nhóm RFM tương tự phải ghi từ F0 trước khi xem F1, dùng lại cho cả hai. Nếu F1 tách theo lượt xem, đó cũng là hệ quả trực tiếp của đầu vào; cần xem có đặc điểm rõ, đủ khách và lặp lại qua seed không. Không chọn vài khách thuận lợi làm bằng chứng cho toàn bộ dữ liệu.
+
+Nếu F1 khó giải thích, không ổn định hoặc không thêm thông tin đáng kể, có thể giữ F0 và báo cáo giới hạn H1. Nếu chỉ một mặt hữu ích còn mặt khác kém, trình bày các mặt được/mất, không đặt trọng số tùy ý hoặc chỉ lấy seed/điểm đẹp nhất.
+
+### 16.5. Từ phân khúc đến hỗ trợ marketing
+
+Luồng đọc là **cụm → đặc điểm quan sát → mục tiêu → hành động gợi ý → căn cứ → KPI → hạn chế**. KPI là chỉ số để theo dõi, cần nêu rõ đếm gì, trên ai và trong khoảng nào. Ví dụ có điều kiện: nếu quan sát được nhóm lâu chưa mua nhưng còn xem, có thể gợi ý thử nội dung hỗ trợ lựa chọn; chưa biết vì sao họ chưa mua hoặc thông điệp nào hiệu quả.
+
+Số phiên/lượt xem hiện tại là mô tả. Tỷ lệ phản hồi hoặc doanh thu tăng nhờ chiến dịch cần dữ liệu tiếp cận và thử nghiệm đối chứng riêng; không suy được từ cụm. Phase 6 chỉ trình bày hồ sơ/bảng gợi ý, không gửi chiến dịch hay xây decision engine.
+
+### 16.6. Ba câu hỏi tự kiểm tra
+
+Mỗi người trả lời trước khi đọc gợi ý:
+
+1. Hai khách có cùng RFM nhưng khác sessions_30d/views_30d thì F1 bổ sung điều gì? Có bảo đảm họ khác cụm hoặc sắp mua không?
+2. Muốn kiểm tra tác động riêng của log, cần giữ gì cố định? Vì sao vừa thêm Engagement vừa thêm log rồi so Silhouette chưa đủ?
+3. Nếu F1 có Silhouette cao hơn, đã kết luận cải tiến thành công và marketing tăng doanh thu được chưa? Trước khi chạy F1 phải ghi gì từ F0?
+
+**Gợi ý trả lời:**
+
+1. Bổ sung mức quay lại và xem gần cutoff, chưa có bảo đảm về nhãn cụm hay hành vi tương lai. Cần dữ liệu và thực nghiệm để kiểm tra H1.
+2. Cùng bộ cột, buyers, cửa sổ, cleaning policy, K, seed và cấu hình; giữ scaling, chỉ thay bước log trên cột đã ghi. Hai thay đổi đồng thời gây lẫn tác động; điểm cũng được tính trong hình học đã đổi.
+3. Chưa: cần ổn định, cỡ cụm, hồ sơ năm biến gốc, khác biệt hành vi, khả năng giải thích và chi phí; hiệu quả chiến dịch cần thử nghiệm riêng. Trước F1 phải lưu cấu hình/kết quả F0, hạn chế thực sự quan sát, bằng chứng, giả thuyết cải tiến và cách kiểm tra. Chấp nhận cả kết quả chưa ủng hộ giả thuyết.
