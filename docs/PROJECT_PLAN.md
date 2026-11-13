@@ -1,11 +1,13 @@
 # Kế hoạch MVP — RFM + Engagement
 
 **Cập nhật:** 13/11/2026 (Asia/Bangkok). **Trạng thái thật:** xem `PROGRESS.md`.
-**Trạng thái hiện tại:** P1-T2 đã được hai sinh viên xác nhận PASS; chỉ thực hiện P1-T3, chờ nghiệm thu. Nền P0/P1-T1/P1-T2 đã có trên main. Chỉ đọc bài báo và cập nhật tài liệu, không thêm biến hay đổi F0/F1; vấn đề dữ liệu vẫn chờ Phase 2. P1-T4 chưa bắt đầu.
+**Trạng thái hiện tại:** P1-T3 đã được hai sinh viên xác nhận PASS và PR #4 đã merge main. P1-T4 — thiết kế cải tiến — READY FOR STUDENT REVIEW. Chỉ cập nhật tài liệu, giữ RQ1–RQ3/F0/F1; chưa chạy mô hình và chưa bắt đầu Phase 2. Vấn đề dữ liệu vẫn chờ xử lý theo kế hoạch.
 
 ## 1. Mục tiêu, câu hỏi và phạm vi
 
 Đề tài: Phân khúc khách hàng thương mại điện tử bằng K-Means dựa trên mô hình RFM mở rộng với đặc trưng tương tác website. Dự án độc lập cho nhóm hai sinh viên, ưu tiên đơn giản, dễ giải thích và kiểm chứng theo CRISP-DM — quy trình hiểu nghiệp vụ, hiểu/chuẩn bị dữ liệu, mô hình hóa, đánh giá và trình diễn.
+
+Mục tiêu là cải thiện khả năng phân khúc bằng lựa chọn đặc trưng, tiền xử lý phù hợp và bổ sung tương tác website để hỗ trợ marketing. Trình tự: F0 cơ sở → hạn chế có bằng chứng → đề xuất → thực nghiệm → đánh giá → hỗ trợ quyết định. So sánh F0/F1 là cách kiểm chứng, không mặc định F1 thắng. Giữ nguyên ba câu hỏi đã nghiệm thu:
 
 - RQ1: Dữ liệu REES46 cho thấy những đặc điểm gì về hành vi mua hàng và tương tác website?
 - RQ2: Bổ sung Engagement vào RFM có giúp phân biệt những hành vi khách hàng mà RFM truyền thống chưa thể hiện rõ không?
@@ -15,7 +17,7 @@ P1-T1 xác định vấn đề, mục tiêu, phạm vi và phương pháp dự k
 
 **Bắt buộc:** REES46; audit làm sạch, EDA; F0 gồm R/F/M và F1 thêm sessions_30d/views_30d; K-Means K=2–6; so sánh Silhouette, Davies–Bouldin, cluster profiles — hồ sơ cụm; bốn notebook Colab có giải thích/output; Streamlit nhỏ; hai tài liệu tích lũy; PowerPoint cuối kỳ 7 slide (trong khoảng 5–8).
 
-**Ngoài phạm vi:** React, FastAPI, PostgreSQL, IVRE integration, decision engine, campaign execution, auth, streaming, Docker/Kubernetes, MLflow/Airflow/CI phức tạp, surrogate, clustering non-buyers, nhiều thuật toán, tự chọn hàng chục feature. AOV proxy/Purchase Session Rate chỉ là ablation — thí nghiệm thêm/bớt biến — tùy chọn sau MVP chính.
+**Ngoài phạm vi:** React, FastAPI, PostgreSQL, IVRE integration, decision engine, campaign execution, auth, streaming, Docker/Kubernetes, MLflow/Airflow/CI phức tạp, surrogate, clustering non-buyers, nhiều thuật toán, tự chọn hàng chục feature. Chưa thêm CVR/AOV/Category Breadth/Brand Diversity; không triển khai các thí nghiệm mở rộng trong MVP chính.
 
 ## 2. Hợp đồng dữ liệu và thực nghiệm
 
@@ -48,8 +50,8 @@ Tất cả dependency bao gồm nghiệm thu task trước. Lịch chi tiết ch
 | P0-T4 | Hoàn thiện quy trình cộng tác nhóm | P0-T3 | Nhóm đã xác nhận nghiệm thu/đóng Phase 0; PR #1 đã merge main |
 | P1-T1 | Vấn đề, mục tiêu và câu hỏi nghiên cứu | P0 được nhóm nghiệm thu; nền có đủ file P0 | PASS theo xác nhận người dùng; PR #2 đã merge main |
 | P1-T2 | RFM truyền thống tham khảo | P1-T1 PASS | PASS theo xác nhận hai sinh viên; PR #3 đã merge main |
-| P1-T3 | Đọc nghiên cứu RFM-B | P1-T2 PASS | REPORT mục 3.5–3.9, LEARNING_GUIDE phần 15: định nghĩa, kết quả tác giả, giới hạn và liên hệ Cosmetics; READY FOR STUDENT REVIEW |
-| P1-T4 | Feature rationale | P1-T3 | Lý do chọn năm biến, liên hệ RQ2, chưa tự thêm biến |
+| P1-T3 | Đọc nghiên cứu RFM-B | P1-T2 PASS | PASS (Student Verified) theo yêu cầu P1-T4; PR #4 đã merge, nội dung nghiên cứu giữ nguyên |
+| P1-T4 | Thiết kế cải tiến và lý do chọn biến | P1-T3 PASS | Giữ năm biến/RQ; H1–H3, đối chứng, biểu đồ, hỗ trợ marketing; READY FOR STUDENT REVIEW |
 | P2-T1 | Schema | P1 | Kiểu dữ liệu/timezone/khóa được đọc và xác minh |
 | P2-T2 | Chất lượng dữ liệu | P2-T1 | Missing, duplicates, giá, biên thời gian và ảnh hưởng metric |
 | P2-T3 | Cleaning policies | P2-T2 | Chốt dedup 7/9 trường, buyer/price/session/rounding; chứng minh ảnh hưởng |
@@ -60,14 +62,14 @@ Tất cả dependency bao gồm nghiệm thu task trước. Lịch chi tiết ch
 | P4-T1 | RFM | P3 | Công thức, bảng tính tay và đối soát nguồn |
 | P4-T2 | Engagement | P4-T1 | sessions_30d/views_30d đúng recent window và khóa |
 | P4-T3 | Customer feature table | P4-T2 | Cohort rõ, đủ năm cột, không NULL/inf sai quy tắc |
-| P4-T4 | Transform / scale | P4-T3 | Ví dụ giải thích; preprocessing tái lập, tách F0/F1 |
-| P5-T1 | F0 baseline | P4 | K=2–6, config/seed/metrics/time/RSS thực |
-| P5-T2 | F1 experiment | P5-T1 | Cùng buyers và protocol, thêm đúng hai biến |
-| P5-T3 | So sánh | P5-T2 | Trade-off matrix và profiles trên chỉ số chung |
+| P4-T4 | Transform / scale | P4-T3 | Chọn biến đổi có căn cứ phân phối, ghi trước cột/rule; scaler riêng F0/F1, cùng quy tắc cho RFM chung |
+| P5-T1 | F0 baseline và hạn chế | P4 | K=2–6, cấu hình/seed/metrics/time/RSS thật; ghi hạn chế có bằng chứng và giả thuyết trước F1. Nếu cần, kiểm tra một thay đổi tiền xử lý trong cùng F0/cohort/K/seed, lưu trước/sau |
+| P5-T2 | F1 kiểm chứng đề xuất | P5-T1 được nghiệm thu, quy trình đã ghi | Cùng buyers/cutoff/cleaning/K-Means, K=2–6 và seed/cấu hình chung; thêm đúng hai biến, fit scaler riêng, không tái dùng kết quả 7D |
+| P5-T3 | Đánh giá cải tiến | P5-T2 | Bảng các mặt được/mất: Silhouette/DBI/ổn định/cỡ cụm/hồ sơ năm biến gốc/khác biệt hành vi/hỗ trợ marketing/tài nguyên; có thể giữ F0 |
 | P5-T4 | Chọn/lưu model | P5-T3 | Lý do trước đánh giá hồi cứu; model + preprocessing có version |
 | P6-T1 | Cluster profiles | P5 | Phân bố/cỡ nhóm và thống kê đơn vị gốc |
-| P6-T2 | Diễn giải nghiệp vụ | P6-T1 | Gợi ý có bằng chứng, không hứa hiệu quả marketing |
-| P6-T3 | Streamlit | P6-T2 | App nhỏ, nguồn/dataset rõ, không raw IDs |
+| P6-T2 | Marketing Decision Support | P6-T1 | Cụm → đặc điểm quan sát → mục tiêu marketing → hành động gợi ý → căn cứ → KPI → hạn chế; chỉ hỗ trợ quyết định, chưa chứng minh hiệu quả chiến dịch |
+| P6-T3 | Streamlit | P6-T2 | Hiển thị hồ sơ và bảng bảy cột P6-T2, ghi Research Demo / REES46, không raw IDs; không gửi chiến dịch/decision engine |
 | P6-T4 | Kiểm chứng app | P6-T3 | Đối soát hiển thị với artifact, chạy thật |
 | P7-T1 | Báo cáo học thuật | P6 | REPORT đầy đủ từ evidence |
 | P7-T2 | Sổ tay bảo vệ | P7-T1 | LEARNING_GUIDE và bài tập/câu hỏi |
@@ -75,6 +77,8 @@ Tất cả dependency bao gồm nghiệm thu task trước. Lịch chi tiết ch
 | P7-T4 | Tái lập/demo cuối | P7-T3 | Chạy lại trên môi trường sạch, checklist nghiệm thu |
 
 **Gate mỗi task:** input thật → implement đúng phạm vi → lệnh/log thật → kiểm chứng độc lập → giải thích → cập nhật hai tài liệu/progress → nghiệm thu. P0-T1 thành công không đồng nghĩa P0 hoặc P2 đã PASS.
+
+Thiết kế P1-T4 nằm ở REPORT phần 5–11, mục A–G: lý do năm biến, H1–H3, kiểm soát tiền xử lý/F0/F1, tám nhóm tiêu chí và kế hoạch biểu đồ Phase 3–6. Cấu hình dự kiến chung: K=2–6, seed [0,21,42], n_init=10; các lựa chọn này chưa phải kết quả tối ưu. Chưa chốt cột log, cleaning policy hoặc K cuối. Thay đổi có lý do phải ghi trước khi chạy task tương ứng; không chọn tiêu chí sau khi xem F1.
 
 ## 4. Kiến trúc và tổ chức tối thiểu dự kiến
 
@@ -116,4 +120,4 @@ Chưa copy dữ liệu, chưa cấu hình hoặc chạy Colab ở P0-T1. Đề x
 
 ## 8. Hoàn thành Phase 0
 
-Nhóm đã nghiệm thu P0-T4/đóng Phase 0, P1-T1 và P1-T2 PASS. PR #1/#2/#3 đã merge; kết quả kiểm tra và commit bàn giao nằm trong PROGRESS. Không làm lại P0 hoặc đổi kết quả cũ. Vấn đề dữ liệu tiếp tục xử lý ở Phase 2, không tự ghi đã giải quyết. Lượt hiện tại chỉ làm P1-T3 rồi dừng chờ nghiệm thu; không tự chuyển P1-T4.
+Nhóm đã nghiệm thu P0-T4/đóng Phase 0 và P1-T1/P1-T2/P1-T3 PASS. PR #1–#4 đã merge; kết quả kiểm tra và commit bàn giao nằm trong PROGRESS. Không làm lại P0 hoặc đổi kết quả cũ. Vấn đề dữ liệu tiếp tục xử lý ở Phase 2, không tự ghi đã giải quyết. P1-T4 chỉ thiết kế và đang chờ nghiệm thu; Phase 1 chưa tự đóng, Phase 2 chưa bắt đầu.

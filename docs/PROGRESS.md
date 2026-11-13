@@ -9,8 +9,9 @@
 - **P0-T4: PASS (Student Verified).** Người dùng xác nhận nhóm đã nghiệm thu và đóng Phase 0 trong yêu cầu P1-T1. Không yêu cầu làm lại P0.
 - **P1-T1: PASS (Student Verified).** Người dùng xác nhận trực tiếp “P1-T1 PASS”; không tự bổ sung bài trả lời hoặc log sinh viên chưa gửi.
 - **P1-T2: PASS (Student Verified).** Phần xác nhận sau trong tệp yêu cầu P1-T3 ghi hai sinh viên đã đọc REPORT mục 3, LEARNING_GUIDE phần 14, trả lời câu hỏi và xác nhận PASS; checklist được cung cấp ghi 5/5. Không tự bổ sung bài trả lời ngoài nội dung đã gửi.
-- **P1-T3:** READY FOR STUDENT REVIEW — đọc bài RFM-B gốc và liên hệ MVP, chưa chạy mô hình.
-- **GitHub:** PR #1/#2/#3 đã merge sau nghiệm thu. Main có đủ 30 file P0/P1-T1/P1-T2; P1-T3 làm trên nhánh riêng và chưa merge.
+- **P1-T3: PASS (Student Verified).** Người dùng xác nhận hai sinh viên đã nghiệm thu trong yêu cầu P1-T4; không tự bổ sung bài trả lời hoặc checklist từng câu chưa gửi.
+- **P1-T4:** READY FOR STUDENT REVIEW — thiết kế cải tiến, chưa chạy mô hình. Phase 1 chờ nghiệm thu task này; Phase 2 chưa bắt đầu.
+- **GitHub:** PR #1–#4 đã merge sau nghiệm thu. Main có đủ 30 file P0/P1-T1/P1-T2/P1-T3; P1-T4 ở nhánh riêng, chưa merge.
 
 ## 1. P0-T1 — kiểm kê dữ liệu cũ
 
@@ -153,8 +154,8 @@ Kiểm tra `git var GIT_AUTHOR_IDENT` ban đầu chưa đạt vì local chưa c�
 | P0-T4 | PASS (Student Verified); nhóm xác nhận đóng Phase 0, PR #1 đã merge |
 | P1-T1 | PASS (Student Verified); PR #2 đã merge |
 | P1-T2 | PASS (Student Verified); PR #3 đã merge |
-| P1-T3 | READY FOR STUDENT REVIEW |
-| P1-T4 | NOT STARTED |
+| P1-T3 | PASS (Student Verified); PR #4 đã merge |
+| P1-T4 | READY FOR STUDENT REVIEW |
 | P2-T1…T4 | NOT STARTED |
 | P3-T1…T3 | NOT STARTED |
 | P4-T1…T4 | NOT STARTED |
@@ -239,12 +240,43 @@ Bản bàn giao khi đó là [PR #3 — P1-T2](https://github.com/TminTtapcode/c
 
 Chỉ sáu tài liệu đổi; 24 file khác, gồm code, notebook, requirements và 13 bằng chứng, giữ nguyên hash. REPORT phần P1-T1/P1-T2 và từ mục 4 trở đi, nội dung sổ tay 1–14, các bảng cũ, hợp đồng F0/F1 và danh sách vấn đề dữ liệu giữ nguyên. Source cũ giữ metadata 153 file, hash 138 file nhỏ và Git status; không hash lại raw lớn. `git -c core.whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol diff --check` exit 0. Không chạy REES46, EDA, K-Means/Random Forest, tạo feature/notebook, thêm dependency hoặc sửa source cũ.
 
-**Hai sinh viên cần nghiệm thu:**
+**Nội dung giao nghiệm thu P1-T3 tại thời điểm bàn giao:**
 
-Bản bàn giao là [PR nháp #4 — P1-T3](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/4), nhánh `p1-t3-rfmb-paper`, base main. PR chỉ có thay đổi sáu tài liệu, chưa merge; số liệu công bố trong phần đọc bài báo không phải kết quả thực nghiệm MVP.
+Bản bàn giao khi đó là [PR #4 — P1-T3](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/4), nhánh `p1-t3-rfmb-paper`, base main, chỉ thay đổi sáu tài liệu. Các mục dưới là yêu cầu tự học đã giao, không phải bài trả lời hoặc kết quả từng câu do sinh viên gửi. Số liệu công bố trong phần đọc bài báo không phải kết quả thực nghiệm MVP.
 
 - [ ] Đọc REPORT mục 3.5–3.9 và LEARNING_GUIDE phần 15; giải thích được bốn biến và dữ liệu cần để đo.
 - [ ] Tính lại ví dụ event/session, AOV, danh mục và thương hiệu; trả lời ba câu cuối phần 15 trước khi xem gợi ý.
 - [ ] Phân biệt kết quả tác giả với kết quả MVP, accuracy nhãn cụm với dự đoán mua và nhận xét sơ bộ với quyết định feature P1-T4.
 
-**Còn mở:** toàn bộ vấn đề dữ liệu ở mục 4 giữ nguyên. Chưa kiểm tra dữ liệu/code của bài báo để tái lập kết quả; chưa xác minh trên Cosmetics các điều kiện tính bốn biến. P1-T3 = **READY FOR STUDENT REVIEW**; dừng chờ nghiệm thu, không thực hiện P1-T4.
+**Cập nhật nghiệm thu:** trong yêu cầu P1-T4, người dùng xác nhận hai sinh viên đã nghiệm thu **P1-T3 PASS (Student Verified)**. Không tự đánh dấu kết quả từng câu phía trên. PR #4 được bàn giao vào main như mục 11. Toàn bộ vấn đề dữ liệu ở mục 4 vẫn mở; chưa tái lập bài báo hoặc xác minh trên Cosmetics các điều kiện tính bốn biến.
+
+## 11. P1-T4 — thiết kế cải tiến phân khúc
+
+**Nền tảng bàn giao:** working tree ban đầu sạch. Đối chiếu PR #4 Open/Draft, head `35d1f6ccef529f5a33101112aac499facd53f36d`, diff chỉ sáu tài liệu đã nghiệm thu. Đưa khỏi Draft rồi merge bằng merge commit `b137750fe65261d8591f18323be5cc629d81563a`; cây file main khớp head được chấp nhận, không ghi đè lịch sử. Có 0 commit statuses/0 check runs CI; không gọi thiếu CI là tests PASS. Dùng GitHub REST/GraphQL qua thông tin đăng nhập Git Credential Manager sẵn có, không lưu token. Chạy `git fetch origin main`, rồi `git switch -c p1-t4-improvement-design origin/main` từ main này.
+
+**Đã thực hiện:**
+
+- Chuyển mục tiêu sang cải thiện phân khúc có kiểm chứng; giữ nguyên RQ1–RQ3, K-Means và F0 ba biến/F1 năm biến.
+- REPORT phần thiết kế A–G: hạn chế giả định → giải pháp → dữ liệu/đánh giá; công thức, ý nghĩa, giới hạn năm biến; lý do chưa thêm CVR/AOV/danh mục/thương hiệu; H1–H3; quy trình thí nghiệm và kế hoạch biểu đồ Phase 3–6.
+- Bắt buộc ghi hạn chế có bằng chứng của F0 trước F1. Kiểm tra tiền xử lý nếu cần trong cùng bộ biến/cohort/K/seed; khi so F0/F1 giữ quy tắc RFM chung và fit scaler riêng. Cấu hình dự kiến n_init=10, seed [0,21,42], K=2–6; chưa chốt cột log hoặc K cuối.
+- Thiết kế đọc Silhouette/DBI cùng ổn định, cỡ cụm, hồ sơ năm biến ở đơn vị gốc, thông tin hành vi, căn cứ marketing và tài nguyên. Chấp nhận khả năng giữ F0 hoặc chưa đủ bằng chứng cải tiến.
+- P6-T2/T3 có luồng cụm → đặc điểm quan sát → mục tiêu → hành động → căn cứ → KPI → hạn chế; chỉ hỗ trợ quyết định, không gửi chiến dịch. Sổ tay phần 16 giải thích và có ba câu hỏi/gợi ý.
+- Chỉ sửa AGENTS, README và bốn tài liệu hiện có; không tạo báo cáo, dependency, biểu đồ, notebook hoặc artifact nghiên cứu mới.
+
+**Kiểm tra đã chạy:** `..\customer-analytics-antigravity\.venv\Scripts\python.exe -B .tmp/p1t4-verify.py`, chỉ dùng thư viện chuẩn, exit 0. Có 24 điều kiện QA tài liệu đạt và 26 liên kết local hợp lệ; các bảng đúng số cột. Ba RQ, bảng kiểm chứng RQ, phần tài liệu tham khảo P1-T2/T3, toàn bộ mục 4 của REPORT, nội dung sổ tay 1–15, hợp đồng nghiên cứu và danh sách vấn đề mở được bảo toàn. Ví dụ tính tay xác nhận 40 ngày, cửa sổ 30 ngày, log1p(0/9/99)≈0/2,3026/4,6052 và chuẩn hóa [1,3] thành [−1,1]; đây không phải số liệu REES46.
+
+Chỉ sáu tài liệu đổi; 24 file còn lại, gồm notebook, code, tests, requirements và 13 bằng chứng, giữ nguyên SHA256. Source cũ giữ metadata 153 file, hash 138 file nhỏ và Git status; không hash lại raw lớn hoặc xác nhận lại header/hash CSV tháng 12. Script/snapshot QA nằm trong `.tmp/` đã ignore, không thuộc bản bàn giao. `git diff --stat` dùng để kiểm tra phạm vi; kiểm tra whitespace bằng `git -c core.whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol diff --check` exit 0. Ban đầu staging rỗng. Không chạy notebook, ETL, EDA, feature engineering, K-Means hoặc cài dependency; chưa có thực nghiệm hay kết quả phân cụm trong P1-T4.
+
+Đọc tài liệu chính thức scikit-learn cho KMeans, StandardScaler và adjusted_rand_score để kiểm tra ý nghĩa cấu hình/scaling/ARI; liên kết nằm trong REPORT và LEARNING_GUIDE. Không dùng phiên bản tài liệu web làm bằng chứng môi trường local đã được cài hoặc tái lập đầy đủ.
+
+**Bàn giao P1-T4:** [PR nháp #5](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/5), nhánh `p1-t4-improvement-design`, base main; chỉ thay sáu Markdown hiện có. Commit nội dung `7161992`. Đã chạy `git -c core.autocrlf=false add -- AGENTS.md README.md docs/PROJECT_PLAN.md docs/REPORT.md docs/LEARNING_GUIDE.md docs/PROGRESS.md`, kiểm tra `git diff --cached --check` với cấu hình whitespace phía trên (exit 0), rồi đối chiếu Git blob với bytes local: khớp cả sáu file, không có data/model trong staging. Dùng tên tác giả cho riêng lệnh commit, không đổi Git config toàn máy; `git -c credential.interactive=never push -u origin p1-t4-improvement-design` thành công. PR tạo với draft=true; không merge P1-T4 khi chưa nghiệm thu.
+
+**Những điều đã chốt và còn chờ:** chốt phạm vi năm biến, ba giả thuyết và cách kiểm chứng; không chốt giả thuyết đúng. Toàn bộ mục 4 giữ nguyên. Phase 2 còn schema/nguồn/cleaning/buyer/price/session/rounding; Phase 3–4 còn phân phối, outliers, tính đặc trưng và chọn biến đổi; Phase 5 mới có nhãn, K, metrics, thời gian/bộ nhớ và kết luận F0/F1 thật. Chưa chứng minh log/scaling tốt hơn, tên cụm hay hiệu quả marketing.
+
+**Hai sinh viên tự kiểm tra trước nghiệm thu:**
+
+- [ ] Đọc REPORT phần thiết kế A–G, giải thích được mỗi hạn chế đang là giả thuyết hay đã có bằng chứng.
+- [ ] Tự trả lời ba câu phần 16 của LEARNING_GUIDE: thông tin F1 thêm, cách tách tác động log/Engagement, bằng chứng cần trước khi kết luận cải tiến/marketing.
+- [ ] Thống nhất năm biến, điều kiện so sánh và sản phẩm Phase 5–6; không coi thiết kế là kết quả chạy.
+
+**P1-T4: READY FOR STUDENT REVIEW.** Dừng chờ nghiệm thu; chưa tự đóng Phase 1 và không triển khai Phase 2.
