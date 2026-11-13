@@ -1,6 +1,6 @@
 # Sổ tay học tập — MVP RFM + Engagement
 
-**Cập nhật 13/11/2026.** Phần 1–9 về kiểm kê P0-T1, phần 10–12 về công cụ/cộng tác, phần 13–16 về nghiên cứu và thiết kế; phần 17 về schema P2-T1. P1-T4 đã được nhóm xác nhận PASS, Phase 1 CLOSED. P2-T1 còn BLOCKED do CSV tháng 12 chưa đọc được. Số liệu local cũ vẫn giữ riêng, không coi là số đo Colab mới.
+**Cập nhật 13/11/2026.** Phần 1–9 về kiểm kê P0-T1, phần 10–12 về công cụ/cộng tác, phần 13–16 về nghiên cứu và thiết kế; phần 17 về schema P2-T1. P1-T4 đã được nhóm xác nhận PASS, Phase 1 CLOSED. P2-T1 đã chạy lại sau gỡ chặn tháng 12, READY FOR STUDENT REVIEW. Số liệu local cũ vẫn giữ riêng, không coi là số đo Colab mới.
 
 ## 1. Tệp dữ liệu, cấu trúc bảng và nguồn gốc xử lý là gì?
 
@@ -586,7 +586,7 @@ Header không có event_id, nên chưa biết một khóa event duy nhất chỉ
 
 Datetime biểu diễn ngày giờ; timezone cho biết cách quy đổi thời điểm. Ví dụ minh họa `2020-02-01 00:30:00+07:00` tương ứng `2020-01-31 17:30:00 UTC`. Nếu chỉ nhìn ngày địa phương “tháng 2” rồi loại, có thể loại sai một event còn trước cutoff UTC.
 
-Ba mẫu thật có 3.000/3.000 thời gian parse được và chứa hậu tố UTC. Điều này xác nhận cách biểu diễn trong mẫu, không xác nhận toàn bộ bốn tháng. Parquet đang lưu TIMESTAMP không kèm timezone và isAdjustedToUTC=0, nên không tự lấy việc parse thành công hoặc cấu hình UTC của công cụ làm bằng chứng nguồn luôn là UTC. Giải thích kiểu tại [tài liệu DuckDB](https://duckdb.org/docs/2.0/sql/data_types/timestamp.html).
+Bốn mẫu thật có 4.000/4.000 thời gian parse được và chứa hậu tố UTC, gồm cả tháng 12 trong lần chạy lại. Điều này xác nhận cách biểu diễn trong mẫu, không xác nhận toàn bộ bốn tháng. Parquet đang lưu TIMESTAMP không kèm timezone và isAdjustedToUTC=0, nên không tự lấy việc parse thành công hoặc cấu hình UTC của công cụ làm bằng chứng nguồn luôn là UTC. Giải thích kiểu tại [tài liệu DuckDB](https://duckdb.org/docs/2.0/sql/data_types/timestamp.html).
 
 Giữ cửa sổ observation `[01/10/2019, 01/02/2020)` và 30 ngày `[02/01/2020, 01/02/2020)` theo UTC: lấy đầu, không lấy cuối. Xét thời gian từng event, kể cả session qua cutoff. P2-T1 chỉ kiểm tra cách đọc, chưa lọc/tạo observation.
 
@@ -601,20 +601,20 @@ Giữ cửa sổ observation `[01/10/2019, 01/02/2020)` và 30 ngày `[02/01/202
 Script được tạo là `scripts/inspect_schema.py`, không thêm notebook thứ hai hoặc sửa notebook Colab đã nghiệm thu. Lệnh thật đã chạy từ root MVP bằng Python/DuckDB sẵn có:
 
 ```powershell
-& '..\customer-analytics-antigravity\.venv\Scripts\python.exe' -B scripts/inspect_schema.py --data-root ../customer-analytics-antigravity/data --sample-rows 1000 --output results/p2_t1
+& '..\customer-analytics-antigravity\.venv\Scripts\python.exe' -B scripts/inspect_schema.py --data-root ../customer-analytics-antigravity/data --sample-rows 1000 --output results/p2_t1/recheck_01
 ```
 
-Input là root có raw/, cleaned/, features/. Output có [inspection.json](../results/p2_t1/inspection.json), [schema.csv](../results/p2_t1/schema.csv); [execution.json](../results/p2_t1/execution.json) ghi lần chạy/lệnh/exit code. Đây là kiểm tra local, chưa chạy script mới trên Colab.
+Input là root có raw/, cleaned/, features/. Output mới có [inspection.json](../results/p2_t1/recheck_01/inspection.json), [schema.csv](../results/p2_t1/recheck_01/schema.csv); [execution.json](../results/p2_t1/recheck_01/execution.json) ghi lần chạy/lệnh/exit code. Bằng chứng lần trước bị chặn giữ nguyên trong thư mục cha. Đây là kiểm tra local, chưa chạy script mới trên Colab.
 
 Để chạy lại, chọn thư mục output mới, ví dụ `results/p2_t1_recheck`, vì script từ chối ghi đè bằng chứng đã có. Có thể dùng `python -B scripts/inspect_schema.py ...` trong môi trường đã có DuckDB. `--data-root` hoặc `REES46_DATA_ROOT` đổi nơi dữ liệu; đường dẫn tương đối tính từ root MVP. Trên Colab, khi đến lần thực hành được nhóm thống nhất, trỏ tới root dữ liệu trên Drive và chạy script từ bản repo đã chấp nhận; task này chưa mount/copy dữ liệu hoặc xác nhận chạy Colab.
 
 ### 17.5. Đọc kết quả và giới hạn
 
-Đã đọc header bốn CSV gồm ba tháng observation và February; chỉ ba CSV observation có mẫu, tổng 3.000 dòng. Tháng 12 có file theo metadata nhưng mở bị PermissionError. Không lấy schema Parquet đã xử lý hoặc các tháng khác để điền schema raw tháng 12.
+Lần chạy lại đã đọc header năm CSV gồm bốn tháng observation và February; chỉ bốn CSV observation có mẫu, tổng 4.000 dòng. Tháng 12 đã đọc được trực tiếp sau khi người dùng gỡ chặn; không lấy schema Parquet hoặc các tháng khác để điền thay. Header của bốn raw observation giống nhau về chín tên cột và thứ tự; các kiểu suy luận trên mẫu cũng giống nhau.
 
-Trong ba mẫu có bốn event_type: view, cart, purchase, remove_from_cart. Điều đó bác bỏ việc mặc định chỉ có view/cart/purchase, nhưng chưa chứng minh không còn loại khác. Có ô trống brand/category_code; chưa biết tỷ lệ toàn bộ. Min/max được ghi là min/max mẫu đầu tệp, không phải cả tháng.
+Trong cả bốn mẫu có bốn event_type: view, cart, purchase, remove_from_cart. Điều đó bác bỏ việc mặc định chỉ có view/cart/purchase, nhưng chưa chứng minh không còn loại khác. Có ô trống brand/category_code; chưa biết tỷ lệ toàn bộ. Min/max được ghi là min/max mẫu đầu tệp, không phải cả tháng.
 
-Các cột cần cho năm biến có trong phần đọc được, nhưng còn phải kiểm tra buyer/giá/session/dedup/rounding và thời gian toàn dữ liệu. Kiểm tra schema trước giúp biết sẽ kiểm tra gì và tránh nhầm kiểu/đơn vị; không thay thế cleaning. Task hiện **BLOCKED** vì thiếu kiểm chứng raw tháng 12. Script trả exit 2 để biểu thị vướng này; exit 0 chỉ là sẵn sàng sinh viên xem, cũng chưa phải sinh viên xác nhận PASS.
+Các cột cần cho năm biến có trong header bốn tháng, nhưng còn phải kiểm tra buyer/giá/session/dedup/rounding và thời gian toàn dữ liệu. Kiểm tra schema trước giúp biết sẽ kiểm tra gì và tránh nhầm kiểu/đơn vị; không thay thế cleaning. Lần mới trả **exit 0**, task **READY FOR STUDENT REVIEW**, chưa phải sinh viên xác nhận PASS. Lần cũ exit 2 vẫn được giữ như lịch sử; chưa tính SHA256 toàn raw tháng 12 và chưa xác nhận chất lượng toàn bộ chỉ từ mẫu.
 
 Kiểm thử công cụ dùng các tệp nhỏ tạm thời, tách khỏi nghiên cứu: giới hạn dòng đọc, không sửa nguồn, không xuất ID, phân biệt thời gian không timezone, chỉ đọc header future, đọc footer và từ chối ghi đè. Lệnh đã chạy:
 
@@ -626,6 +626,6 @@ Kiểm thử công cụ dùng các tệp nhỏ tạm thời, tách khỏi nghiê
 
 1. Trong CSV, user_id đọc được BIGINT thì có nên đưa nó vào tính khoảng cách K-Means không? Có header đủ chín cột thì đã chứng minh năm feature hợp lệ chưa?
 2. Một phiên có ba view và hai purchase events cho bao nhiêu event/phiên? Vì sao không gọi `(user_id, user_session)` là khóa duy nhất của từng event hoặc kết luận có hai đơn?
-3. Parse được 3.000 timestamp có UTC và có schema ba tháng giống nhau thì đã xác nhận đủ bốn tháng chưa? Vì sao P2-T1 còn BLOCKED?
+3. Header đủ bốn tháng giống nhau và parse được 4.000 timestamp có UTC thì đã xác nhận toàn dữ liệu sạch chưa? Vì sao P2-T1 mới READY FOR STUDENT REVIEW, chưa phải PASS?
 
-**Gợi ý:** (1) Không: ID là định danh; có cột/kiểu mới chỉ đủ điều kiện kỹ thuật ban đầu, chính sách nghiệp vụ chưa chốt. (2) Năm event, một phiên, Frequency dự kiến tăng một nếu hợp lệ; khóa phiên lặp giữa event, không có order_id. (3) Chưa: chỉ kiểm tra mẫu ba tháng; tháng 12 chưa đọc được, Parquet không thay thế kiểm chứng raw. Cần đầu vào đọc được có nguồn rõ, không tự sửa bảo mật hoặc bịa kết quả.
+**Gợi ý:** (1) Không: ID là định danh; có cột/kiểu mới chỉ đủ điều kiện kỹ thuật ban đầu, chính sách nghiệp vụ chưa chốt. (2) Năm event, một phiên, Frequency dự kiến tăng một nếu hợp lệ; khóa phiên lặp giữa event, không có order_id. (3) Chưa: chỉ đọc header/mẫu giới hạn; missing, duplicates, giá, khóa và thời gian toàn bộ chưa kiểm tra đầy đủ. READY ghi nhận công việc chờ hai sinh viên xem và nghiệm thu; không tự thay bằng PASS hoặc triển khai P2-T2.

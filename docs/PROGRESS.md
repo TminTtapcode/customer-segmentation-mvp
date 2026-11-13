@@ -11,7 +11,7 @@
 - **P1-T2: PASS (Student Verified).** Phần xác nhận sau trong tệp yêu cầu P1-T3 ghi hai sinh viên đã đọc REPORT mục 3, LEARNING_GUIDE phần 14, trả lời câu hỏi và xác nhận PASS; checklist được cung cấp ghi 5/5. Không tự bổ sung bài trả lời ngoài nội dung đã gửi.
 - **P1-T3: PASS (Student Verified).** Người dùng xác nhận hai sinh viên đã nghiệm thu trong yêu cầu P1-T4; không tự bổ sung bài trả lời hoặc checklist từng câu chưa gửi.
 - **P1-T4: PASS (Student Verified).** Người dùng xác nhận hai sinh viên nghiệm thu trong yêu cầu P2-T1; không tự bổ sung bài trả lời từng câu. **Phase 1 CLOSED** sau khi đối chiếu/bàn giao main; H1–H3 chưa được chứng minh.
-- **P2-T1: BLOCKED.** Đã kiểm tra schema trong phạm vi đọc được, raw `2019-Dec.csv` vẫn PermissionError. Chưa đủ điều kiện nghiệm thu hoàn tất; chưa thực hiện P2-T2/P2-T3/P2-T4.
+- **P2-T1: READY FOR STUDENT REVIEW.** Sau khi người dùng gỡ chặn `2019-Dec.csv`, đã chạy lại exit 0, đọc header/mẫu đủ bốn tháng, tổng 4.000 dòng. Chưa tự ghi PASS hoặc thực hiện P2-T2/P2-T3/P2-T4; lần bị chặn được giữ làm lịch sử ở mục 12.
 - **GitHub:** PR #1–#5 đã merge sau nghiệm thu. Main có đủ 30 file P0–P1; thay đổi P2-T1 ở nhánh riêng.
 
 ## 1. P0-T1 — kiểm kê dữ liệu cũ
@@ -90,7 +90,7 @@ Lần kiểm tra ignore đầu gặp khác biệt CRLF khi truyền tên file qu
 
 ## 4. Các vấn đề chưa giải quyết
 
-1. CSV `2019-Dec.csv` chưa có header/hash đọc được; lần này không xử lý file lock.
+1. Ở P0-T1, CSV `2019-Dec.csv` chưa đọc được header/hash. P2-T1 chạy lại sau khi người dùng gỡ chặn đã đọc được header/mẫu; **SHA256 toàn tệp chưa tính**, phần đối chiếu hash/nguồn gốc vẫn mở. Không sửa bằng chứng P0-T1 hoặc tự coi toàn bộ vấn đề đã resolved.
 2. Cách loại trùng theo 7/9 trường chưa thống nhất.
 3. Quy tắc buyer, price, session và rounding chưa chốt.
 4. Bảng đặc trưng cũ chỉ là ứng viên tái sử dụng, chưa phải đầu vào đã được chấp nhận vô điều kiện.
@@ -157,7 +157,7 @@ Kiểm tra `git var GIT_AUTHOR_IDENT` ban đầu chưa đạt vì local chưa c�
 | P1-T2 | PASS (Student Verified); PR #3 đã merge |
 | P1-T3 | PASS (Student Verified); PR #4 đã merge |
 | P1-T4 | PASS (Student Verified); PR #5 đã merge; Phase 1 CLOSED |
-| P2-T1 | BLOCKED — raw tháng 12 chưa đọc được |
+| P2-T1 | READY FOR STUDENT REVIEW — lần chạy lại đọc được đủ bốn tháng, exit 0 |
 | P2-T2…T4 | NOT STARTED |
 | P3-T1…T3 | NOT STARTED |
 | P4-T1…T4 | NOT STARTED |
@@ -283,7 +283,7 @@ Chỉ sáu tài liệu đổi; 24 file còn lại, gồm notebook, code, tests, 
 
 Tại thời điểm bàn giao, P1-T4 là READY FOR STUDENT REVIEW. Yêu cầu P2-T1 sau đó xác nhận **P1-T4 PASS (Student Verified)**. Không tự đánh dấu kết quả từng câu chưa được gửi. Phase 1 được đóng sau đối chiếu main ở mục 12; nội dung thiết kế giữ nguyên.
 
-## 12. Đóng Phase 1 và P2-T1 — kiểm tra schema
+## 12. Đóng Phase 1 và P2-T1 — lần đầu kiểm tra schema, còn bị chặn
 
 ### Bàn giao và đóng Phase 1
 
@@ -337,3 +337,25 @@ Toàn bộ mục 4 vẫn giữ nguyên, không đánh dấu resolved. Tháng 12 
 - [ ] Khi có tháng 12 đọc được: chạy kiểm tra bổ sung vào output mới, đối chiếu đủ raw observation rồi mới đề nghị nghiệm thu hoàn tất P2-T1.
 
 **P2-T1: BLOCKED — thiếu kiểm chứng raw tháng 12.** Bản công việc một phần sẽ bàn giao bằng PR nháp; không gọi READY FOR STUDENT REVIEW cho hoàn tất task khi còn thiếu đầu vào thiết yếu. Dừng, không tự triển khai P2-T2.
+
+## 13. P2-T1 — chạy lại sau khi người dùng gỡ chặn tháng 12
+
+**Đầu vào và phạm vi:** người dùng yêu cầu chạy lại vì đã mở chặn `2019-Dec.csv`. Working tree sạch; PR #6 vẫn Open/Draft, head `b83c967`, base main, chưa merge. Kiểm tra trực tiếp header tháng 12 đọc được, kích thước 415.302.972 bytes. Không thay quyền, tắt tiến trình hoặc sửa source. Giữ script, tests, notebook và dependency hiện có.
+
+Lệnh thật bằng Python/DuckDB sẵn có, từ root MVP:
+
+```powershell
+& '..\customer-analytics-antigravity\.venv\Scripts\python.exe' -B scripts/inspect_schema.py --data-root ../customer-analytics-antigravity/data --sample-rows 1000 --output results/p2_t1/recheck_01
+```
+
+**Kết quả:** script **exit 0**, không có blocker; đọc 1.000 dòng đầu mỗi raw tháng 10/11/12/01, tổng **4.000 dòng**. Cả bốn header có cùng chín cột và thứ tự; các kiểu suy luận trên bốn mẫu giống nhau. Cả bốn mẫu có view/cart/purchase/remove_from_cart; 4.000/4.000 thời gian parse được, có UTC, offset 0. Riêng mẫu tháng 12 trải từ 2019-12-01 00:00:00 đến 00:29:32 UTC; không phải min/max toàn tháng. February vẫn chỉ header, sáu Parquet chỉ footer/schema, không đọc dòng nhãn 7D.
+
+Bằng chứng mới: [inspection.json](../results/p2_t1/recheck_01/inspection.json), [schema.csv](../results/p2_t1/recheck_01/schema.csv), [execution.json](../results/p2_t1/recheck_01/execution.json). Lệnh, thời điểm, môi trường, phạm vi và hash code đều có trong bằng chứng. Thời gian khoảng 3,566 giây chỉ cho lần kiểm tra schema này, không phải benchmark pipeline/mô hình và chưa đo RSS. Ba bằng chứng lần bị chặn ở thư mục cha cùng toàn bộ P0 được giữ nguyên.
+
+**Tài liệu:** cập nhật kết quả hiện hành trong REPORT, LEARNING_GUIDE phần 17, README, PROJECT_PLAN và PROGRESS; giữ nội dung nghiên cứu đã nghiệm thu. Phần header tháng 12 đã được kiểm tra, nhưng hash toàn tệp chưa tính; các vấn đề nguồn/cleaning/buyer/price/session/rounding/môi trường còn mở. Chưa chạy chất lượng dữ liệu toàn bộ, tính feature hoặc mô hình; chưa chạy lần mới trên Colab.
+
+**Kiểm chứng:** chạy `..\customer-analytics-antigravity\.venv\Scripts\python.exe -B .tmp/p2t1-recheck-verify.py`, exit 0; **22 điều kiện QA đạt**, 39 liên kết local hợp lệ. Đọc lại độc lập đúng bốn mẫu để kiểm tra header, kiểu, fingerprint, thời gian và loại sự kiện; không có giá trị user/session trong phần công khai. Ba fingerprint mẫu tháng 10/11/01 giống lần trước. Chỉ năm tài liệu hiện có đổi và thêm ba bằng chứng lần chạy lại; 30 file khác, gồm script/tests/notebook/dependency và 16 bằng chứng cũ, giữ nguyên SHA256. Toàn dự án hiện 38 file.
+
+Nguồn cũ giữ metadata 153 file, hash 138 file nhỏ và Git status trong lượt này; không hash lại raw lớn. Thiết kế P0–P1, RQ/F0/F1/H1–H3, các vấn đề mở khác và nội dung học phần 1–16 giữ nguyên. Script/tests không đổi nên không chạy lại 7 unit tests chỉ để cập nhật tài liệu; 7/7 là kết quả lần trước, không phải số kiểm thử mới trong lượt này. Bản chạy lại tiếp tục bàn giao qua [PR nháp #6](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/6), cùng nhánh, chưa merge; giữ lịch sử lần BLOCKED và cập nhật nội dung hiện hành theo kết quả mới.
+
+**P2-T1: READY FOR STUDENT REVIEW.** Hai sinh viên xem schema đủ bốn tháng và ba câu hỏi phần 17; đối chiếu giới hạn mẫu với kiểm tra toàn dữ liệu rồi xác nhận nghiệm thu. Chưa tự ghi PASS, chưa merge PR #6 hoặc chuyển P2-T2.

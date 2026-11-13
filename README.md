@@ -2,7 +2,7 @@
 
 Dự án nghiên cứu độc lập trên **REES46 Cosmetics**, cho nhóm hai sinh viên. Mục tiêu là cải thiện khả năng phân khúc bằng lựa chọn đặc trưng và tiền xử lý có kiểm chứng, giữ K-Means đơn giản. F0 (RFM) là cơ sở; F1 thêm sessions_30d, views_30d là đề xuất cần kiểm tra, sau đó hỗ trợ diễn giải marketing. Không có model hoặc dashboard MVP ở bước hiện tại.
 
-**P1-T4 PASS (Student Verified), Phase 1 CLOSED.** **P2-T1 — kiểm tra schema: BLOCKED** vì CSV tháng 12 chưa đọc được. Đã kiểm tra header/mẫu giới hạn của ba raw observation và footer/schema Parquet; chưa làm sạch hoặc tạo feature/model. Đọc phần Data Understanding trong [báo cáo](docs/REPORT.md), phần 17 của [sổ tay](docs/LEARNING_GUIDE.md), [tiến độ](docs/PROGRESS.md) và [kế hoạch](docs/PROJECT_PLAN.md). RQ1–RQ3/F0/F1 giữ nguyên; chưa triển khai P2-T2.
+**P1-T4 PASS (Student Verified), Phase 1 CLOSED.** **P2-T1 — kiểm tra schema: READY FOR STUDENT REVIEW.** Sau khi người dùng gỡ chặn tháng 12, đã chạy lại và đọc header/mẫu giới hạn đủ bốn raw observation, tổng 4.000 dòng; chưa làm sạch hoặc tạo feature/model. Đọc phần Data Understanding trong [báo cáo](docs/REPORT.md), phần 17 của [sổ tay](docs/LEARNING_GUIDE.md), [tiến độ](docs/PROGRESS.md) và [kế hoạch](docs/PROJECT_PLAN.md). RQ1–RQ3/F0/F1 giữ nguyên; chưa triển khai P2-T2.
 
 ## Hai thành viên cùng làm việc
 
@@ -31,7 +31,7 @@ Trong môi trường đã có DuckDB, chạy từ root MVP; thay root bằng nơ
 python -B scripts/inspect_schema.py --data-root ../customer-analytics-antigravity/data --sample-rows 1000 --output results/p2_t1_recheck
 ```
 
-Hoặc dùng `REES46_DATA_ROOT` và bỏ `--data-root`. Đường dẫn tương đối tính từ repo; output phải là thư mục mới trong MVP, ngoài cây dữ liệu nguồn, để tránh ghi đè bằng chứng. Script chỉ đọc tối đa 1.000 dòng đầu mỗi CSV observation; February chỉ header, sáu Parquet ứng viên chỉ footer/schema. Mẫu đầu tệp không đại diện cả tháng. Exit 2 là thiếu schema raw thiết yếu, exit 0 là sẵn sàng sinh viên xem, chưa phải PASS. Không thay đổi dữ liệu hoặc cài dependency mới. [Kết quả local](results/p2_t1/inspection.json) và [lệnh/exit code thật](results/p2_t1/execution.json) giữ rõ lỗi tháng 12.
+Hoặc dùng `REES46_DATA_ROOT` và bỏ `--data-root`. Đường dẫn tương đối tính từ repo; output phải là thư mục mới trong MVP, ngoài cây dữ liệu nguồn, để tránh ghi đè bằng chứng. Script chỉ đọc tối đa 1.000 dòng đầu mỗi CSV observation; February chỉ header, sáu Parquet ứng viên chỉ footer/schema. Mẫu đầu tệp không đại diện cả tháng. Exit 2 là thiếu schema raw thiết yếu, exit 0 là sẵn sàng sinh viên xem, chưa phải PASS. Không thay đổi dữ liệu hoặc cài dependency mới. [Kết quả local mới nhất](results/p2_t1/recheck_01/inspection.json) và [lệnh/exit code thật](results/p2_t1/recheck_01/execution.json) ghi exit 0 sau khi đọc được tháng 12; bằng chứng bị chặn lần trước giữ nguyên ở thư mục cha.
 
 ## Mở và chạy notebook P0-T3
 
@@ -70,7 +70,7 @@ customer-segmentation-mvp/
 │   ├── p0_t1/                      # bằng chứng audit giữ nguyên
 │   ├── p0_t2/                      # baseline, logs và kiểm chứng cấu trúc
 │   ├── p0_t3/                      # kiểm tra notebook bằng Python local
-│   └── p2_t1/                      # schema/mẫu giới hạn, còn vướng tháng 12
+│   └── p2_t1/                      # lần đầu bị chặn; recheck_01/ đọc đủ bốn tháng
 ├── docs/
 │   ├── PROJECT_PLAN.md
 │   ├── REPORT.md
