@@ -241,6 +241,8 @@ Chỉ sáu tài liệu đổi; 24 file khác, gồm code, notebook, requirements
 
 **Hai sinh viên cần nghiệm thu:**
 
+Bản bàn giao là [PR nháp #4 — P1-T3](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/4), nhánh `p1-t3-rfmb-paper`, base main. PR chỉ có thay đổi sáu tài liệu, chưa merge; số liệu công bố trong phần đọc bài báo không phải kết quả thực nghiệm MVP.
+
 - [ ] Đọc REPORT mục 3.5–3.9 và LEARNING_GUIDE phần 15; giải thích được bốn biến và dữ liệu cần để đo.
 - [ ] Tính lại ví dụ event/session, AOV, danh mục và thương hiệu; trả lời ba câu cuối phần 15 trước khi xem gợi ý.
 - [ ] Phân biệt kết quả tác giả với kết quả MVP, accuracy nhãn cụm với dự đoán mua và nhận xét sơ bộ với quyết định feature P1-T4.
