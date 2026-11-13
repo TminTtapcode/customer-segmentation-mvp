@@ -1,7 +1,7 @@
 # Kế hoạch MVP — RFM + Engagement
 
 **Cập nhật:** 13/11/2026 (Asia/Bangkok). **Trạng thái thật:** xem `PROGRESS.md`.
-**Trạng thái hiện tại:** P1-T4 PASS (Student Verified), PR #5 đã merge main; Phase 1 CLOSED. P2-T1 **READY FOR STUDENT REVIEW** sau khi chạy lại và đọc được header/mẫu đủ bốn raw observation, tổng 4.000 dòng; bằng chứng mới ở results/p2_t1/recheck_01. Chưa triển khai P2-T2 hoặc chốt cleaning policy; RQ1–RQ3/F0/F1/H1–H3 và thiết kế cải tiến giữ nguyên.
+**Trạng thái hiện tại:** P1-T4 PASS (Student Verified), PR #5 đã merge main; Phase 1 CLOSED. P2-T1 **PASS (Student Verified)** theo xác nhận trực tiếp của người dùng, với phạm vi header/mẫu giới hạn đủ bốn raw observation, tổng 4.000 dòng; bằng chứng ở results/p2_t1/recheck_01. Chưa triển khai P2-T2 hoặc chốt cleaning policy; RQ1–RQ3/F0/F1/H1–H3 và thiết kế cải tiến giữ nguyên.
 
 ## 1. Mục tiêu, câu hỏi và phạm vi
 
@@ -52,7 +52,7 @@ Tất cả dependency bao gồm nghiệm thu task trước. Lịch chi tiết ch
 | P1-T2 | RFM truyền thống tham khảo | P1-T1 PASS | PASS theo xác nhận hai sinh viên; PR #3 đã merge main |
 | P1-T3 | Đọc nghiên cứu RFM-B | P1-T2 PASS | PASS (Student Verified) theo yêu cầu P1-T4; PR #4 đã merge, nội dung nghiên cứu giữ nguyên |
 | P1-T4 | Thiết kế cải tiến và lý do chọn biến | P1-T3 PASS | PASS (Student Verified); PR #5 đã merge, Phase 1 CLOSED; chưa chứng minh giả thuyết |
-| P2-T1 | Schema | P1 đã đóng/bàn giao main | READY FOR STUDENT REVIEW: chạy lại exit 0, bốn header/kiểu mẫu giống nhau, tổng 4.000 dòng; sáu Parquet chỉ footer/schema. Chưa kiểm tra chất lượng toàn bộ hoặc tính hash toàn raw tháng 12 |
+| P2-T1 | Schema | P1 đã đóng/bàn giao main | PASS (Student Verified): người dùng xác nhận sau review; header/mẫu đủ bốn tháng, 4.000 dòng, exit 0. Chưa kiểm tra chất lượng toàn bộ hoặc tính hash toàn raw tháng 12 |
 | P2-T2 | Chất lượng dữ liệu | P2-T1 | Missing, duplicates, giá, biên thời gian và ảnh hưởng metric |
 | P2-T3 | Cleaning policies | P2-T2 | Chốt dedup 7/9 trường, buyer/price/session/rounding; chứng minh ảnh hưởng |
 | P2-T4 | Observation Parquet | P2-T3 | Artifact có manifest/hash/schema; không future; bảo toàn grain/cohort |
@@ -120,4 +120,4 @@ Chưa copy dữ liệu, chưa cấu hình hoặc chạy Colab ở P0-T1. Đề x
 
 ## 8. Hoàn thành Phase 0
 
-Nhóm đã nghiệm thu P0-T4/đóng Phase 0 và P1-T1…P1-T4 PASS. PR #1–#5 đã merge; kết quả kiểm tra và commit bàn giao nằm trong PROGRESS. Phase 1 CLOSED về nghiên cứu/thiết kế, chưa có kết quả chứng minh cải tiến. Không làm lại P0/P1 hoặc đổi kết quả cũ. P2-T1 đã chạy lại, READY FOR STUDENT REVIEW; không tự ghi PASS, chuyển P2-T2 hoặc coi vấn đề dữ liệu toàn bộ đã giải quyết.
+Nhóm đã nghiệm thu P0-T4/đóng Phase 0 và P1-T1…P1-T4 PASS. PR #1–#5 đã merge; kết quả kiểm tra và bàn giao nằm trong PROGRESS. Phase 1 CLOSED về nghiên cứu/thiết kế, chưa có kết quả chứng minh cải tiến. Không làm lại P0/P1 hoặc đổi kết quả cũ. P2-T1 đã được người dùng xác nhận PASS; không tự chuyển P2-T2 hoặc coi vấn đề dữ liệu toàn bộ đã giải quyết.

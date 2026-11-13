@@ -1,6 +1,6 @@
 # Báo cáo bài tập lớn — Phân khúc khách hàng bằng RFM và Engagement
 
-**Cập nhật:** 13/11/2026. Phase 1 đã được nhóm nghiệm thu; P2-T1 chạy lại đã kiểm tra header/mẫu đủ bốn tháng và đang chờ sinh viên nghiệm thu. Chưa có thí nghiệm F0/F1. Nhật ký thực hiện và nghiệm thu được ghi riêng trong `PROGRESS.md`.
+**Cập nhật:** 13/11/2026. Phase 1 và P2-T1 đã được nhóm nghiệm thu; P2-T1 chỉ kiểm tra header/mẫu giới hạn đủ bốn tháng. Chưa có thí nghiệm F0/F1. Nhật ký thực hiện và nghiệm thu được ghi riêng trong `PROGRESS.md`.
 
 ## 1. Giới thiệu và thiết kế nghiên cứu — P1-T1
 
@@ -281,7 +281,7 @@ Sau mỗi task, nhóm thực hiện, giải thích kiến thức, kiểm tra và
 
 ## 5–11. Chuẩn bị dữ liệu, EDA, đặc trưng, mô hình, đánh giá và trình diễn
 
-P2-T1 đã chạy lại sau khi người dùng gỡ chặn CSV tháng 12, chỉ kiểm tra cấu trúc và mẫu giới hạn như bên dưới; chưa được sinh viên xác nhận PASS. Các task làm sạch, EDA — phân tích khám phá, Feature Engineering — tạo đặc trưng, và mô hình chưa thực hiện trong MVP. Thiết kế P1-T4 đã nghiệm thu được giữ ở phần A–G sau kết quả schema.
+P2-T1 đã chạy lại sau khi người dùng gỡ chặn CSV tháng 12 và được xác nhận PASS trong phạm vi cấu trúc/mẫu giới hạn bên dưới. Các task làm sạch, EDA — phân tích khám phá, Feature Engineering — tạo đặc trưng, và mô hình chưa thực hiện trong MVP. Thiết kế P1-T4 đã nghiệm thu được giữ ở phần A–G sau kết quả schema.
 
 Hiện chưa có model F0/F1, chỉ số phân cụm, chiến dịch hoặc Streamlit mới. Các kết quả kiểm kê ở mục 4 không thay thế kết quả của P2–P6.
 
@@ -374,7 +374,7 @@ Với cả năm biến, đã xác minh sự hiện diện cột cần thiết tr
 | Duplicates, buyer, giá, session, rounding | Các vấn đề P0-T1 vẫn mở | Có thể đổi tập buyers và giá trị RFM/Engagement | P2-T2 đo ảnh hưởng; P2-T3 chốt chính sách |
 | Artifact cũ và môi trường | Chỉ schema/footer mới được đọc; không rebuild hoặc import toàn bộ thư viện | Chưa chứng minh bảng/model/môi trường có thể tái lập đầy đủ | Theo task liên quan; không dùng model 7D cũ |
 
-**Kết luận P2-T1 sau chạy lại:** đã đọc header và mẫu giới hạn đủ bốn raw observation, script exit 0, không còn vướng truy cập tháng 12 trong lần này. Trạng thái **READY FOR STUDENT REVIEW**, chưa phải PASS. Chưa quét chất lượng toàn bộ, tính hash toàn raw tháng 12 hoặc xác minh nguồn độc lập; không sửa dữ liệu/bảo mật Windows. Các vấn đề chất lượng và chính sách vẫn để P2-T2/P2-T3, chưa triển khai.
+**Kết luận P2-T1 sau chạy lại:** đã đọc header và mẫu giới hạn đủ bốn raw observation, script exit 0, không còn vướng truy cập tháng 12 trong lần này. Người dùng sau review đã xác nhận **PASS (Student Verified)** cho task kiểm tra schema. Chưa quét chất lượng toàn bộ, tính hash toàn raw tháng 12 hoặc xác minh nguồn độc lập; không sửa dữ liệu/bảo mật Windows. Các vấn đề chất lượng và chính sách vẫn để P2-T2/P2-T3, chưa triển khai.
 
 ### Thiết kế cải tiến — P1-T4, chưa thực nghiệm
 

@@ -2,7 +2,7 @@
 
 Dự án nghiên cứu độc lập trên **REES46 Cosmetics**, cho nhóm hai sinh viên. Mục tiêu là cải thiện khả năng phân khúc bằng lựa chọn đặc trưng và tiền xử lý có kiểm chứng, giữ K-Means đơn giản. F0 (RFM) là cơ sở; F1 thêm sessions_30d, views_30d là đề xuất cần kiểm tra, sau đó hỗ trợ diễn giải marketing. Không có model hoặc dashboard MVP ở bước hiện tại.
 
-**P1-T4 PASS (Student Verified), Phase 1 CLOSED.** **P2-T1 — kiểm tra schema: READY FOR STUDENT REVIEW.** Sau khi người dùng gỡ chặn tháng 12, đã chạy lại và đọc header/mẫu giới hạn đủ bốn raw observation, tổng 4.000 dòng; chưa làm sạch hoặc tạo feature/model. Đọc phần Data Understanding trong [báo cáo](docs/REPORT.md), phần 17 của [sổ tay](docs/LEARNING_GUIDE.md), [tiến độ](docs/PROGRESS.md) và [kế hoạch](docs/PROJECT_PLAN.md). RQ1–RQ3/F0/F1 giữ nguyên; chưa triển khai P2-T2.
+**P1-T4 PASS (Student Verified), Phase 1 CLOSED.** **P2-T1 — kiểm tra schema: PASS (Student Verified)** theo xác nhận trực tiếp của người dùng. Đã đọc header/mẫu giới hạn đủ bốn raw observation, tổng 4.000 dòng; chưa xác minh chất lượng toàn bộ hoặc hash toàn raw tháng 12. Đọc phần Data Understanding trong [báo cáo](docs/REPORT.md), phần 17 của [sổ tay](docs/LEARNING_GUIDE.md), [tiến độ](docs/PROGRESS.md) và [kế hoạch](docs/PROJECT_PLAN.md). RQ1–RQ3/F0/F1 giữ nguyên; chưa triển khai P2-T2.
 
 ## Hai thành viên cùng làm việc
 

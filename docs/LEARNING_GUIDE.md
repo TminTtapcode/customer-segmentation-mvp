@@ -1,6 +1,6 @@
 # Sổ tay học tập — MVP RFM + Engagement
 
-**Cập nhật 13/11/2026.** Phần 1–9 về kiểm kê P0-T1, phần 10–12 về công cụ/cộng tác, phần 13–16 về nghiên cứu và thiết kế; phần 17 về schema P2-T1. P1-T4 đã được nhóm xác nhận PASS, Phase 1 CLOSED. P2-T1 đã chạy lại sau gỡ chặn tháng 12, READY FOR STUDENT REVIEW. Số liệu local cũ vẫn giữ riêng, không coi là số đo Colab mới.
+**Cập nhật 13/11/2026.** Phần 1–9 về kiểm kê P0-T1, phần 10–12 về công cụ/cộng tác, phần 13–16 về nghiên cứu và thiết kế; phần 17 về schema P2-T1. P1-T4 đã được nhóm xác nhận PASS, Phase 1 CLOSED. P2-T1 được người dùng xác nhận PASS (Student Verified) sau review. Số liệu local cũ vẫn giữ riêng, không coi là số đo Colab mới.
 
 ## 1. Tệp dữ liệu, cấu trúc bảng và nguồn gốc xử lý là gì?
 
@@ -614,7 +614,7 @@ Lần chạy lại đã đọc header năm CSV gồm bốn tháng observation v�
 
 Trong cả bốn mẫu có bốn event_type: view, cart, purchase, remove_from_cart. Điều đó bác bỏ việc mặc định chỉ có view/cart/purchase, nhưng chưa chứng minh không còn loại khác. Có ô trống brand/category_code; chưa biết tỷ lệ toàn bộ. Min/max được ghi là min/max mẫu đầu tệp, không phải cả tháng.
 
-Các cột cần cho năm biến có trong header bốn tháng, nhưng còn phải kiểm tra buyer/giá/session/dedup/rounding và thời gian toàn dữ liệu. Kiểm tra schema trước giúp biết sẽ kiểm tra gì và tránh nhầm kiểu/đơn vị; không thay thế cleaning. Lần mới trả **exit 0**, task **READY FOR STUDENT REVIEW**, chưa phải sinh viên xác nhận PASS. Lần cũ exit 2 vẫn được giữ như lịch sử; chưa tính SHA256 toàn raw tháng 12 và chưa xác nhận chất lượng toàn bộ chỉ từ mẫu.
+Các cột cần cho năm biến có trong header bốn tháng, nhưng còn phải kiểm tra buyer/giá/session/dedup/rounding và thời gian toàn dữ liệu. Kiểm tra schema trước giúp biết sẽ kiểm tra gì và tránh nhầm kiểu/đơn vị; không thay thế cleaning. Lần mới trả **exit 0** và được bàn giao ở trạng thái READY FOR STUDENT REVIEW; sau review, người dùng đã xác nhận **PASS (Student Verified)**. Lần cũ exit 2 vẫn được giữ như lịch sử; chưa tính SHA256 toàn raw tháng 12 và chưa xác nhận chất lượng toàn bộ chỉ từ mẫu.
 
 Kiểm thử công cụ dùng các tệp nhỏ tạm thời, tách khỏi nghiên cứu: giới hạn dòng đọc, không sửa nguồn, không xuất ID, phân biệt thời gian không timezone, chỉ đọc header future, đọc footer và từ chối ghi đè. Lệnh đã chạy:
 

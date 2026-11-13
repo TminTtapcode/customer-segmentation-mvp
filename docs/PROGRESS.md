@@ -11,8 +11,8 @@
 - **P1-T2: PASS (Student Verified).** Phần xác nhận sau trong tệp yêu cầu P1-T3 ghi hai sinh viên đã đọc REPORT mục 3, LEARNING_GUIDE phần 14, trả lời câu hỏi và xác nhận PASS; checklist được cung cấp ghi 5/5. Không tự bổ sung bài trả lời ngoài nội dung đã gửi.
 - **P1-T3: PASS (Student Verified).** Người dùng xác nhận hai sinh viên đã nghiệm thu trong yêu cầu P1-T4; không tự bổ sung bài trả lời hoặc checklist từng câu chưa gửi.
 - **P1-T4: PASS (Student Verified).** Người dùng xác nhận hai sinh viên nghiệm thu trong yêu cầu P2-T1; không tự bổ sung bài trả lời từng câu. **Phase 1 CLOSED** sau khi đối chiếu/bàn giao main; H1–H3 chưa được chứng minh.
-- **P2-T1: READY FOR STUDENT REVIEW.** Sau khi người dùng gỡ chặn `2019-Dec.csv`, đã chạy lại exit 0, đọc header/mẫu đủ bốn tháng, tổng 4.000 dòng. Chưa tự ghi PASS hoặc thực hiện P2-T2/P2-T3/P2-T4; lần bị chặn được giữ làm lịch sử ở mục 12.
-- **GitHub:** PR #1–#5 đã merge sau nghiệm thu. Main có đủ 30 file P0–P1; thay đổi P2-T1 ở nhánh riêng.
+- **P2-T1: PASS (Student Verified).** Sau phần review, người dùng xác nhận trực tiếp “pass”. Nghiệm thu phạm vi schema/header/mẫu bốn tháng, tổng 4.000 dòng; không tự bổ sung câu trả lời sinh viên. P2-T2/P2-T3/P2-T4 chưa thực hiện; các lần kiểm tra trước được giữ làm lịch sử ở mục 12–13.
+- **GitHub:** PR #1–#5 đã merge sau nghiệm thu. Bản P2-T1 được chấp nhận và bàn giao qua PR #6; các mốc kiểm tra và lịch sử ở mục 12–14 cùng liên kết PR.
 
 ## 1. P0-T1 — kiểm kê dữ liệu cũ
 
@@ -157,7 +157,7 @@ Kiểm tra `git var GIT_AUTHOR_IDENT` ban đầu chưa đạt vì local chưa c�
 | P1-T2 | PASS (Student Verified); PR #3 đã merge |
 | P1-T3 | PASS (Student Verified); PR #4 đã merge |
 | P1-T4 | PASS (Student Verified); PR #5 đã merge; Phase 1 CLOSED |
-| P2-T1 | READY FOR STUDENT REVIEW — lần chạy lại đọc được đủ bốn tháng, exit 0 |
+| P2-T1 | PASS (Student Verified) — xác nhận trực tiếp của người dùng sau review |
 | P2-T2…T4 | NOT STARTED |
 | P3-T1…T3 | NOT STARTED |
 | P4-T1…T4 | NOT STARTED |
@@ -359,3 +359,13 @@ Bằng chứng mới: [inspection.json](../results/p2_t1/recheck_01/inspection.j
 Nguồn cũ giữ metadata 153 file, hash 138 file nhỏ và Git status trong lượt này; không hash lại raw lớn. Thiết kế P0–P1, RQ/F0/F1/H1–H3, các vấn đề mở khác và nội dung học phần 1–16 giữ nguyên. Script/tests không đổi nên không chạy lại 7 unit tests chỉ để cập nhật tài liệu; 7/7 là kết quả lần trước, không phải số kiểm thử mới trong lượt này. Bản chạy lại tiếp tục bàn giao qua [PR nháp #6](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/6), cùng nhánh, chưa merge; giữ lịch sử lần BLOCKED và cập nhật nội dung hiện hành theo kết quả mới.
 
 **P2-T1: READY FOR STUDENT REVIEW.** Hai sinh viên xem schema đủ bốn tháng và ba câu hỏi phần 17; đối chiếu giới hạn mẫu với kiểm tra toàn dữ liệu rồi xác nhận nghiệm thu. Chưa tự ghi PASS, chưa merge PR #6 hoặc chuyển P2-T2.
+
+## 14. Nghiệm thu P2-T1
+
+Sau nhận xét đủ điều kiện nghiệm thu, người dùng xác nhận trực tiếp **“pass”** cho P2-T1. Ghi **PASS (Student Verified)**; không tự bổ sung bài trả lời hoặc khẳng định từng câu hỏi đã được trả lời đúng. Việc nghiệm thu chỉ áp dụng kiểm tra schema/header/mẫu giới hạn, không xác nhận dữ liệu toàn bộ đã sạch hoặc hash toàn raw tháng 12.
+
+Đối chiếu trước bàn giao: working tree sạch, PR #6 Open/Draft, head `ed5dfe922b882f946ae2c745f8677bf468cd3583`, base main; diff gồm đúng sáu tài liệu, script/tests schema và sáu bằng chứng P2-T1. Lượt này chỉ đồng bộ trạng thái nghiệm thu trong sáu tài liệu hiện có, không thay code, số liệu, notebook, dependencies hoặc evidence. Bản bàn giao tiếp tục là [PR #6](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/6); không chạy lại phân tích để cập nhật trạng thái.
+
+Giữ nguyên toàn bộ vấn đề mở ở mục 4, gồm hash toàn raw tháng 12, missing/duplicates/giá/session/timestamp toàn dữ liệu, cleaning policy và môi trường. **Dừng sau bàn giao P2-T1; chưa triển khai P2-T2 hoặc đóng Phase 2.**
+
+Kiểm tra trạng thái bằng `..\customer-analytics-antigravity\.venv\Scripts\python.exe -B .tmp/p2t1-accept-verify.py`, exit 0: 13 điều kiện tài liệu/bảo toàn đạt, 39 liên kết local hợp lệ; 32 file khác và 19 bằng chứng giữ nguyên SHA256. Các bảng, code minh họa, số liệu trong nội dung hai báo cáo, hợp đồng nghiên cứu và vấn đề mở không đổi. Phép dò số ban đầu nhận cả mã task, tháng trong dòng trạng thái và dấu câu; đã điều chỉnh kiểm tra đúng phần nội dung, không sửa số liệu/evidence để vượt kiểm tra. Không chạy lại unit tests, dữ liệu hoặc mô hình.
