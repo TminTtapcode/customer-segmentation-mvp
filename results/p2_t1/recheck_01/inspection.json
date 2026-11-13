@@ -1,0 +1,1900 @@
+{
+  "files": [
+    {
+      "path": "cleaned/clean_events.parquet",
+      "required_observation_raw": false,
+      "bytes": 497767704,
+      "mtime_ns": 1793985794765211100,
+      "inspection": "Parquet footer/schema only; no event/customer rows",
+      "footer_rows": 19583742,
+      "row_groups": 196,
+      "sample_rows_read": 0,
+      "columns": [
+        {
+          "name": "event_time",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "TIMESTAMP_MICROS",
+          "stored_logical_type": "TimestampType(isAdjustedToUTC=0, unit=TimeUnit(MILLIS=<null>, MICROS=MicroSeconds(), NANOS=<null>))",
+          "duckdb_type": "TIMESTAMP",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "event_date",
+          "stored_physical_type": "INT32",
+          "stored_converted_type": "DATE",
+          "stored_logical_type": null,
+          "duckdb_type": "DATE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "event_type",
+          "stored_physical_type": "BYTE_ARRAY",
+          "stored_converted_type": "UTF8",
+          "stored_logical_type": null,
+          "duckdb_type": "VARCHAR",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "user_id",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "session_id",
+          "stored_physical_type": "BYTE_ARRAY",
+          "stored_converted_type": "UTF8",
+          "stored_logical_type": null,
+          "duckdb_type": "VARCHAR",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "user_session_id",
+          "stored_physical_type": "BYTE_ARRAY",
+          "stored_converted_type": "UTF8",
+          "stored_logical_type": null,
+          "duckdb_type": "VARCHAR",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "product_id",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "category_id",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "category_code",
+          "stored_physical_type": "BYTE_ARRAY",
+          "stored_converted_type": "UTF8",
+          "stored_logical_type": null,
+          "duckdb_type": "VARCHAR",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "brand",
+          "stored_physical_type": "BYTE_ARRAY",
+          "stored_converted_type": "UTF8",
+          "stored_logical_type": null,
+          "duckdb_type": "VARCHAR",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "price",
+          "stored_physical_type": "DOUBLE",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "DOUBLE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "source_month",
+          "stored_physical_type": "BYTE_ARRAY",
+          "stored_converted_type": "UTF8",
+          "stored_logical_type": null,
+          "duckdb_type": "VARCHAR",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "split_partition",
+          "stored_physical_type": "BYTE_ARRAY",
+          "stored_converted_type": "UTF8",
+          "stored_logical_type": null,
+          "duckdb_type": "VARCHAR",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "quality_flag",
+          "stored_physical_type": "BYTE_ARRAY",
+          "stored_converted_type": "UTF8",
+          "stored_logical_type": null,
+          "duckdb_type": "VARCHAR",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "is_valid_for_monetary",
+          "stored_physical_type": "BOOLEAN",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "BOOLEAN",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "is_valid_for_engagement",
+          "stored_physical_type": "BOOLEAN",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "BOOLEAN",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "is_valid_session",
+          "stored_physical_type": "BOOLEAN",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "BOOLEAN",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "is_missing_brand",
+          "stored_physical_type": "BOOLEAN",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "BOOLEAN",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "is_missing_category_code",
+          "stored_physical_type": "BOOLEAN",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "BOOLEAN",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "is_invalid_price",
+          "stored_physical_type": "BOOLEAN",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "BOOLEAN",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "is_missing_session",
+          "stored_physical_type": "BOOLEAN",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "BOOLEAN",
+          "sample_inferred_type": "NOT SAMPLED"
+        }
+      ],
+      "status": "INSPECTED",
+      "metadata_preserved": true
+    },
+    {
+      "path": "cleaned/holdout_events.parquet",
+      "required_observation_raw": false,
+      "bytes": 100271296,
+      "mtime_ns": 1793985785459048400,
+      "inspection": "Parquet footer/schema only; no event/customer rows",
+      "footer_rows": 3916392,
+      "row_groups": 40,
+      "sample_rows_read": 0,
+      "columns": [
+        {
+          "name": "event_time",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "TIMESTAMP_MICROS",
+          "stored_logical_type": "TimestampType(isAdjustedToUTC=0, unit=TimeUnit(MILLIS=<null>, MICROS=MicroSeconds(), NANOS=<null>))",
+          "duckdb_type": "TIMESTAMP",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "event_date",
+          "stored_physical_type": "INT32",
+          "stored_converted_type": "DATE",
+          "stored_logical_type": null,
+          "duckdb_type": "DATE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "event_type",
+          "stored_physical_type": "BYTE_ARRAY",
+          "stored_converted_type": "UTF8",
+          "stored_logical_type": null,
+          "duckdb_type": "VARCHAR",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "user_id",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "session_id",
+          "stored_physical_type": "BYTE_ARRAY",
+          "stored_converted_type": "UTF8",
+          "stored_logical_type": null,
+          "duckdb_type": "VARCHAR",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "user_session_id",
+          "stored_physical_type": "BYTE_ARRAY",
+          "stored_converted_type": "UTF8",
+          "stored_logical_type": null,
+          "duckdb_type": "VARCHAR",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "product_id",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "category_id",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "category_code",
+          "stored_physical_type": "BYTE_ARRAY",
+          "stored_converted_type": "UTF8",
+          "stored_logical_type": null,
+          "duckdb_type": "VARCHAR",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "brand",
+          "stored_physical_type": "BYTE_ARRAY",
+          "stored_converted_type": "UTF8",
+          "stored_logical_type": null,
+          "duckdb_type": "VARCHAR",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "price",
+          "stored_physical_type": "DOUBLE",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "DOUBLE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "source_month",
+          "stored_physical_type": "BYTE_ARRAY",
+          "stored_converted_type": "UTF8",
+          "stored_logical_type": null,
+          "duckdb_type": "VARCHAR",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "split_partition",
+          "stored_physical_type": "BYTE_ARRAY",
+          "stored_converted_type": "UTF8",
+          "stored_logical_type": null,
+          "duckdb_type": "VARCHAR",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "quality_flag",
+          "stored_physical_type": "BYTE_ARRAY",
+          "stored_converted_type": "UTF8",
+          "stored_logical_type": null,
+          "duckdb_type": "VARCHAR",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "is_valid_for_monetary",
+          "stored_physical_type": "BOOLEAN",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "BOOLEAN",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "is_valid_for_engagement",
+          "stored_physical_type": "BOOLEAN",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "BOOLEAN",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "is_valid_session",
+          "stored_physical_type": "BOOLEAN",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "BOOLEAN",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "is_missing_brand",
+          "stored_physical_type": "BOOLEAN",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "BOOLEAN",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "is_missing_category_code",
+          "stored_physical_type": "BOOLEAN",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "BOOLEAN",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "is_invalid_price",
+          "stored_physical_type": "BOOLEAN",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "BOOLEAN",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "is_missing_session",
+          "stored_physical_type": "BOOLEAN",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "BOOLEAN",
+          "sample_inferred_type": "NOT SAMPLED"
+        }
+      ],
+      "status": "INSPECTED",
+      "metadata_preserved": true
+    },
+    {
+      "path": "cleaned/observation_events.parquet",
+      "required_observation_raw": false,
+      "bytes": 397476664,
+      "mtime_ns": 1793985783493242100,
+      "inspection": "Parquet footer/schema only; no event/customer rows",
+      "footer_rows": 15667350,
+      "row_groups": 157,
+      "sample_rows_read": 0,
+      "columns": [
+        {
+          "name": "event_time",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "TIMESTAMP_MICROS",
+          "stored_logical_type": "TimestampType(isAdjustedToUTC=0, unit=TimeUnit(MILLIS=<null>, MICROS=MicroSeconds(), NANOS=<null>))",
+          "duckdb_type": "TIMESTAMP",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "event_date",
+          "stored_physical_type": "INT32",
+          "stored_converted_type": "DATE",
+          "stored_logical_type": null,
+          "duckdb_type": "DATE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "event_type",
+          "stored_physical_type": "BYTE_ARRAY",
+          "stored_converted_type": "UTF8",
+          "stored_logical_type": null,
+          "duckdb_type": "VARCHAR",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "user_id",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "session_id",
+          "stored_physical_type": "BYTE_ARRAY",
+          "stored_converted_type": "UTF8",
+          "stored_logical_type": null,
+          "duckdb_type": "VARCHAR",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "user_session_id",
+          "stored_physical_type": "BYTE_ARRAY",
+          "stored_converted_type": "UTF8",
+          "stored_logical_type": null,
+          "duckdb_type": "VARCHAR",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "product_id",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "category_id",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "category_code",
+          "stored_physical_type": "BYTE_ARRAY",
+          "stored_converted_type": "UTF8",
+          "stored_logical_type": null,
+          "duckdb_type": "VARCHAR",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "brand",
+          "stored_physical_type": "BYTE_ARRAY",
+          "stored_converted_type": "UTF8",
+          "stored_logical_type": null,
+          "duckdb_type": "VARCHAR",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "price",
+          "stored_physical_type": "DOUBLE",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "DOUBLE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "source_month",
+          "stored_physical_type": "BYTE_ARRAY",
+          "stored_converted_type": "UTF8",
+          "stored_logical_type": null,
+          "duckdb_type": "VARCHAR",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "split_partition",
+          "stored_physical_type": "BYTE_ARRAY",
+          "stored_converted_type": "UTF8",
+          "stored_logical_type": null,
+          "duckdb_type": "VARCHAR",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "quality_flag",
+          "stored_physical_type": "BYTE_ARRAY",
+          "stored_converted_type": "UTF8",
+          "stored_logical_type": null,
+          "duckdb_type": "VARCHAR",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "is_valid_for_monetary",
+          "stored_physical_type": "BOOLEAN",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "BOOLEAN",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "is_valid_for_engagement",
+          "stored_physical_type": "BOOLEAN",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "BOOLEAN",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "is_valid_session",
+          "stored_physical_type": "BOOLEAN",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "BOOLEAN",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "is_missing_brand",
+          "stored_physical_type": "BOOLEAN",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "BOOLEAN",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "is_missing_category_code",
+          "stored_physical_type": "BOOLEAN",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "BOOLEAN",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "is_invalid_price",
+          "stored_physical_type": "BOOLEAN",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "BOOLEAN",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "is_missing_session",
+          "stored_physical_type": "BOOLEAN",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "BOOLEAN",
+          "sample_inferred_type": "NOT SAMPLED"
+        }
+      ],
+      "status": "INSPECTED",
+      "metadata_preserved": true
+    },
+    {
+      "path": "features/buyer_clusters.parquet",
+      "required_observation_raw": false,
+      "bytes": 3031687,
+      "mtime_ns": 1794395227070921100,
+      "status": "EXCLUDED",
+      "inspection": "file metadata only; not an MVP input",
+      "metadata_preserved": true
+    },
+    {
+      "path": "features/buyer_features.parquet",
+      "required_observation_raw": false,
+      "bytes": 2266870,
+      "mtime_ns": 1794395227082910700,
+      "inspection": "Parquet footer/schema only; no event/customer rows",
+      "footer_rows": 92652,
+      "row_groups": 1,
+      "sample_rows_read": 0,
+      "columns": [
+        {
+          "name": "user_id",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "is_buyer",
+          "stored_physical_type": "BOOLEAN",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "BOOLEAN",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "customer_cohort",
+          "stored_physical_type": "BYTE_ARRAY",
+          "stored_converted_type": "UTF8",
+          "stored_logical_type": null,
+          "duckdb_type": "VARCHAR",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "is_repeat_buyer",
+          "stored_physical_type": "BOOLEAN",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "BOOLEAN",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "recency_days",
+          "stored_physical_type": "DOUBLE",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "DOUBLE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "frequency",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "monetary",
+          "stored_physical_type": "DOUBLE",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "DOUBLE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "monetary_per_session",
+          "stored_physical_type": "DOUBLE",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "DOUBLE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "items_per_purchase_session",
+          "stored_physical_type": "DOUBLE",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "DOUBLE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "purchase_span_days",
+          "stored_physical_type": "DOUBLE",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "DOUBLE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "days_since_last_event",
+          "stored_physical_type": "DOUBLE",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "DOUBLE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "sessions_30d",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "views_30d",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "carts_30d",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "unique_products_30d",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "cart_sessions_30d",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "cart_to_view_ratio_30d",
+          "stored_physical_type": "DOUBLE",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "DOUBLE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "sessions_previous_30d",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "sessions_recent_30d",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "activity_difference",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "log_activity_ratio",
+          "stored_physical_type": "DOUBLE",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "DOUBLE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "lifetime_events",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "lifetime_sessions",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        }
+      ],
+      "status": "INSPECTED",
+      "metadata_preserved": true
+    },
+    {
+      "path": "features/customer_features.parquet",
+      "required_observation_raw": false,
+      "bytes": 14002271,
+      "mtime_ns": 1794395227138110800,
+      "inspection": "Parquet footer/schema only; no event/customer rows",
+      "footer_rows": 1341499,
+      "row_groups": 11,
+      "sample_rows_read": 0,
+      "columns": [
+        {
+          "name": "user_id",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "is_buyer",
+          "stored_physical_type": "BOOLEAN",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "BOOLEAN",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "customer_cohort",
+          "stored_physical_type": "BYTE_ARRAY",
+          "stored_converted_type": "UTF8",
+          "stored_logical_type": null,
+          "duckdb_type": "VARCHAR",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "is_repeat_buyer",
+          "stored_physical_type": "BOOLEAN",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "BOOLEAN",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "recency_days",
+          "stored_physical_type": "DOUBLE",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "DOUBLE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "frequency",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "monetary",
+          "stored_physical_type": "DOUBLE",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "DOUBLE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "monetary_per_session",
+          "stored_physical_type": "DOUBLE",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "DOUBLE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "items_per_purchase_session",
+          "stored_physical_type": "DOUBLE",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "DOUBLE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "purchase_span_days",
+          "stored_physical_type": "DOUBLE",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "DOUBLE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "days_since_last_event",
+          "stored_physical_type": "DOUBLE",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "DOUBLE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "sessions_30d",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "views_30d",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "carts_30d",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "unique_products_30d",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "cart_sessions_30d",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "cart_to_view_ratio_30d",
+          "stored_physical_type": "DOUBLE",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "DOUBLE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "sessions_previous_30d",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "sessions_recent_30d",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "activity_difference",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "log_activity_ratio",
+          "stored_physical_type": "DOUBLE",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "DOUBLE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "lifetime_events",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "lifetime_sessions",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        }
+      ],
+      "status": "INSPECTED",
+      "metadata_preserved": true
+    },
+    {
+      "path": "features/non_buyer_features.parquet",
+      "required_observation_raw": false,
+      "bytes": 10048173,
+      "mtime_ns": 1794395227180111000,
+      "inspection": "Parquet footer/schema only; no event/customer rows",
+      "footer_rows": 1248847,
+      "row_groups": 11,
+      "sample_rows_read": 0,
+      "columns": [
+        {
+          "name": "user_id",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "is_buyer",
+          "stored_physical_type": "BOOLEAN",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "BOOLEAN",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "customer_cohort",
+          "stored_physical_type": "BYTE_ARRAY",
+          "stored_converted_type": "UTF8",
+          "stored_logical_type": null,
+          "duckdb_type": "VARCHAR",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "is_repeat_buyer",
+          "stored_physical_type": "BOOLEAN",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "BOOLEAN",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "recency_days",
+          "stored_physical_type": "DOUBLE",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "DOUBLE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "frequency",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "monetary",
+          "stored_physical_type": "DOUBLE",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "DOUBLE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "monetary_per_session",
+          "stored_physical_type": "DOUBLE",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "DOUBLE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "items_per_purchase_session",
+          "stored_physical_type": "DOUBLE",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "DOUBLE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "purchase_span_days",
+          "stored_physical_type": "DOUBLE",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "DOUBLE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "days_since_last_event",
+          "stored_physical_type": "DOUBLE",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "DOUBLE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "sessions_30d",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "views_30d",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "carts_30d",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "unique_products_30d",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "cart_sessions_30d",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "cart_to_view_ratio_30d",
+          "stored_physical_type": "DOUBLE",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "DOUBLE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "sessions_previous_30d",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "sessions_recent_30d",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "activity_difference",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "log_activity_ratio",
+          "stored_physical_type": "DOUBLE",
+          "stored_converted_type": null,
+          "stored_logical_type": null,
+          "duckdb_type": "DOUBLE",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "lifetime_events",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "lifetime_sessions",
+          "stored_physical_type": "INT64",
+          "stored_converted_type": "INT_64",
+          "stored_logical_type": null,
+          "duckdb_type": "BIGINT",
+          "sample_inferred_type": "NOT SAMPLED"
+        }
+      ],
+      "status": "INSPECTED",
+      "metadata_preserved": true
+    },
+    {
+      "path": "raw/2019-Dec.csv",
+      "required_observation_raw": true,
+      "bytes": 415302972,
+      "mtime_ns": 1584335142000000000,
+      "inspection": "header + bounded prefix",
+      "header": [
+        "event_time",
+        "event_type",
+        "product_id",
+        "category_id",
+        "category_code",
+        "brand",
+        "price",
+        "user_id",
+        "user_session"
+      ],
+      "sample_rows_read": 1000,
+      "sample_rows_with_matching_width": 1000,
+      "sample_rows_with_wrong_width": 0,
+      "columns": [
+        {
+          "name": "event_time",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "TIMESTAMP WITH TIME ZONE",
+          "nonempty_sample_values": 1000,
+          "empty_sample_values": 0,
+          "integer_text_values": 0,
+          "try_cast_successes": {
+            "BIGINT": 0,
+            "DOUBLE": 0
+          },
+          "time": {
+            "scope": "bounded prefix only",
+            "nonempty_values": 1000,
+            "parsed": 1000,
+            "parse_failures": 0,
+            "explicit_timezone": 1000,
+            "without_timezone": 0,
+            "utc_suffix": 1000,
+            "offset_seconds_observed": [
+              0
+            ],
+            "first_timestamp_text": "2019-12-01 00:00:00 UTC",
+            "sample_min_utc": "2019-12-01T00:00:00+00:00",
+            "sample_max_utc": "2019-12-01T00:29:32+00:00"
+          }
+        },
+        {
+          "name": "event_type",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "VARCHAR",
+          "nonempty_sample_values": 1000,
+          "empty_sample_values": 0,
+          "integer_text_values": 0,
+          "try_cast_successes": {
+            "BIGINT": 0,
+            "DOUBLE": 0
+          }
+        },
+        {
+          "name": "product_id",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "BIGINT",
+          "nonempty_sample_values": 1000,
+          "empty_sample_values": 0,
+          "integer_text_values": 1000,
+          "try_cast_successes": {
+            "BIGINT": 1000,
+            "DOUBLE": 1000
+          }
+        },
+        {
+          "name": "category_id",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "BIGINT",
+          "nonempty_sample_values": 1000,
+          "empty_sample_values": 0,
+          "integer_text_values": 1000,
+          "try_cast_successes": {
+            "BIGINT": 1000,
+            "DOUBLE": 1000
+          }
+        },
+        {
+          "name": "category_code",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "VARCHAR",
+          "nonempty_sample_values": 17,
+          "empty_sample_values": 983,
+          "integer_text_values": 0,
+          "try_cast_successes": {
+            "BIGINT": 0,
+            "DOUBLE": 0
+          }
+        },
+        {
+          "name": "brand",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "VARCHAR",
+          "nonempty_sample_values": 559,
+          "empty_sample_values": 441,
+          "integer_text_values": 0,
+          "try_cast_successes": {
+            "BIGINT": 0,
+            "DOUBLE": 0
+          }
+        },
+        {
+          "name": "price",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "DOUBLE",
+          "nonempty_sample_values": 1000,
+          "empty_sample_values": 0,
+          "integer_text_values": 0,
+          "try_cast_successes": {
+            "BIGINT": 1000,
+            "DOUBLE": 1000
+          }
+        },
+        {
+          "name": "user_id",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "BIGINT",
+          "nonempty_sample_values": 1000,
+          "empty_sample_values": 0,
+          "integer_text_values": 1000,
+          "try_cast_successes": {
+            "BIGINT": 1000,
+            "DOUBLE": 1000
+          }
+        },
+        {
+          "name": "user_session",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "VARCHAR",
+          "nonempty_sample_values": 1000,
+          "empty_sample_values": 0,
+          "integer_text_values": 0,
+          "try_cast_successes": {
+            "BIGINT": 0,
+            "DOUBLE": 0
+          },
+          "uuid_parse_successes": 1000
+        }
+      ],
+      "sample_event_types": [
+        "cart",
+        "purchase",
+        "remove_from_cart",
+        "view"
+      ],
+      "sample_fingerprint_sha256": "9263dc184b3af0d1dafd6d77be900cd497053506063c188bf65683decea8c862",
+      "status": "INSPECTED",
+      "metadata_preserved": true
+    },
+    {
+      "path": "raw/2019-Nov.csv",
+      "required_observation_raw": true,
+      "bytes": 545839412,
+      "mtime_ns": 1584335176000000000,
+      "inspection": "header + bounded prefix",
+      "header": [
+        "event_time",
+        "event_type",
+        "product_id",
+        "category_id",
+        "category_code",
+        "brand",
+        "price",
+        "user_id",
+        "user_session"
+      ],
+      "sample_rows_read": 1000,
+      "sample_rows_with_matching_width": 1000,
+      "sample_rows_with_wrong_width": 0,
+      "columns": [
+        {
+          "name": "event_time",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "TIMESTAMP WITH TIME ZONE",
+          "nonempty_sample_values": 1000,
+          "empty_sample_values": 0,
+          "integer_text_values": 0,
+          "try_cast_successes": {
+            "BIGINT": 0,
+            "DOUBLE": 0
+          },
+          "time": {
+            "scope": "bounded prefix only",
+            "nonempty_values": 1000,
+            "parsed": 1000,
+            "parse_failures": 0,
+            "explicit_timezone": 1000,
+            "without_timezone": 0,
+            "utc_suffix": 1000,
+            "offset_seconds_observed": [
+              0
+            ],
+            "first_timestamp_text": "2019-11-01 00:00:02 UTC",
+            "sample_min_utc": "2019-11-01T00:00:02+00:00",
+            "sample_max_utc": "2019-11-01T01:08:39+00:00"
+          }
+        },
+        {
+          "name": "event_type",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "VARCHAR",
+          "nonempty_sample_values": 1000,
+          "empty_sample_values": 0,
+          "integer_text_values": 0,
+          "try_cast_successes": {
+            "BIGINT": 0,
+            "DOUBLE": 0
+          }
+        },
+        {
+          "name": "product_id",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "BIGINT",
+          "nonempty_sample_values": 1000,
+          "empty_sample_values": 0,
+          "integer_text_values": 1000,
+          "try_cast_successes": {
+            "BIGINT": 1000,
+            "DOUBLE": 1000
+          }
+        },
+        {
+          "name": "category_id",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "BIGINT",
+          "nonempty_sample_values": 1000,
+          "empty_sample_values": 0,
+          "integer_text_values": 1000,
+          "try_cast_successes": {
+            "BIGINT": 1000,
+            "DOUBLE": 1000
+          }
+        },
+        {
+          "name": "category_code",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "VARCHAR",
+          "nonempty_sample_values": 30,
+          "empty_sample_values": 970,
+          "integer_text_values": 0,
+          "try_cast_successes": {
+            "BIGINT": 0,
+            "DOUBLE": 0
+          }
+        },
+        {
+          "name": "brand",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "VARCHAR",
+          "nonempty_sample_values": 588,
+          "empty_sample_values": 412,
+          "integer_text_values": 0,
+          "try_cast_successes": {
+            "BIGINT": 0,
+            "DOUBLE": 0
+          }
+        },
+        {
+          "name": "price",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "DOUBLE",
+          "nonempty_sample_values": 1000,
+          "empty_sample_values": 0,
+          "integer_text_values": 0,
+          "try_cast_successes": {
+            "BIGINT": 1000,
+            "DOUBLE": 1000
+          }
+        },
+        {
+          "name": "user_id",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "BIGINT",
+          "nonempty_sample_values": 1000,
+          "empty_sample_values": 0,
+          "integer_text_values": 1000,
+          "try_cast_successes": {
+            "BIGINT": 1000,
+            "DOUBLE": 1000
+          }
+        },
+        {
+          "name": "user_session",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "VARCHAR",
+          "nonempty_sample_values": 1000,
+          "empty_sample_values": 0,
+          "integer_text_values": 0,
+          "try_cast_successes": {
+            "BIGINT": 0,
+            "DOUBLE": 0
+          },
+          "uuid_parse_successes": 1000
+        }
+      ],
+      "sample_event_types": [
+        "cart",
+        "purchase",
+        "remove_from_cart",
+        "view"
+      ],
+      "sample_fingerprint_sha256": "f6d6ae87addeadc0f49b3e8dbee22045ff4da0c9e1814cb15c461f306777a31e",
+      "status": "INSPECTED",
+      "metadata_preserved": true
+    },
+    {
+      "path": "raw/2019-Oct.csv",
+      "required_observation_raw": true,
+      "bytes": 482542278,
+      "mtime_ns": 1584335220000000000,
+      "inspection": "header + bounded prefix",
+      "header": [
+        "event_time",
+        "event_type",
+        "product_id",
+        "category_id",
+        "category_code",
+        "brand",
+        "price",
+        "user_id",
+        "user_session"
+      ],
+      "sample_rows_read": 1000,
+      "sample_rows_with_matching_width": 1000,
+      "sample_rows_with_wrong_width": 0,
+      "columns": [
+        {
+          "name": "event_time",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "TIMESTAMP WITH TIME ZONE",
+          "nonempty_sample_values": 1000,
+          "empty_sample_values": 0,
+          "integer_text_values": 0,
+          "try_cast_successes": {
+            "BIGINT": 0,
+            "DOUBLE": 0
+          },
+          "time": {
+            "scope": "bounded prefix only",
+            "nonempty_values": 1000,
+            "parsed": 1000,
+            "parse_failures": 0,
+            "explicit_timezone": 1000,
+            "without_timezone": 0,
+            "utc_suffix": 1000,
+            "offset_seconds_observed": [
+              0
+            ],
+            "first_timestamp_text": "2019-10-01 00:00:00 UTC",
+            "sample_min_utc": "2019-10-01T00:00:00+00:00",
+            "sample_max_utc": "2019-10-01T00:36:08+00:00"
+          }
+        },
+        {
+          "name": "event_type",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "VARCHAR",
+          "nonempty_sample_values": 1000,
+          "empty_sample_values": 0,
+          "integer_text_values": 0,
+          "try_cast_successes": {
+            "BIGINT": 0,
+            "DOUBLE": 0
+          }
+        },
+        {
+          "name": "product_id",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "BIGINT",
+          "nonempty_sample_values": 1000,
+          "empty_sample_values": 0,
+          "integer_text_values": 1000,
+          "try_cast_successes": {
+            "BIGINT": 1000,
+            "DOUBLE": 1000
+          }
+        },
+        {
+          "name": "category_id",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "BIGINT",
+          "nonempty_sample_values": 1000,
+          "empty_sample_values": 0,
+          "integer_text_values": 1000,
+          "try_cast_successes": {
+            "BIGINT": 1000,
+            "DOUBLE": 1000
+          }
+        },
+        {
+          "name": "category_code",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "VARCHAR",
+          "nonempty_sample_values": 18,
+          "empty_sample_values": 982,
+          "integer_text_values": 0,
+          "try_cast_successes": {
+            "BIGINT": 0,
+            "DOUBLE": 0
+          }
+        },
+        {
+          "name": "brand",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "VARCHAR",
+          "nonempty_sample_values": 613,
+          "empty_sample_values": 387,
+          "integer_text_values": 0,
+          "try_cast_successes": {
+            "BIGINT": 0,
+            "DOUBLE": 0
+          }
+        },
+        {
+          "name": "price",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "DOUBLE",
+          "nonempty_sample_values": 1000,
+          "empty_sample_values": 0,
+          "integer_text_values": 0,
+          "try_cast_successes": {
+            "BIGINT": 1000,
+            "DOUBLE": 1000
+          }
+        },
+        {
+          "name": "user_id",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "BIGINT",
+          "nonempty_sample_values": 1000,
+          "empty_sample_values": 0,
+          "integer_text_values": 1000,
+          "try_cast_successes": {
+            "BIGINT": 1000,
+            "DOUBLE": 1000
+          }
+        },
+        {
+          "name": "user_session",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "VARCHAR",
+          "nonempty_sample_values": 1000,
+          "empty_sample_values": 0,
+          "integer_text_values": 0,
+          "try_cast_successes": {
+            "BIGINT": 0,
+            "DOUBLE": 0
+          },
+          "uuid_parse_successes": 1000
+        }
+      ],
+      "sample_event_types": [
+        "cart",
+        "purchase",
+        "remove_from_cart",
+        "view"
+      ],
+      "sample_fingerprint_sha256": "8241935552fb45cd5de3af99732253e835c0ae2ef698755473f413c6c2b83166",
+      "status": "INSPECTED",
+      "metadata_preserved": true
+    },
+    {
+      "path": "raw/2020-Feb.csv",
+      "required_observation_raw": false,
+      "bytes": 488799986,
+      "mtime_ns": 1584335256000000000,
+      "inspection": "header only; no event rows",
+      "header": [
+        "event_time",
+        "event_type",
+        "product_id",
+        "category_id",
+        "category_code",
+        "brand",
+        "price",
+        "user_id",
+        "user_session"
+      ],
+      "sample_rows_read": 0,
+      "sample_rows_with_matching_width": 0,
+      "sample_rows_with_wrong_width": 0,
+      "columns": [
+        {
+          "name": "event_time",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "event_type",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "product_id",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "category_id",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "category_code",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "brand",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "price",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "user_id",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "NOT SAMPLED"
+        },
+        {
+          "name": "user_session",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "NOT SAMPLED"
+        }
+      ],
+      "sample_event_types": [],
+      "sample_fingerprint_sha256": null,
+      "status": "INSPECTED",
+      "metadata_preserved": true
+    },
+    {
+      "path": "raw/2020-Jan.csv",
+      "required_observation_raw": true,
+      "bytes": 501792804,
+      "mtime_ns": 1584335296000000000,
+      "inspection": "header + bounded prefix",
+      "header": [
+        "event_time",
+        "event_type",
+        "product_id",
+        "category_id",
+        "category_code",
+        "brand",
+        "price",
+        "user_id",
+        "user_session"
+      ],
+      "sample_rows_read": 1000,
+      "sample_rows_with_matching_width": 1000,
+      "sample_rows_with_wrong_width": 0,
+      "columns": [
+        {
+          "name": "event_time",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "TIMESTAMP WITH TIME ZONE",
+          "nonempty_sample_values": 1000,
+          "empty_sample_values": 0,
+          "integer_text_values": 0,
+          "try_cast_successes": {
+            "BIGINT": 0,
+            "DOUBLE": 0
+          },
+          "time": {
+            "scope": "bounded prefix only",
+            "nonempty_values": 1000,
+            "parsed": 1000,
+            "parse_failures": 0,
+            "explicit_timezone": 1000,
+            "without_timezone": 0,
+            "utc_suffix": 1000,
+            "offset_seconds_observed": [
+              0
+            ],
+            "first_timestamp_text": "2020-01-01 00:00:00 UTC",
+            "sample_min_utc": "2020-01-01T00:00:00+00:00",
+            "sample_max_utc": "2020-01-01T01:25:55+00:00"
+          }
+        },
+        {
+          "name": "event_type",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "VARCHAR",
+          "nonempty_sample_values": 1000,
+          "empty_sample_values": 0,
+          "integer_text_values": 0,
+          "try_cast_successes": {
+            "BIGINT": 0,
+            "DOUBLE": 0
+          }
+        },
+        {
+          "name": "product_id",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "BIGINT",
+          "nonempty_sample_values": 1000,
+          "empty_sample_values": 0,
+          "integer_text_values": 1000,
+          "try_cast_successes": {
+            "BIGINT": 1000,
+            "DOUBLE": 1000
+          }
+        },
+        {
+          "name": "category_id",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "BIGINT",
+          "nonempty_sample_values": 1000,
+          "empty_sample_values": 0,
+          "integer_text_values": 1000,
+          "try_cast_successes": {
+            "BIGINT": 1000,
+            "DOUBLE": 1000
+          }
+        },
+        {
+          "name": "category_code",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "VARCHAR",
+          "nonempty_sample_values": 10,
+          "empty_sample_values": 990,
+          "integer_text_values": 0,
+          "try_cast_successes": {
+            "BIGINT": 0,
+            "DOUBLE": 0
+          }
+        },
+        {
+          "name": "brand",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "VARCHAR",
+          "nonempty_sample_values": 447,
+          "empty_sample_values": 553,
+          "integer_text_values": 0,
+          "try_cast_successes": {
+            "BIGINT": 0,
+            "DOUBLE": 0
+          }
+        },
+        {
+          "name": "price",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "DOUBLE",
+          "nonempty_sample_values": 1000,
+          "empty_sample_values": 0,
+          "integer_text_values": 0,
+          "try_cast_successes": {
+            "BIGINT": 1000,
+            "DOUBLE": 1000
+          }
+        },
+        {
+          "name": "user_id",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "BIGINT",
+          "nonempty_sample_values": 1000,
+          "empty_sample_values": 0,
+          "integer_text_values": 1000,
+          "try_cast_successes": {
+            "BIGINT": 1000,
+            "DOUBLE": 1000
+          }
+        },
+        {
+          "name": "user_session",
+          "stored_type": "CSV text (no embedded column type)",
+          "sample_inferred_type": "VARCHAR",
+          "nonempty_sample_values": 1000,
+          "empty_sample_values": 0,
+          "integer_text_values": 0,
+          "try_cast_successes": {
+            "BIGINT": 0,
+            "DOUBLE": 0
+          },
+          "uuid_parse_successes": 1000
+        }
+      ],
+      "sample_event_types": [
+        "cart",
+        "purchase",
+        "remove_from_cart",
+        "view"
+      ],
+      "sample_fingerprint_sha256": "621442cc61b38ffd6523c9ef89163eb441cd08c43116acec5f922beaae69f1bd",
+      "status": "INSPECTED",
+      "metadata_preserved": true
+    }
+  ],
+  "blockers": [],
+  "status": "READY FOR STUDENT REVIEW",
+  "raw_schema_comparison": {
+    "required_files": 4,
+    "headers_read": 4,
+    "all_readable_observation_headers_equal": true,
+    "common_columns_readable_only": [
+      "brand",
+      "category_code",
+      "category_id",
+      "event_time",
+      "event_type",
+      "price",
+      "product_id",
+      "user_id",
+      "user_session"
+    ],
+    "unreadable_months_not_inferred": true
+  },
+  "task": "P2-T1",
+  "checked_at_utc": "2026-11-13T03:07:13.757733+00:00",
+  "data_root_relative_to_repository": "../customer-analytics-antigravity/data",
+  "environment": {
+    "python": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+    "duckdb": "2.0.0",
+    "os": "Windows-11-10.0.26200-SP0",
+    "threads": 1,
+    "memory_limit": "256MB",
+    "session_timezone": "UTC"
+  },
+  "command": [
+    "python",
+    "-B",
+    "scripts/inspect_schema.py",
+    "--data-root",
+    "../customer-analytics-antigravity/data",
+    "--sample-rows",
+    "1000",
+    "--output",
+    "results/p2_t1/recheck_01"
+  ],
+  "code_sha256": "e3e4c0bac2e8b3eadba1a9213894bc766375d6891ad506b3aa10ee8434a8a9cd",
+  "sample_rows_limit_per_observation_csv": 1000,
+  "limits": [
+    "Prefix samples are not representative/full quality checks or full timestamp ranges.",
+    "CSV inferred types use DuckDB TRY_CAST on a bounded in-memory copy; not CSV embedded types or read_csv auto-inference.",
+    "Timestamp inference also checks Python ISO parsing and explicit timezone text; session UTC alone proves no source timezone.",
+    "February CSV header only; mixed/future Parquet footer only. No February outcomes.",
+    "No cleaning, policy choice, features, model, full raw hashes, or raw-to-clean rebuild.",
+    "No raw identifier values are written. Source preservation uses size/mtime; separate QA checks small source hashes."
+  ]
+}

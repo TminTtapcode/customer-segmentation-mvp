@@ -1,0 +1,21 @@
+{
+  "command": [
+    "../customer-analytics-antigravity/.venv/Scripts/python.exe",
+    "-B",
+    "scripts/inspect_schema.py",
+    "--data-root",
+    "../customer-analytics-antigravity/data",
+    "--sample-rows",
+    "1000",
+    "--output",
+    "results/p2_t1"
+  ],
+  "started_at_utc": "2026-11-13T02:50:05.981649+00:00",
+  "finished_at_utc": "2026-11-13T02:50:07.775845+00:00",
+  "elapsed_seconds": 1.7941743000119459,
+  "measurement_scope": "schema inspection wall time, not pipeline or model benchmark; RSS not measured",
+  "script_exit_code": 2,
+  "stdout": "{\"task\": \"P2-T1\", \"status\": \"BLOCKED\", \"files\": 12, \"sample_rows_read\": 3000, \"blockers\": [{\"path\": \"raw/2019-Dec.csv\", \"reason\": \"required raw header/sample unreadable\", \"error_type\": \"PermissionError\"}], \"output\": \"results\\\\p2_t1\"}\n",
+  "stderr": "",
+  "note": "Exit 2 means required raw schema unreadable, not a successful complete audit."
+}
