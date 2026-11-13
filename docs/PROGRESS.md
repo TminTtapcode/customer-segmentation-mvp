@@ -394,3 +394,5 @@ Thời gian lần hoàn tất khoảng 92,43 giây, threads=2, DuckDB memory_lim
 **Nghiệm thu:** hai bạn mở phần 7 notebook và sổ tay phần 18, giải thích mẫu số, n−1 so với dòng trong nhóm trùng, giá âm/cao và ý nghĩa hash. Bằng chứng cũ giữ nguyên; không tự dọn hoặc lưu trữ lại file đã nghiệm thu. P2-T2 = **READY FOR STUDENT REVIEW**, dừng chờ PASS, không tự P2-T3.
 
 Kiểm tra bàn giao: đọc lại CSV tổng hợp để đối chiếu tổng dòng theo tháng/loại với manifest, kiểm tra hash code và metadata input; nội dung REPORT cũ còn nguyên trong mục thu gọn, 20 ô notebook cũ không đổi. nbformat hiện có validate notebook thành công; các link local hợp lệ. Git đối chiếu xác nhận 30 file cũ khác cùng 19 bằng chứng không đổi bytes. Không tạo thêm script QA/JSON verification cho các kiểm tra nhỏ này.
+
+Bản bàn giao: [PR nháp #7 — P2-T2](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/7), base main, nhánh p2-t2-data-quality; chưa merge. Giữ kiểu xuống dòng cũ của REPORT/notebook để diff dễ đọc; toàn bộ bytes bản REPORT cũ vẫn có trong mục thu gọn. Staging chỉ tài liệu/notebook, script/tests và kết quả tổng hợp/hình nhỏ; không có raw data, database tạm hoặc model.
