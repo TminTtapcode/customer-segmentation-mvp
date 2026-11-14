@@ -1,0 +1,88 @@
+{
+  "task": "P2-T3",
+  "scope": "policy dry run; no official Parquet or customer features",
+  "checked_at_utc": "2026-11-13T08:22:47.916683+00:00",
+  "command": [
+    "python",
+    "-B",
+    "scripts/check_cleaning_policy.py",
+    "--data-root",
+    "../customer-analytics-antigravity/data",
+    "--output",
+    "results/p2_t3"
+  ],
+  "code_sha256": "0683f2d076bc8bc812ade3761bec6d19676ec7cd3ef338da15335264cdf67a39",
+  "python": "3.14.7",
+  "duckdb": "2.0.0",
+  "threads": 2,
+  "memory_limit": "768MB",
+  "elapsed_seconds": 116.58281069999794,
+  "inputs": [
+    {
+      "path": "raw/2019-Oct.csv",
+      "bytes": 482542278,
+      "mtime_ns": 1584335220000000000
+    },
+    {
+      "path": "raw/2019-Nov.csv",
+      "bytes": 545839412,
+      "mtime_ns": 1584335176000000000
+    },
+    {
+      "path": "raw/2019-Dec.csv",
+      "bytes": 415302972,
+      "mtime_ns": 1584335142000000000
+    },
+    {
+      "path": "raw/2020-Jan.csv",
+      "bytes": 501792804,
+      "mtime_ns": 1584335296000000000
+    }
+  ],
+  "input_metadata_unchanged": true,
+  "december_sha256": "ebf98f504e238109efa406d26a26a90e0d467faa938bf96b68e3fea663d2008e",
+  "dedup_key": [
+    "event_time",
+    "event_type",
+    "product_id",
+    "category_id",
+    "category_code",
+    "brand",
+    "price",
+    "user_id",
+    "user_session"
+  ],
+  "price_precision_guard_passed": true,
+  "output_schema": [
+    {
+      "column": "event_time",
+      "dtype": "TIMESTAMP WITH TIME ZONE",
+      "nullable": "YES"
+    },
+    {
+      "column": "event_type",
+      "dtype": "VARCHAR",
+      "nullable": "YES"
+    },
+    {
+      "column": "user_id",
+      "dtype": "BIGINT",
+      "nullable": "YES"
+    },
+    {
+      "column": "user_session",
+      "dtype": "VARCHAR",
+      "nullable": "YES"
+    },
+    {
+      "column": "price",
+      "dtype": "DECIMAL(18,2)",
+      "nullable": "YES"
+    }
+  ],
+  "limitations": [
+    "Local hash is not publisher authentication",
+    "No RSS or Colab measurement",
+    "No event_id: exact-duplicate removal is a research assumption"
+  ]
+}

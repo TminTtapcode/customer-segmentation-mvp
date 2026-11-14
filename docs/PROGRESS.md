@@ -12,8 +12,9 @@
 - **P1-T3: PASS (Student Verified).** Người dùng xác nhận hai sinh viên đã nghiệm thu trong yêu cầu P1-T4; không tự bổ sung bài trả lời hoặc checklist từng câu chưa gửi.
 - **P1-T4: PASS (Student Verified).** Người dùng xác nhận hai sinh viên nghiệm thu trong yêu cầu P2-T1; không tự bổ sung bài trả lời từng câu. **Phase 1 CLOSED** sau khi đối chiếu/bàn giao main; H1–H3 chưa được chứng minh.
 - **P2-T1: PASS (Student Verified).** Người dùng xác nhận trực tiếp “pass”; PR #6 đã merge main tại be5186c5. Không tự bổ sung câu trả lời sinh viên; các lần kiểm tra trước giữ làm lịch sử ở mục 12–14.
-- **P2-T2: READY FOR STUDENT REVIEW.** Đã quét toàn bộ bốn CSV, chưa xóa dữ liệu hoặc chốt policy. P2-T3/P2-T4 chưa bắt đầu.
-- **GitHub:** P2-T2 trên nhánh p2-t2-data-quality từ main be5186c5; không làm lại P0/P1/P2-T1.
+- **P2-T2: PASS (Student Verified).** Người dùng xác nhận trong yêu cầu P2-T3; không tự bổ sung bài trả lời/log sinh viên. Bằng chứng P2-T2 giữ nguyên.
+- **P2-T3: READY FOR STUDENT REVIEW.** Kiểm chứng đề nghị làm sạch trên database tạm; chưa xuất Parquet chính thức. P2-T4 chưa bắt đầu.
+- **GitHub:** PR #7 đã merge main tại b282e490 sau nghiệm thu; P2-T3 trên nhánh p2-t3-cleaning-policy từ commit đó. Không làm lại task cũ.
 
 ## 1. P0-T1 — kiểm kê dữ liệu cũ
 
@@ -92,8 +93,8 @@ Lần kiểm tra ignore đầu gặp khác biệt CRLF khi truyền tên file qu
 ## 4. Các vấn đề chưa giải quyết
 
 1. P0-T1 chưa đọc được header/hash tháng 12, P2-T1 đã đọc header/mẫu. P2-T2 đã tính **SHA256 toàn tệp local trước/sau, giống nhau**; chưa có hash từ nhà cung cấp hoặc biên nhận để xác thực nguồn. Giữ nguyên bằng chứng P0/P2-T1, không sửa lịch sử thành thành công.
-2. Chưa chọn policy trùng 7/9 trường. P2-T2 cho cùng 868.808 dòng dư trên bốn raw CSV khi so văn bản; chưa suy tương đương sau ép kiểu hoặc tự xóa trùng. Chốt ở P2-T3.
-3. Quy tắc buyer, price, session và rounding chưa chốt.
+2. P2-T3 đề nghị dedup chín trường gốc trước ép kiểu/projection. Chờ sinh viên duyệt; không có event_id để chứng minh mọi dòng giống nhau là lỗi. Kết quả 7/9 của P2-T2 không xác nhận ETL cũ.
+3. Chính sách buyer/price/session/time/rounding đã đề nghị và kiểm chứng ở P2-T3, còn chờ nghiệm thu; chưa áp dụng thành artifact chính thức ở P2-T4.
 4. Bảng đặc trưng cũ chỉ là ứng viên tái sử dụng, chưa phải đầu vào đã được chấp nhận vô điều kiện.
 5. Không dùng model/scaler/labels/metrics 7D cũ cho MVP 5D.
 6. February 2020 đã được xem, không phải untouched holdout — tập kiểm chứng chưa từng được xem. Nếu dùng lại phải gọi là phân tích hồi cứu.
@@ -159,8 +160,9 @@ Kiểm tra `git var GIT_AUTHOR_IDENT` ban đầu chưa đạt vì local chưa c�
 | P1-T3 | PASS (Student Verified); PR #4 đã merge |
 | P1-T4 | PASS (Student Verified); PR #5 đã merge; Phase 1 CLOSED |
 | P2-T1 | PASS (Student Verified) — xác nhận trực tiếp của người dùng sau review |
-| P2-T2 | READY FOR STUDENT REVIEW |
-| P2-T3…T4 | NOT STARTED |
+| P2-T2 | PASS (Student Verified); PR #7 đã merge |
+| P2-T3 | READY FOR STUDENT REVIEW |
+| P2-T4 | NOT STARTED |
 | P3-T1…T3 | NOT STARTED |
 | P4-T1…T4 | NOT STARTED |
 | P5-T1…T4 | NOT STARTED |
@@ -396,3 +398,32 @@ Thời gian lần hoàn tất khoảng 92,43 giây, threads=2, DuckDB memory_lim
 Kiểm tra bàn giao: đọc lại CSV tổng hợp để đối chiếu tổng dòng theo tháng/loại với manifest, kiểm tra hash code và metadata input; nội dung REPORT cũ còn nguyên trong mục thu gọn, 20 ô notebook cũ không đổi. nbformat hiện có validate notebook thành công; các link local hợp lệ. Git đối chiếu xác nhận 30 file cũ khác cùng 19 bằng chứng không đổi bytes. Không tạo thêm script QA/JSON verification cho các kiểm tra nhỏ này.
 
 Bản bàn giao: [PR nháp #7 — P2-T2](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/7), base main, nhánh p2-t2-data-quality; chưa merge. Giữ kiểu xuống dòng cũ của REPORT/notebook để diff dễ đọc; toàn bộ bytes bản REPORT cũ vẫn có trong mục thu gọn. Staging chỉ tài liệu/notebook, script/tests và kết quả tổng hợp/hình nhỏ; không có raw data, database tạm hoặc model.
+
+## 16. P2-T3 — đề nghị chính sách làm sạch tối giản
+
+**Nghiệm thu đầu vào:** người dùng xác nhận P2-T2 PASS trong yêu cầu mới. Đối chiếu PR #7 đúng head 0e0c6ae1, working tree sạch, 17 file khớp diff local, mergeable; không có status/check-run CI nào được cấu hình (0/0, không gọi CI pass). Đưa PR khỏi Draft và merge tại **b282e49082c36876c1d757342ac277ef7512848b**, rồi tạo nhánh p2-t3-cleaning-policy từ main này. Không tự bổ sung câu trả lời hoặc log Colab sinh viên.
+
+**Đã làm:** một script check_cleaning_policy.py; notebook 02 có bốn ô code đã chạy bằng Python local, bảng thật và phần giải thích. Đề nghị dedup đủ chín trường gốc trước ép kiểu; giữ product/category tới projection cuối. Bỏ brand/category_code khỏi output, không bỏ event vì thiếu chúng. Output dự kiến năm cột, price DECIMAL(18,2), UTC; chưa xuất Parquet chính thức P2-T4. Không DISTINCT lần nữa sau projection. Price/session không hợp lệ giới hạn RFM/đếm phiên, không tự xóa event tương tác; giữ giá cao, không round R sớm. Chi tiết tác động từng biến ở sổ tay phần 19; REPORT cập nhật ngắn.
+
+**Kết quả:** 16.536.158 → 15.667.350 event, loại 868.808 bản dư; user/time/ngoài observation/event lạ đều 0. Không bỏ hàng vì price/session hoặc missing brand/category. Giữ 88 purchase không đủ giá và 3.179 event thiếu session. Có 363.403 dòng khác nhau ở khóa nguồn trông giống nhau trên năm cột, vẫn giữ. Mua hợp lệ: 92.652 buyers, 126.503 phiên; không đổi lần mua cuối hoặc mất toàn bộ lịch sử mua hợp lệ của user nào. Price sum hợp lệ giảm 3.194,81 sau dedup; view giảm 470 toàn observation, 105 trong cửa sổ 30 ngày. Sessions 30d toàn users không đổi 947.209; tám view thiếu session vẫn giữ. Chỉ là chẩn đoán chính sách, chưa tạo bảng feature theo từng khách.
+
+Hai CSV [stage_summary](../results/p2_t3/stage_summary.csv), [policy_counts](../results/p2_t3/policy_counts.csv) và một [manifest](../results/p2_t3/run_manifest.json) giữ kết quả. Metadata bốn raw trước/sau không đổi; hash tháng 12 khớp P2-T2 và giữ nguyên trong lần chạy mới. Không xác thực nguồn tải hoặc hash toàn ba CSV còn lại. Không sửa nguồn cũ, không đọc event February/Parquet cũ, không thêm dependency/bảo mật, hình, hệ thống báo cáo hoặc model.
+
+**Lệnh thật, chạy từ root MVP:**
+
+```text
+python -B -m unittest discover -s tests -p test_cleaning_policy.py -v
+python -B scripts/check_cleaning_policy.py --data-root ../customer-analytics-antigravity/data --output results/p2_t3
+python -B -m unittest discover -s tests -v
+python -B .tmp/build_p2t3_notebook.py
+```
+
+Năm tests mới đạt; toàn bộ **23 tests đạt**, exit 0. Kiểm tra fixture riêng: dedup trước projection, sản phẩm/danh mục/brand khác không gộp, cùng token nhiều user, giá/RFM, UTC/cutoff/biên 30 ngày, guard không round 0.005, Parquet nhỏ và projection hai cột. Không dùng fixture làm số liệu nghiên cứu. Lần dữ liệu đầu hoàn tất 128,12 giây; sau bổ sung đối chiếu tổng price mọi purchase/phiên mua và đổi tên metric cho đúng giới hạn, chạy lại đầy đủ hoàn tất **116,58 giây**, exit 0. Kết quả đầu chưa nghiệm thu giữ riêng dưới .tmp; public chỉ có ba file của lần cuối. Đây không phải benchmark và chưa đo RSS; memory_limit không phải giới hạn cứng RSS.
+
+Notebook builder chỉ là công cụ soạn tạm đã ignore, không thêm script chạy notebook/verification công khai. Bốn ô chạy trong process Python mới để lưu stdout tổng hợp an toàn, chưa chạy Jupyter kernel hoặc Colab. Notebook 01 và mọi bằng chứng cũ giữ nguyên. Chưa xác nhận môi trường cài mới; vấn đề nguồn tải, license/currency/refunds, dữ liệu/model 7D cũ và February đã thấy vẫn giữ ở mục 4.
+
+**P2-T3: READY FOR STUDENT REVIEW.** Hai sinh viên đọc notebook 02 và phần 19, trả lời ba câu hỏi về thứ tự dedup/projection, purchase âm/session thiếu và rounding; duyệt chính sách trước P2-T4. Phase 2 chưa đóng, không tự chuyển task.
+
+Kiểm tra bàn giao bằng Python inline: nbformat hiện có validate notebook 02; bốn ô code chạy lại từ cwd notebooks thành công (lần builder chạy từ root). Nội dung LEARNING_GUIDE cũ vẫn là prefix nguyên bytes; mục thu gọn REPORT không đổi; 40 file đã theo dõi ngoài bảy tài liệu sửa, gồm notebook 01 và toàn bộ evidence cũ, giữ nguyên bytes so main b282e490. 54 liên kết local trong tài liệu sửa hợp lệ. Kiểm tra này không quét lại raw hoặc ghi thêm file QA.
+
+Bàn giao qua [PR nháp #8 — P2-T3](https://github.com/TminTtapcode/customer-segmentation-mvp/pull/8), base main; chưa merge. `git -c core.whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol diff --cached --check` đạt trên phần thay đổi mới. Staging đúng 13 file nhỏ (mỗi file dưới 250 KB), không có raw, Parquet nghiên cứu, database tạm hoặc model; chỉ có hai CSV và một manifest mới trong results/p2_t3. Database xử lý tạm đã dọn. Giữ nguyên dependencies và mọi vấn đề còn chờ ở mục 4.

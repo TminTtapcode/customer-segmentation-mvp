@@ -1,0 +1,11 @@
+metric,count,meaning
+raw_rows,16536158,input
+duplicate_extras_removed,868808,removed_first
+invalid_timestamp,0,removed_after_dedup_exclusive
+outside_observation,0,removed_after_dedup_exclusive
+invalid_user,0,removed_after_dedup_exclusive
+unknown_event_type,0,removed_after_dedup_exclusive
+output_rows_dry_run,15667350,retained
+distinct_raw_events_sharing_projection,363403,retained_not_deduplicated_again
+users_no_eligible_purchase,0,outside_buyer_cohort_not_deleted
+buyers_last_purchase_changed,0,recency_changes_vs_any_purchase
